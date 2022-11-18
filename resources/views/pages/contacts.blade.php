@@ -5,28 +5,42 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="bg-white rounded-lg p-8">
-            <span class="text-xl font-bold text-gray-800">Contact Us</span>
+            <span class="text-xl font-bold text-theme-800">Contact Us</span>
             <div class="mt-12 flex justify-between">
                 <div>
                     <div>
                         <span class="text-black/80 italic">
                             Please get in touch with us should there be any inquiries.
-                            Our support team will answer your questions.
                         </span>
                     </div>
                     <div class="mt-4">
-                        <span class="text-xl font-semibold uppercase text-gray-800">Contact info</span>
+                        <span class="text-lg font-semibold text-theme-800">Contact Information</span>
                     </div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias nisi non itaque ipsam quasi incidunt
-                    omnis fuga maxime, sed blanditiis perferendis eaque quis dolor similique eveniet placeat, expedita
-                    molestias minus!
-
-                    <div class="mt-8">
-                        <span class="text-xl font-semibold uppercase text-gray-800">Socials</span>
+                    <div class="flex items-center">
+                        <i class="bx bx-home-heart text-2xl text-theme-800 mx-1"></i>
+                        <span>Sunlife Learning Center, NHA Site 3, Brgy. Sto.Tomas Calauan, Laguna</span>
                     </div>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis magni tempore architecto quae
-                    veniam? Facilis repellendus optio cupiditate molestiae maiores dignissimos numquam enim hic
-                    exercitationem. Necessitatibus doloremque odit harum hic?
+                </div>
+            </div>
+            <div class="mapouter flex flex-row items-center justify-center">
+                <div class="gmap_canvas self-center"><iframe width="600" height="500" id="gmap_canvas"
+                        src="https://maps.google.com/maps?q=southville%207&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    <style>
+                        .mapouter {
+                            text-align: right;
+                            height: 500px;
+                            width: 600px;
+                        }
+                    </style>
+                    <style>
+                        .gmap_canvas {
+                            overflow: hidden;
+                            background: none !important;
+                            height: 500px;
+                            width: 600px;
+                        }
+                    </style>
                 </div>
             </div>
         </div>

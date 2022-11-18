@@ -114,6 +114,14 @@ export default {
           parent: 'Loan Services',
           admin: true
         },
+        {
+          link: route('events.index'),
+          name: 'Events',
+          tooltip: 'Events',
+          icon: 'bx-news',
+          parent: 'Events',
+          admin: true
+        },
       ],
     },
 

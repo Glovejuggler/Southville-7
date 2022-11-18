@@ -41,6 +41,13 @@
                         </div>
 
                         <div class="mt-5">
+                            <BreezeLabel for="equivalent" value="Equivalent amount" />
+                            <BreezeInput id="equivalent" type="text" class="mt-1 block w-full lg:w-96"
+                                v-model="form.equivalent" />
+                            <div v-if="errors.equivalent" class="text-red-600">{{ errors.equivalent }}</div>
+                        </div>
+
+                        <div class="mt-5">
                             <BreezeLabel for="requirement" value="Required savings" />
                             <BreezeInput id="requirement" type="text" class="mt-1 block w-full lg:w-96"
                                 v-model="form.requirement" />
@@ -76,6 +83,7 @@ export default {
         const form = useForm({
             name: '',
             type: '',
+            equivalent: '',
             requirement: '',
         })
 

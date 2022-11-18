@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Loan;
 use App\Models\Member;
 use App\Models\Payment;
+use App\Models\Loanable;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreLoanRequest;
 
@@ -31,7 +32,9 @@ class LoanController extends Controller
         $member = Member::find($id);
 
         return inertia('Loan/Create', [
-            'member' => $member
+            'member' => $member,
+            'savings' => $member->savings,
+            'loanables' => Loanable::where('requirement', '<=', $member->savings)->get(),
         ]);
     }
 

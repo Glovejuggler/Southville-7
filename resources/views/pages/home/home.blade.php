@@ -2,10 +2,13 @@
 
 @section('content')
 <div class="lg:h-auto h-auto bg-theme-800 text-white flex justify-start p-8 lg:p-20">
-    <div class="max-w-screen-2xl mx-auto px-8">
+    <div
+        class="max-w-screen-2xl mx-auto px-8 flex lg:flex-row flex-col lg:items-center justify-center lg:justify-around">
+        <img src="images/logo.png" class="rounded-full w-1/2 lg:w-1/3 self-center" alt="">
         <div class="w-full lg:w-1/3">
             <span class="flex text-lg mb-10 leading-tight">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore culpa velit quis nulla debitis nemo
+                Slogan. Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore culpa velit quis nulla debitis
+                nemo
                 officia. Architecto quod enim neque maiores dolores fugiat cumque aliquid
             </span>
             <a href="#start"
@@ -15,28 +18,18 @@
     </div>
 </div>
 
-<div class="mt-12 text-theme-800 p-1" id="start">
+<div class="my-12 p-1" id="start">
     <div class="max-w-7xl mx-auto bg-white rounded-lg p-8">
-        <div class="flex justify-center p-8">
-            <span class="md:text-[50px] text-[36px] leading-tight uppercase text-black/80 font-bold">how to apply for a
-                loan?</span>
-        </div>
-        <div class="px-12">
-            <div class="flex items-center mb-4">
-                <span
-                    class="inline-flex text-6xl font-bold p-4 w-24 h-24 items-center justify-center rounded-full bg-gray-200">1</span>
-                <p class="pl-8 text-4xl inline-flex font-semibold">Go to the nearest office</p>
+        <div class="flex items-center">
+            <div class="lg:w-1/2 flex flex-col">
+                <span class="font-extrabold text-4xl text-theme-800">Best loan options</span>
+                <span class="mt-8 text-lg font-semibold italic">Ang pautang ng kooperatiba ay may pinakamababang
+                    interest
+                    na
+                    3% sa mga
+                    miyembro</span>
             </div>
-            <div class="flex items-center mb-4">
-                <span
-                    class="inline-flex text-6xl font-bold p-4 w-24 h-24 items-center justify-center rounded-full bg-gray-200">2</span>
-                <p class="pl-8 text-4xl inline-flex font-semibold">Fill up forms</p>
-            </div>
-            <div class="flex items-center mb-4">
-                <span
-                    class="inline-flex text-6xl font-bold p-4 w-24 h-24 items-center justify-center rounded-full bg-gray-200">3</span>
-                <p class="pl-8 text-4xl inline-flex font-semibold">Get your loan approved</p>
-            </div>
+            <img src="images/loan.png" alt="">
         </div>
     </div>
 </div>
@@ -56,7 +49,7 @@
         </div>
         <div class="flex justify-center mt-12">
             <span class="text-black leading-tight w-full lg:w-10/12">
-                <p class="uppercase font-semibold block mb-3">Requirements to get a loan</p>
+                <p class="uppercase font-semibold block mb-3">Requirements to become a member</p>
                 <span class="block">
                     1. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus optio inventore doloremque?
                     Similique, asperiores dolorem? Facere reprehenderit eaque laborum accusamus impedit optio quisquam

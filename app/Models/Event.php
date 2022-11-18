@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Loanable extends Model
+class Event extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'type',
-        'equivalent',
-        'requirement'
+        'title',
+        'content',
+        'date',
+        'status'
+    ];
+
+    protected $dates = [
+        'date'
     ];
 }

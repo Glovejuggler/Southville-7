@@ -15,7 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 var __default__ = {
   props: {
     auth: Object,
-    clients: Number,
+    members: Number,
     active_loans: Number,
     overdue_payments: Number,
     due_payments: Number
@@ -69,7 +69,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_3 = {
-  "class": "md:flex mt-12 max-w-screen-2xl mx-auto sm:px-6 lg:px-8"
+  "class": "lg:flex mt-12 max-w-screen-2xl mx-auto sm:px-6 lg:px-8"
 };
 var _hoisted_4 = {
   "class": "max-w-7xl mx-auto p-3 lg:p-4"
@@ -78,11 +78,11 @@ var _hoisted_5 = {
   "class": "bg-white overflow-hidden shadow-sm rounded-lg"
 };
 var _hoisted_6 = {
-  "class": "px-6 pt-6 bg-teal-500 dark:bg-zinc-900 hover:bg-teal-600 transition ease-in-out duration-300"
+  "class": "px-6 pt-6 dark:bg-zinc-900 hover:bg-neutral-200 transition ease-in-out duration-300"
 };
 
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-white"
+  "class": "text-theme-900 font-bold"
 }, " Members ", -1
 /* HOISTED */
 );
@@ -91,7 +91,7 @@ var _hoisted_8 = {
   "class": "grid place-items-end"
 };
 var _hoisted_9 = {
-  "class": "text-[64px] text-white font-extrabold"
+  "class": "text-[64px] text-theme-900 font-extrabold"
 };
 var _hoisted_10 = {
   "class": "max-w-7xl mx-auto p-3 lg:p-4"
@@ -100,11 +100,11 @@ var _hoisted_11 = {
   "class": "bg-white overflow-hidden shadow-sm rounded-lg"
 };
 var _hoisted_12 = {
-  "class": "px-6 pt-6 bg-blue-500 dark:bg-zinc-900 hover:bg-blue-600 transition ease-in-out duration-300"
+  "class": "px-6 pt-6 dark:bg-zinc-900 hover:bg-neutral-200 transition ease-in-out duration-300"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-white"
+  "class": "text-theme-900 font-bold"
 }, " Active loans ", -1
 /* HOISTED */
 );
@@ -113,7 +113,7 @@ var _hoisted_14 = {
   "class": "grid place-items-end"
 };
 var _hoisted_15 = {
-  "class": "text-[64px] text-white font-extrabold"
+  "class": "text-[64px] text-theme-900 font-extrabold"
 };
 var _hoisted_16 = {
   "class": "max-w-7xl mx-auto p-3 lg:p-4"
@@ -122,11 +122,11 @@ var _hoisted_17 = {
   "class": "bg-white overflow-hidden shadow-sm rounded-lg"
 };
 var _hoisted_18 = {
-  "class": "px-6 pt-6 bg-red-500 dark:bg-zinc-900 hover:bg-red-600 transition ease-in-out duration-300"
+  "class": "px-6 pt-6 dark:bg-zinc-900 hover:bg-neutral-200 transition ease-in-out duration-300"
 };
 
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-white"
+  "class": "text-theme-900 font-bold"
 }, " Overdue payments ", -1
 /* HOISTED */
 );
@@ -135,7 +135,7 @@ var _hoisted_20 = {
   "class": "grid place-items-end"
 };
 var _hoisted_21 = {
-  "class": "text-[64px] text-white font-extrabold"
+  "class": "text-[64px] text-theme-900 font-extrabold"
 };
 var _hoisted_22 = {
   "class": "max-w-7xl mx-auto p-3 lg:p-4"
@@ -144,11 +144,11 @@ var _hoisted_23 = {
   "class": "bg-white overflow-hidden shadow-sm rounded-lg"
 };
 var _hoisted_24 = {
-  "class": "px-6 pt-6 bg-amber-500 dark:bg-zinc-900 hover:bg-amber-600 transition ease-in-out duration-300"
+  "class": "px-6 pt-6 dark:bg-zinc-900 hover:bg-neutral-200 transition ease-in-out duration-300"
 };
 
 var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-white"
+  "class": "text-theme-900 font-bold"
 }, " Payments due today ", -1
 /* HOISTED */
 );
@@ -157,7 +157,7 @@ var _hoisted_26 = {
   "class": "grid place-items-end"
 };
 var _hoisted_27 = {
-  "class": "text-[64px] text-white font-extrabold"
+  "class": "text-[64px] text-theme-900 font-extrabold"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], null, {
@@ -169,10 +169,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
     "class": "w-1/4",
-    href: _ctx.route('clients.index')
+    href: _ctx.route('members.index')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.clients), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.members), 1
       /* TEXT */
       )])])])])];
     }),
@@ -183,7 +183,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
     "class": "w-1/4",
-    href: "/clients?status=active"
+    href: "/members?status=active"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.active_loans), 1
@@ -195,7 +195,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
     "class": "w-1/4",
-    href: "/clients?status=overdue"
+    href: "/members?status=overdue"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.overdue_payments), 1
@@ -207,7 +207,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
     "class": "w-1/4",
-    href: "/clients?status=dueToday"
+    href: "/members?status=dueToday"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.due_payments), 1

@@ -73,6 +73,13 @@ __webpack_require__.r(__webpack_exports__);
           icon: 'bx-donate-heart',
           parent: 'Loan Services',
           admin: true
+        }, {
+          link: route('events.index'),
+          name: 'Events',
+          tooltip: 'Events',
+          icon: 'bx-news',
+          parent: 'Events',
+          admin: true
         }];
       }
     },
@@ -821,6 +828,20 @@ var map = {
 	"./Dashboard.vue": [
 		"./resources/js/Pages/Dashboard.vue",
 		"resources_js_Pages_Dashboard_vue"
+	],
+	"./Events/Create.vue": [
+		"./resources/js/Pages/Events/Create.vue",
+		"resources_js_Pages_Events_Create_vue"
+	],
+	"./Events/Edit.vue": [
+		"./resources/js/Pages/Events/Edit.vue",
+		"/js/vendor",
+		"node_modules_moment_locale_sync_recursive_-resources_js_Pages_Events_Edit_vue"
+	],
+	"./Events/Index.vue": [
+		"./resources/js/Pages/Events/Index.vue",
+		"/js/vendor",
+		"node_modules_moment_locale_sync_recursive_-resources_js_Pages_Events_Index_vue"
 	],
 	"./Home.vue": [
 		"./resources/js/Pages/Home.vue",

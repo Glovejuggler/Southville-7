@@ -2,7 +2,7 @@
 
 use App\Models\Loan;
 use Inertia\Inertia;
-use App\Models\Client;
+use App\Models\Member;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\MemberController;
@@ -43,12 +44,16 @@ Route::get('/about', [PagesController::class, 'about'])->name('about');
 
 Route::get('/about/vm', [PagesController::class, 'vm'])->name('about.vm');
 
+Route::get('/board_of_directors', [PagesController::class, 'bod'])->name('about.bod');
+
 Route::get('/contacts', [PagesController::class, 'contacts'])->name('contacts');
+
+Route::get('/coop_events', [PagesController::class, 'events'])->name('events');
 
 Route::get('/dashboard', function () {
     if (Gate::allows('isAdmin')) {
         return Inertia::render('Dashboard', [
-            'clients' => Client::all()->count(),
+            'members' => Member::all()->count(),
             'active_loans' => Loan::all()->count(),
             'overdue_payments' => Payment::whereDate('month','<',now())
                                             ->where('payment','=',null)
@@ -75,6 +80,8 @@ Route::resource('loanables', LoanableController::class);
 
 Route::resource('savings', SavingController::class);
 Route::get('savings/create/{id}', [SavingController::class, 'create'])->name('savings.create');
+
+Route::resource('events', EventController::class);
 
 Route::resource('payment', PaymentController::class);
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Loan;
+use App\Models\Saving;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -41,6 +42,11 @@ class Member extends Model
     public function getHasHistoryAttribute()
     {
         return $this->hasMany(Loan::class)->onlyTrashed()->count();
+    }
+
+    public function getSavingsAttribute()
+    {
+        return $this->hasMany(Saving::class)->sum('amount');
     }
 
     // Search filter

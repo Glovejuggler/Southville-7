@@ -41,12 +41,14 @@ class LoanableController extends Controller
         $request->validate([
             'name' => 'required',
             'type' => 'required',
-            'requirement' => 'required|numeric'
+            'equivalent' => 'required|numeric',
+            'requirement' => 'required|numeric',
         ]);
 
         $loanable = Loanable::create([
             'name' => $request->name,
             'type' => $request->type,
+            'equivalent' => $request->equivalent,
             'requirement' => $request->requirement,
         ]);
         
@@ -89,11 +91,13 @@ class LoanableController extends Controller
         $request->validate([
             'name' => 'required',
             'type' => 'required',
+            'equivalent' => 'required|numeric',
             'requirement' => 'required|numeric'
         ]);
 
         $loanable->name = $request->name;
         $loanable->type = $request->type;
+        $loanable->equivalent = $request->equivalent;
         $loanable->requirement = $request->requirement;
 
         $loanable->update();

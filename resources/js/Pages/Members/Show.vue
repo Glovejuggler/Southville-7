@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <!-- Client Information -->
+    <!-- Member Information -->
     <div class="lg:flex pt-12 max-w-screen-2xl mx-auto px-6 lg:px-8">
         <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg w-full">
             <div class="p-6 bg-white dark:bg-zinc-900">
@@ -65,17 +65,17 @@
                     <div class="w-full lg:w-1/2">
                         <span class="block mt-3 dark:text-white/80"><i
                                 class="bx bxs-home mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
-                                        member.address
+                                member.address
                                 }}</span>
                         <span class="block dark:text-white/80"><i
                                 class="bx bxs-contact mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
-                                        member.contact_number
+                                member.contact_number
                                 }}</span>
                     </div>
                     <div class="w-full lg:w-1/2">
                         <span class="block lg:mt-3 dark:text-white/80"><i
                                 class="bx bxs-calendar mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
-                                        format_dateMDY(member.birthdate)
+                                format_dateMDY(member.birthdate)
                                 }}</span>
                     </div>
                 </div>
@@ -206,7 +206,7 @@
                                 <div class="flex justify-between">
                                     <span class="p-2"
                                         :class="isLate(payment.month) && payment.payment == null ? 'text-red-500' : ''">{{
-                                                format_dateMDY(payment.month)
+                                        format_dateMDY(payment.month)
                                         }}</span>
                                     <button
                                         class="text-lg invisible group-hover:visible hover:text-green-600 dark:hover:text-green-500"
@@ -223,13 +223,13 @@
                                             class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
                                     </div>
                                     <span class="text-green-700 dark:text-green-500 pr-8">{{
-                                            payment.payment?.toLocaleString()
+                                    payment.payment?.toLocaleString()
                                     }}</span>
                                 </div>
                             </td>
                             <td class="p-2">
                                 {{ payment.payment ?
-                                        (payment.payment - Math.round(loan.interestm)).toLocaleString() : ''
+                                (payment.payment - Math.round(loan.interestm)).toLocaleString() : ''
                                 }}
                             </td>
                             <td class="p-2">
@@ -238,7 +238,7 @@
                             </td>
                             <td class="rounded-r-lg p-2">
                                 {{ payment.payment ?
-                                        payment.balance?.toLocaleString() : ''
+                                payment.balance?.toLocaleString() : ''
                                 }}
                             </td>
                         </tr>
@@ -246,7 +246,7 @@
                 </table>
                 <div v-if="bal > 0" class="flex justify-end font-semibold uppercase dark:text-white/90">Remaining
                     balance: P{{
-                            bal.toLocaleString()
+                    bal.toLocaleString()
                     }}</div>
             </div>
         </div>
@@ -331,7 +331,7 @@
                 <div class="relative bg-white dark:bg-zinc-900 w-auto h-auto max-h-[80%] p-6 rounded-lg">
                     <div class="flex justify-between pb-3">
                         <span class="font-semibold text-gray-800 dark:text-white/90">{{
-                                format_dateMDY(paymentform.paymentMonth)
+                        format_dateMDY(paymentform.paymentMonth)
                         }}</span>
                         <button class="inline-flex rounded-full hover:bg-black/20 dark:hover:bg-white/20"
                             @click="this.showPayment = false"><i
@@ -402,7 +402,7 @@ export default {
         errors: Object,
         history: Number,
         user: Object,
-        savings: Number,
+        savings: String,
     },
     data(props) {
         return {

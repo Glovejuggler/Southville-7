@@ -19,7 +19,7 @@
     {{-- <script src="{{ mix('js/vendor.js') }}" defer></script> --}}
 </head>
 
-<body class="font-sans antialiased bg-white">
+<body class="font-sans antialiased min-h-screen bg-white flex flex-col">
     @include('layouts.partials.nav')
 
     <div class="">

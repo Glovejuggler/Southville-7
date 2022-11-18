@@ -1,4 +1,4 @@
-<div class="bg-theme-800 shadow">
+<div class="bg-theme-800 mt-auto">
     <div class="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-white">
         <div class="lg:flex justify-between">
             <div class="p-6 lg:p-12">

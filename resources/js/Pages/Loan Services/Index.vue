@@ -34,7 +34,7 @@
                             <tr class="uppercase text-left dark:text-white/80">
                                 <th class="px-3">Item name</th>
                                 <th class="px-3">Type</th>
-                                <th class="px-3">Required savings</th>
+                                <th class="px-3">Required share capital</th>
                             </tr>
                         </thead>
                         <tbody>

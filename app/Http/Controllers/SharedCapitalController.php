@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
-use App\Models\Saving;
+use App\Models\SharedCapital;
 use Illuminate\Http\Request;
 
-class SavingController extends Controller
+class SharedCapitalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,12 +22,9 @@ class SavingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id = null)
+    public function create()
     {
-        return inertia('Savings/Create', [
-            'member' => Member::find($id),
-            'transactions' => Saving::where('member_id', $id)->latest()->get(),
-        ]);
+        //
     }
 
     /**
@@ -39,29 +35,16 @@ class SavingController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'amount' => 'required|numeric',
-            'member_id' => 'required|numeric',
-            'method' => 'required',
-        ]);
-
-        // dd($request);
-        $new = Saving::create([
-            'amount' => $request->amount,
-            'member_id' => $request->member_id,
-            'method' => $request->method,
-        ]);
-
-        return redirect()->back();
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Saving  $saving
+     * @param  \App\Models\SharedCapital  $sharedCapital
      * @return \Illuminate\Http\Response
      */
-    public function show(Saving $saving)
+    public function show(SharedCapital $sharedCapital)
     {
         //
     }
@@ -69,10 +52,10 @@ class SavingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Saving  $saving
+     * @param  \App\Models\SharedCapital  $sharedCapital
      * @return \Illuminate\Http\Response
      */
-    public function edit(Saving $saving)
+    public function edit(SharedCapital $sharedCapital)
     {
         //
     }
@@ -81,10 +64,10 @@ class SavingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Saving  $saving
+     * @param  \App\Models\SharedCapital  $sharedCapital
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Saving $saving)
+    public function update(Request $request, SharedCapital $sharedCapital)
     {
         //
     }
@@ -92,10 +75,10 @@ class SavingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Saving  $saving
+     * @param  \App\Models\SharedCapital  $sharedCapital
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Saving $saving)
+    public function destroy(SharedCapital $sharedCapital)
     {
         //
     }

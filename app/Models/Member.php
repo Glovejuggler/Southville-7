@@ -17,7 +17,7 @@ class Member extends Model
     ];
 
     protected $appends = [
-        'has_history'
+        'has_history', 'savings'
     ];
 
     use HasFactory;
@@ -46,7 +46,12 @@ class Member extends Model
 
     public function getSavingsAttribute()
     {
-        return $this->hasMany(Saving::class)->sum('amount');
+        return $this->hasMany(Saving::class)
+                    ->where('method','Deposit')
+                    ->sum('amount') - 
+                $this->hasMany(Saving::class)
+                    ->where('method','Withdrawal')
+                    ->sum('amount');
     }
 
     // Search filter

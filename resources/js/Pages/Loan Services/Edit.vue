@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="mt-5">
-                            <BreezeLabel for="requirement" value="Required savings" />
+                            <BreezeLabel for="requirement" value="Required share capital" />
                             <BreezeInput id="requirement" type="text" class="mt-1 block w-full lg:w-96"
                                 v-model="form.requirement" />
                             <div v-if="errors.requirement" class="text-red-600">{{ errors.requirement }}</div>

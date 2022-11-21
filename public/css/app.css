@@ -1522,6 +1522,10 @@ select {
 .text-\[25px\] {
   font-size: 25px;
 }
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
 .font-medium {
   font-weight: 500;
 }

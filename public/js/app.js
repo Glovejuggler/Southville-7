@@ -897,7 +897,8 @@ var map = {
 	],
 	"./Savings/Create.vue": [
 		"./resources/js/Pages/Savings/Create.vue",
-		"resources_js_Pages_Savings_Create_vue"
+		"/js/vendor",
+		"node_modules_moment_locale_sync_recursive_-resources_js_Pages_Savings_Create_vue"
 	],
 	"./Welcome.vue": [
 		"./resources/js/Pages/Welcome.vue",

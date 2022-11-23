@@ -39,13 +39,16 @@
                     <span class="text-sm font-bold">Transaction logs</span>
                     <table>
                         <tbody>
-                            <tr v-for="transaction in transactions" class="hover:bg-black/10 group cursor-pointer">
+                            <tr v-for="transaction in transactions.data" class="hover:bg-black/10 group cursor-pointer">
                                 <td class="p-3 rounded-l-lg">{{ format_dateMDY(transaction.created_at) }}</td>
-                                <td class="p-3">₱{{ transaction.amount }}</td>
+                                <td class="p-3" :class="{ 'text-red-600': transaction.method === 'Withdrawal' }">
+                                    {{ transaction.method === 'Withdrawal' ? '-' : '' }}₱{{ transaction.amount }}
+                                </td>
                                 <td class="p-3 rounded-r-lg">{{ transaction.method }}</td>
                             </tr>
                         </tbody>
                     </table>
+                    <Pagination class="mt-6" :links="transactions.links" />
                 </div>
             </div>
         </div>
@@ -100,6 +103,7 @@
 import BreezeButton from '@/Components/Button.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import BreezeInput from '@/Components/Input.vue';
+import Pagination from '@/Components/Pagination.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import moment from 'moment';
 
@@ -109,6 +113,7 @@ export default {
         BreezeButton,
         BreezeLabel,
         BreezeInput,
+        Pagination
     },
     setup(props) {
         const form = useForm({
@@ -147,7 +152,7 @@ export default {
         },
         format_dateMDY(value) {
             if (value) {
-                return moment(String(value)).format('MMMM D, YYYY')
+                return moment(String(value)).format('LL LTS')
             }
         },
     },

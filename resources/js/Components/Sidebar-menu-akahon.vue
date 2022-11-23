@@ -63,7 +63,7 @@ export default {
     },
     menuTitle: {
       type: String,
-      default: 'Lending',
+      default: 'Southville 7',
     },
     menuLogo: {
       type: String,
@@ -191,15 +191,18 @@ export default {
   },
   data() {
     return {
-      isOpened: false,
       width: window.innerWidth ?? screen.width,
-      dark: '',
+      isOpened: false,
     }
   },
   mounted() {
     var width = window.innerWidth ?? screen.width;
     this.isOpened = width > 768 ? this.isMenuOpen : this.isOpened;
-    document.getElementById('main').style.paddingLeft = this.isOpened ? this.menuOpenedPaddingLeftBody : this.menuClosedPaddingLeftBody;
+    if (this.width > 768) {
+      document.getElementById('main').style.paddingLeft = this.isOpened ? this.menuOpenedPaddingLeftBody : this.menuClosedPaddingLeftBody;
+    } else {
+      document.getElementById('main').style.paddingLeft = '0px';
+    }
     window.addEventListener("resize", this.beResponsive);
   },
   computed: {

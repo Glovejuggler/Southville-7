@@ -1248,6 +1248,10 @@ select {
   --tw-border-opacity: 1;
   border-color: rgb(17 24 39 / var(--tw-border-opacity));
 }
+.border-theme-800 {
+  --tw-border-opacity: 1;
+  border-color: rgb(74 44 42 / var(--tw-border-opacity));
+}
 .border-gray-700 {
   --tw-border-opacity: 1;
   border-color: rgb(55 65 81 / var(--tw-border-opacity));
@@ -1918,6 +1922,11 @@ select {
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-theme-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(74 44 42 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-neutral-200:hover {

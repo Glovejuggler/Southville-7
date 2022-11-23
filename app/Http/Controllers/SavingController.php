@@ -27,7 +27,7 @@ class SavingController extends Controller
     {
         return inertia('Savings/Create', [
             'member' => Member::find($id),
-            'transactions' => Saving::where('member_id', $id)->latest()->get(),
+            'transactions' => Saving::where('member_id', $id)->latest()->paginate(10),
         ]);
     }
 

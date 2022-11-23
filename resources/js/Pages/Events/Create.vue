@@ -9,7 +9,7 @@
     <div class="bg-white dark:bg-zinc-900 shadow">
         <div class="max-w-screen-2xl mx-auto py-6 px-6 lg:px-8">
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-white/90 my-auto">
+                <h2 class="font-semibold text-xl text-theme-800 dark:text-white/90 my-auto">
                     New Event
                 </h2>
             </div>

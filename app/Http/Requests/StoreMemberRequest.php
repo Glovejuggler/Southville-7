@@ -26,8 +26,19 @@ class StoreMemberRequest extends FormRequest
         return [
             'name' => 'required',
             'address' => 'required',
+            'prov_address' => 'nullable',
+            'contact_number' => 'required|max:20',
+            'email' => 'nullable',
+            'facebook' => 'nullable',
             'birthdate' => 'required',
-            'contact_number' => 'required|max:20'
+            'birthplace' => 'required',
+            'religion' => 'required',
+            'sss' => 'required',
+            'tin' => 'required',
+            'education' => 'required',
+            'skills' => 'required',
+            'employment' => 'required',
+            'income' => 'required|numeric',
         ];
     }
 }

@@ -60,25 +60,28 @@ class LoanController extends Controller
 
             if ($pays == 1) {
                 $month = Carbon::parse($loan->maturity);
-                $payment->month = $month->addMonthsNoOverflow($x-1);
+                $payment->month = $month->addMonthsNoOverflow($x - 1);
             } else {
                 if ($x % 2 != 0) {
-                    $monthDate = Carbon::parse($loan->maturity)->addMonthsNoOverflow($x/2);
-                    $payment->month = Carbon::create($monthDate->year,
-                                                    $monthDate->month,
-                                                    $day < 16 ? 15 :
-                                                    ($monthDate->daysInMonth >= 30 ? 30 :
-                                                    $monthDate->daysInMonth));
+                    $monthDate = Carbon::parse($loan->maturity)->addMonthsNoOverflow($x / 2);
+                    $payment->month = Carbon::create(
+                        $monthDate->year,
+                        $monthDate->month,
+                        $day < 16 ? 15 : ($monthDate->daysInMonth >= 30 ? 30 :
+                            $monthDate->daysInMonth)
+                    );
                 } else {
                     $monthDate = Carbon::parse($loan->maturity)->addMonthsNoOverflow($day < 16 ?
-                                                                            ($x/2) - 1 :
-                                                                            $x/2);
-                    $payment->month = Carbon::create($monthDate->year,
-                                                    $monthDate->month,
-                                                    $day < 16 ?
-                                                    ($monthDate->daysInMonth < 30 ?
-                                                    $monthDate->daysInMonth : 30) :
-                                                    15);
+                        ($x / 2) - 1 :
+                        $x / 2);
+                    $payment->month = Carbon::create(
+                        $monthDate->year,
+                        $monthDate->month,
+                        $day < 16 ?
+                            ($monthDate->daysInMonth < 30 ?
+                                $monthDate->daysInMonth : 30) :
+                            15
+                    );
                 }
             }
 

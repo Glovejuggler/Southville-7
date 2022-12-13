@@ -2,10 +2,10 @@
     <div :class="$page.props.dark">
         <div class="min-h-screen bg-gray-100 dark:bg-zinc-800" style="transition: all 0.5s ease">
             <SidebarMenuAkahon />
-            <div class="md:hidden flex justify-between items-center bg-white">
+            <div class="md:hidden flex justify-between items-center bg-white max-screen-2xl mx-auto px-6">
                 <div class="">SV7CC</div>
                 <button @click="isDropdownOpen = !isDropdownOpen"
-                    class="bg-white m-3 text-3xl flex items-center rounded-lg border-theme-800 border"><i
+                    class="bg-white m-3 text-4xl flex items-center rounded-lg border-theme-800 border"><i
                         class="bx bx-menu text-theme-800"></i>
                 </button>
             </div>

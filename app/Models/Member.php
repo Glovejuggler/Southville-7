@@ -12,8 +12,19 @@ class Member extends Model
     protected $fillable = [
         'name',
         'address',
+        'prov_address',
+        'contact_number',
+        'email',
+        'facebook',
         'birthdate',
-        'contact_number'
+        'birthplace',
+        'religion',
+        'sss',
+        'tin',
+        'education',
+        'skills',
+        'employment',
+        'income'
     ];
 
     protected $appends = [

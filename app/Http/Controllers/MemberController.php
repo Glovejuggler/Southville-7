@@ -55,8 +55,19 @@ class MemberController extends Controller
         $member = Member::create([
             'name' => $request->name,
             'address' => $request->address,
-            'birthdate' => $request->birthdate,
+            'prov_address' => $request->prov_address,
             'contact_number' => $request->contact_number,
+            'email' => $request->email,
+            'facebook' => $request->facebook,
+            'birthdate' => $request->birthdate,
+            'birthplace' => $request->birthplace,
+            'religion' => $request->religion,
+            'sss' => $request->sss,
+            'tin' => $request->tin,
+            'education' => $request->education,
+            'skills' => $request->skills,
+            'employment' => $request->employment,
+            'income' => $request->income,
         ]);
 
         return redirect()->route('members.show', $member->id);
@@ -120,8 +131,19 @@ class MemberController extends Controller
     {
         $member->name = $request->name;
         $member->address = $request->address;
-        $member->birthdate = $request->birthdate;
+        $member->prov_address = $request->prov_address;
         $member->contact_number = $request->contact_number;
+        $member->email = $request->email;
+        $member->facebook = $request->facebook;
+        $member->birthdate = $request->birthdate;
+        $member->birthplace = $request->birthplace;
+        $member->religion = $request->religion;
+        $member->sss = $request->sss;
+        $member->tin = $request->tin;
+        $member->education = $request->education;
+        $member->skills = $request->skills;
+        $member->employment = $request->employment;
+        $member->income = $request->income;
 
         $member->update();
 

@@ -32,7 +32,7 @@
     </div>
 
     <!-- Transaction Logs -->
-    <div class="py-4">
+    <div class="py-4" v-if="transactions.data.length">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
             <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
                 <div class="p-6 bg-white dark:bg-zinc-900">

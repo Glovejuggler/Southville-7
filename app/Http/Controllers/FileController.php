@@ -46,14 +46,14 @@ class FileController extends Controller
 
         foreach ($request->file as $file) {
             $newFile = Storage::putFileAs(
-                'pictures/'.$request->client_id.'/'.$request->loan_id,
+                'pictures/'.$request->member_id,
                 $file,
                 Str::random(20).'.'.$file->getClientOriginalExtension()
             );
 
             $new = new File;
 
-            $new->loan_id = $request->loan_id;
+            $new->member_id = $request->member_id;
             $new->path = $newFile;
 
             $new->save();

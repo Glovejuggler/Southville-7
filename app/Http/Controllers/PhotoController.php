@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
@@ -35,7 +37,22 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        foreach ($request->file as $file) {
+            $newPhoto = Storage::putFileAs(
+                'posts/'.$request->post_id.'/pictures/'.$request->member_id,
+                $file,
+                Str::random(20).'.'.$file->getClientOriginalExtension()
+            );
+
+            $photo = new Photo;
+
+            $photo->post_id = $request->post_id;
+            $photo->path = $newPhoto;
+
+            $photo->save();
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -80,6 +97,8 @@ class PhotoController extends Controller
      */
     public function destroy(Photo $photo)
     {
-        //
+        $photo->delete();
+
+        return redirect()->back();
     }
 }

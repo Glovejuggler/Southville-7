@@ -60,7 +60,7 @@ export default {
         showModal() {
             document.body.style.overflow = this.showModal === true ? 'hidden' : 'auto';
             document.body.style.height = this.showModal === true ? '100vh' : 'auto';
-            document.body.style.paddingRight = this.showModal === true ? '15px' : '0px';
+            document.body.style.paddingRight = this.showModal === true ? '0px' : '0px';
         }
     }
 }

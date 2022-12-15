@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Event;
+use App\Models\Photo;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -14,7 +18,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Posts/Index', [
+            'posts' => Post::query()->latest()->paginate(10)
+        ]);
     }
 
     /**
@@ -22,9 +28,11 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id = null)
     {
-        //
+        return inertia('Posts/Create', [
+            'event' => Event::find($id),
+        ]);
     }
 
     /**
@@ -35,7 +43,35 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        // dd($request);
+
+        $new = Post::create([
+            'event_id' => $request->event_id,
+            'title' => $request->title,
+            'content' => $request->content
+        ]);
+
+        foreach ($request->file as $file) {
+            $newPhoto = Storage::putFileAs(
+                'posts/'.$new->id.'/pictures/'.$request->member_id,
+                $file,
+                Str::random(20).'.'.$file->getClientOriginalExtension()
+            );
+
+            $photo = new Photo;
+
+            $photo->post_id = $new->id;
+            $photo->path = $newPhoto;
+
+            $photo->save();
+        }
+
+        return redirect()->route('post.index');
     }
 
     /**
@@ -57,7 +93,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return inertia('Posts/Edit', [
+            'post' => $post,
+            'pics' => Photo::where('post_id',$post->id)->get(),
+        ]);
     }
 
     /**
@@ -69,7 +108,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+
+        $post->update();
+
+        return redirect()->route('post.index');
     }
 
     /**
@@ -80,6 +129,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        Photo::where('post_id',$post->id)->delete();
+
+        return redirect()->route('post.index');
     }
 }

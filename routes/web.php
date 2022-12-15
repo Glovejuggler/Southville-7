@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SavingController;
@@ -49,6 +52,7 @@ Route::get('/board_of_directors', [PagesController::class, 'bod'])->name('about.
 Route::get('/contacts', [PagesController::class, 'contacts'])->name('contacts');
 
 Route::get('/coop_events', [PagesController::class, 'events'])->name('events');
+Route::get('/event/archive/{post}', [PagesController::class, 'post'])->name('archive');
 
 Route::get('/dashboard', function () {
     if (Gate::allows('isAdmin')) {
@@ -89,7 +93,16 @@ Route::resource('files', FileController::class);
 
 Route::get('/download/{id}', [FileController::class, 'download'])->name('file.download');
 
-Route::post('/user/store/{client}', [UserController::class, 'store'])->name('user.store');
+Route::post('/user/store/{member}', [UserController::class, 'store'])->name('user.store');
+
+Route::get('/archive/posts', [PostController::class, 'index'])->name('post.index');
+Route::get('/archive/post/create/{id?}', [PostController::class, 'create'])->name('post.create');
+Route::post('/archive/post/store', [PostController::class, 'store'])->name('post.store');
+Route::get('/archive/post/{post}', [PostController::class, 'edit'])->name('post.edit');
+Route::put('/archive/post/{post}/update', [PostController::class, 'update'])->name('post.update');
+Route::delete('/archive/post/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
+
+Route::resource('photo', PhotoController::class);
 
 require __DIR__.'/auth.php';
 

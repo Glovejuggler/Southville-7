@@ -77,8 +77,15 @@ __webpack_require__.r(__webpack_exports__);
           link: route('events.index'),
           name: 'Events',
           tooltip: 'Events',
-          icon: 'bx-news',
+          icon: 'bx-calendar-event',
           parent: 'Events',
+          admin: true
+        }, {
+          link: route('post.index'),
+          name: 'Posts',
+          tooltip: 'Posts',
+          icon: 'bx-news',
+          parent: 'Posts',
           admin: true
         }];
       }
@@ -1012,6 +1019,19 @@ var map = {
 		"./resources/js/Pages/Payment/Edit.vue",
 		"/js/vendor",
 		"node_modules_moment_locale_sync_recursive_-resources_js_Pages_Payment_Edit_vue"
+	],
+	"./Posts/Create.vue": [
+		"./resources/js/Pages/Posts/Create.vue",
+		"resources_js_Pages_Posts_Create_vue"
+	],
+	"./Posts/Edit.vue": [
+		"./resources/js/Pages/Posts/Edit.vue",
+		"resources_js_Pages_Posts_Edit_vue"
+	],
+	"./Posts/Index.vue": [
+		"./resources/js/Pages/Posts/Index.vue",
+		"/js/vendor",
+		"node_modules_moment_locale_sync_recursive_-resources_js_Pages_Posts_Index_vue"
 	],
 	"./Savings/Create.vue": [
 		"./resources/js/Pages/Savings/Create.vue",

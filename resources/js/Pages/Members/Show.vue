@@ -57,8 +57,8 @@
 
     <!-- Member Information -->
     <div class="lg:flex pt-12 max-w-screen-2xl mx-auto px-6 lg:px-8">
-        <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg w-full">
-            <div class="p-6 bg-white dark:bg-zinc-900">
+        <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg w-full  group cursor-pointer">
+            <div class="p-6 bg-white dark:bg-zinc-900 group-hover:bg-black/[0.02]" @click="showMore = !showMore">
                 <span class="uppercase font-bold block text-theme-800 dark:text-white/90 text-lg">{{ member.name
                 }}</span>
                 <div class="lg:flex">
@@ -74,12 +74,28 @@
                     </div>
                     <div class="w-full lg:w-1/2">
                         <span class="block lg:mt-3 dark:text-white/80"><i
-                                class="bx bxs-calendar mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
-                                        format_dateMDY(member.birthdate)
+                                class="bx bxl-facebook mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
+                                        member.facebook
+                                }}</span>
+                        <span class="block dark:text-white/80"><i
+                                class="bx bxs-envelope mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
+                                        member.email
                                 }}</span>
                     </div>
                 </div>
-                <div class="font-bold mt-5">
+                <div v-if="showMore">
+                    <div class="w-full lg:w-1/2">
+                        <span class="block dark:text-white/80"><i
+                                class="bx bxs-calendar mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
+                                        format_dateMDY(member.birthdate)
+                                }}</span>
+                        <span class="block dark:text-white/80"><i
+                                class="bx bxs-envelope mr-1 font-bold text-lg text-theme-800 dark:text-white/90"></i>{{
+                                        member.email
+                                }}</span>
+                    </div>
+                </div>
+                <div class="font-bold mt-2">
                     Savings: ₱{{ member.savings }}
                 </div>
                 <div v-if="history > 0">
@@ -253,7 +269,7 @@
     </div>
 
     <!-- Picture upload -->
-    <div class="lg:mt-8 mt-4 max-w-screen-2xl mx-auto px-6 lg:px-8 pb-4 group" v-if="loan && $page.props.auth.is_admin">
+    <div class="lg:mt-8 mt-4 max-w-screen-2xl mx-auto px-6 lg:px-8 pb-4 group" v-if="$page.props.auth.is_admin">
         <div class="bg-white dark:bg-zinc-900 overflow-x-auto shadow-sm rounded-lg">
             <div class="p-6 bg-white dark:bg-zinc-900">
                 <div class="flex justify-between">
@@ -409,6 +425,7 @@ export default {
             start_month: this.format_dateMDY(props.loan?.payments[0]?.month),
             end_month: this.format_dateMDY(props.loan?.payments[props.loan?.payments?.length - 1]?.month),
             showPayment: false,
+            showMore: false,
         }
     },
     methods: {

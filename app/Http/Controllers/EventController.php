@@ -16,7 +16,7 @@ class EventController extends Controller
     public function index()
     {
         return inertia('Events/Index', [
-            'events' => Event::paginate(10),
+            'events' => Event::query()->latest()->paginate(10),
         ]);
     }
 
@@ -75,6 +75,7 @@ class EventController extends Controller
     {
         return inertia('Events/Edit', [
             'event' => $event,
+            'hasPost' => $event->post
         ]);
     }
 
@@ -100,6 +101,10 @@ class EventController extends Controller
         $event->status = $request->status;
 
         $event->update();
+
+        if ($request->status == 'Done' && $request->post) {
+            return redirect()->route('post.create', $event->id);
+        }
 
         return redirect()->route('events.index');
     }

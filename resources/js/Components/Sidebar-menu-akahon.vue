@@ -118,8 +118,16 @@ export default {
           link: route('events.index'),
           name: 'Events',
           tooltip: 'Events',
-          icon: 'bx-news',
+          icon: 'bx-calendar-event',
           parent: 'Events',
+          admin: true
+        },
+        {
+          link: route('post.index'),
+          name: 'Posts',
+          tooltip: 'Posts',
+          icon: 'bx-news',
+          parent: 'Posts',
           admin: true
         },
       ],

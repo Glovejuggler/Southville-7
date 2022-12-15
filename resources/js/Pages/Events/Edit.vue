@@ -2,15 +2,15 @@
 
     <Head>
         <title>
-            New Event
+            {{ event.title }}
         </title>
     </Head>
 
     <div class="bg-white dark:bg-zinc-900 shadow">
         <div class="max-w-screen-2xl mx-auto py-6 px-6 lg:px-8">
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-white/90 my-auto">
-                    New Event
+                <h2 class="font-semibold text-xl text-theme-800 dark:text-white/90 my-auto">
+                    {{ event.title }}
                 </h2>
             </div>
         </div>
@@ -53,9 +53,14 @@
                             <div v-if="errors.status" class="text-red-600">{{ errors.status }}</div>
                         </div>
 
-                        <div>
-                            <BreezeButton class="mt-4" :class="{ 'opacity-25': form.processing }"
-                                :disabled="form.processing">Save</BreezeButton>
+                        <div class="lg:flex">
+                            <BreezeButton @click="form.post = false" class="mt-4"
+                                :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Save
+                            </BreezeButton>
+                            <BreezeButton v-if="form.status === 'Done' && hasPost === null" @click="form.post = true"
+                                class="mt-4 ml-2 bg-green-800 hover:bg-green-700 active:bg-green-900 focus:border-green-900"
+                                :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Save and make a
+                                post</BreezeButton>
                         </div>
                     </form>
                 </div>
@@ -69,7 +74,7 @@
 import BreezeButton from '@/Components/Button.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import BreezeInput from '@/Components/Input.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Head, useForm, Link } from '@inertiajs/inertia-vue3';
 import moment from 'moment';
 
 export default {
@@ -78,6 +83,7 @@ export default {
         BreezeButton,
         BreezeLabel,
         BreezeInput,
+        Link
     },
     setup(props) {
         const form = useForm({
@@ -85,13 +91,15 @@ export default {
             content: props.event.content,
             date: moment(String(props.event.date)).format('YYYY\-MM\-DD'),
             status: props.event.status,
+            post: null,
         })
 
         return { form }
     },
     props: {
         errors: Object,
-        event: Object
+        event: Object,
+        hasPost: Object
     }
 }
 </script>

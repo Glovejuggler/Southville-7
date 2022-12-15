@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model
 {
@@ -19,4 +20,9 @@ class Event extends Model
     protected $dates = [
         'date'
     ];
+
+    public function post()
+    {
+        return $this->hasOne(Post::class, 'event_id');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,15 @@ class PagesController extends Controller
             'events' => Event::where('status', 'Upcoming')
                                 ->where('date','>=',now())
                                 ->get(),
+            'posts' => Post::all(),
+        ]);
+    }
+
+    public function post(Post $post)
+    {
+        // dd($post);
+        return view('pages.posts.view', [
+            'post' => $post
         ]);
     }
 }

@@ -11,11 +11,11 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PhotoController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SavingController;
 use App\Http\Controllers\PaymentController;
@@ -56,7 +56,7 @@ Route::get('/event/archive/{post}', [PagesController::class, 'post'])->name('arc
 
 Route::get('/dashboard', function () {
     if (Gate::allows('isAdmin')) {
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Dashboard/Admin', [
             'members' => Member::all()->count(),
             'active_loans' => Loan::all()->count(),
             'overdue_payments' => Payment::whereDate('month','<',now())
@@ -67,42 +67,51 @@ Route::get('/dashboard', function () {
                                         ->count()
         ]);
     } else {
-        dd('pepega lmao');
+        return Inertia::render('Dashboard/User', [
+            'self' => Member::find(Auth::user()->member_id),
+        ]);
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('clients', ClientController::class);
-Route::get('client/view/{client}', [ClientController::class, 'view'])->name('client.view');
+Route::get('/settings', [UserController::class, 'settings'])->name('user.settings')->middleware(['auth']);
 
-Route::resource('members', MemberController::class);
-Route::get('member/view/{member}', [MemberController::class, 'view'])->name('member.view');
+Route::get('/pass/check', [UserController::class, 'checkpass'])->name('pass.check');
 
-Route::resource('loans', LoanController::class);
-Route::get('/loans/create/{id}', [LoanController::class, 'create'])->name('loans.create');
+Route::put('/settings/password/update', [UserController::class, 'changepassword'])->name('settings.update.password')->middleware(['auth']);
 
-Route::resource('loanables', LoanableController::class);
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('members', MemberController::class);
+    Route::get('member/view/{member}', [MemberController::class, 'view'])->name('member.view');
 
-Route::resource('savings', SavingController::class);
-Route::get('savings/create/{id}', [SavingController::class, 'create'])->name('savings.create');
+    Route::resource('roles', RoleController::class);
 
-Route::resource('events', EventController::class);
+    Route::resource('loans', LoanController::class);
+    Route::get('/loans/create/{id}', [LoanController::class, 'create'])->name('loans.create');
 
-Route::resource('payment', PaymentController::class);
+    Route::resource('loanables', LoanableController::class);
 
-Route::resource('files', FileController::class);
+    Route::resource('savings', SavingController::class);
+    Route::get('savings/create/{id}', [SavingController::class, 'create'])->name('savings.create');
 
-Route::get('/download/{id}', [FileController::class, 'download'])->name('file.download');
+    Route::resource('events', EventController::class);
 
-Route::post('/user/store/{member}', [UserController::class, 'store'])->name('user.store');
+    Route::resource('payment', PaymentController::class);
 
-Route::get('/archive/posts', [PostController::class, 'index'])->name('post.index');
-Route::get('/archive/post/create/{id?}', [PostController::class, 'create'])->name('post.create');
-Route::post('/archive/post/store', [PostController::class, 'store'])->name('post.store');
-Route::get('/archive/post/{post}', [PostController::class, 'edit'])->name('post.edit');
-Route::put('/archive/post/{post}/update', [PostController::class, 'update'])->name('post.update');
-Route::delete('/archive/post/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::resource('files', FileController::class);
+    Route::get('/download/{id}', [FileController::class, 'download'])->name('file.download');
 
-Route::resource('photo', PhotoController::class);
+    Route::post('/user/store/{member}', [UserController::class, 'store'])->name('user.store');
+
+    // Posts
+    Route::get('/archive/posts', [PostController::class, 'index'])->name('post.index');
+    Route::get('/archive/post/create/{id?}', [PostController::class, 'create'])->name('post.create');
+    Route::post('/archive/post/store', [PostController::class, 'store'])->name('post.store');
+    Route::get('/archive/post/{post}', [PostController::class, 'edit'])->name('post.edit');
+    Route::put('/archive/post/{post}/update', [PostController::class, 'update'])->name('post.update');
+    Route::delete('/archive/post/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
+
+    Route::resource('photo', PhotoController::class);
+});
 
 require __DIR__.'/auth.php';
 

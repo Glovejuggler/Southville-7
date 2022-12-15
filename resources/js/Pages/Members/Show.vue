@@ -14,7 +14,7 @@
                     {{ member.name }}
                 </h2>
                 <div>
-                    <Link v-if="!user" as="button" method="post" :href="route('user.store', member.id)" class="inline-flex cursor-pointer
+                    <Link v-if="!user.length" as="button" method="post" :href="route('user.store', member)" class="inline-flex cursor-pointer
                             items-center mx-2 px-4 py-2 bg-theme-800
                             border border-transparent rounded-md 
                             font-semibold text-xs text-white uppercase

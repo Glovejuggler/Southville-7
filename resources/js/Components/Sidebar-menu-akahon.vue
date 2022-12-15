@@ -130,6 +130,22 @@ export default {
           parent: 'Posts',
           admin: true
         },
+        {
+          link: route('roles.index'),
+          name: 'Roles',
+          tooltip: 'Roles',
+          icon: 'bx-briefcase',
+          parent: 'Roles',
+          admin: true
+        },
+        {
+          link: route('user.settings'),
+          name: 'Settings',
+          tooltip: 'Settings',
+          icon: 'bx-cog',
+          parent: 'User',
+          admin: false
+        },
       ],
     },
 

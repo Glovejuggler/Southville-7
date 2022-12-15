@@ -91,7 +91,7 @@ class MemberController extends Controller
             'loan' => $loan,
             'bal' => $loan?->receivable - $loan?->total_payments(),
             'pics' => File::where('member_id', $member->id)->get(),
-            'user' => User::where('name', 1000000 + $member->id)->get(),
+            'user' => User::where('member_id', $member->id)->get(),
         ]);
     }
 

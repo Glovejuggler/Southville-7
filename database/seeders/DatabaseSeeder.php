@@ -22,5 +22,17 @@ class DatabaseSeeder extends Seeder
             'email' => 'aelizaga77@gmail.com',
             'password' => Hash::make('admin123'),
         ]);
+
+        DB::table('roles')->insert([
+            [
+                'position' => 'President'
+            ],
+            [
+                'position' => 'Treasurer'
+            ],
+            [
+                'position' => 'Secretary'
+            ]
+        ]);
     }
 }

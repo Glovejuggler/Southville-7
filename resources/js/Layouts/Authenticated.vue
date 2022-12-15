@@ -16,19 +16,33 @@
                         Dashboard
                         </Link>
                     </li>
-                    <li class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
+                    <li v-if="$page.props.auth.is_admin"
+                        class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
                         <Link @click="isDropdownOpen = false" :href="route('members.index')" class="block py-4 px-2">
                         Members
                         </Link>
                     </li>
-                    <li class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
+                    <li v-if="$page.props.auth.is_admin"
+                        class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
                         <Link @click="isDropdownOpen = false" :href="route('loanables.index')" class="block py-4 px-2">
                         Loan Services
                         </Link>
                     </li>
-                    <li class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
+                    <li v-if="$page.props.auth.is_admin"
+                        class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
                         <Link @click="isDropdownOpen = false" :href="route('events.index')" class="block py-4 px-2">
                         Events
+                        </Link>
+                    </li>
+                    <li v-if="$page.props.auth.is_admin"
+                        class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
+                        <Link @click="isDropdownOpen = false" :href="route('post.index')" class="block py-4 px-2">
+                        Posts
+                        </Link>
+                    </li>
+                    <li class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
+                        <Link @click="isDropdownOpen = false" :href="route('user.settings')" class="block py-4 px-2">
+                        Settings
                         </Link>
                     </li>
                 </ul>

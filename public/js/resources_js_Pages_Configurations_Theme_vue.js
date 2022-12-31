@@ -117,21 +117,22 @@ __webpack_require__.r(__webpack_exports__);
     Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Link
   },
   props: {
+    member: Object,
     tabItems: {
       type: Array,
       "default": function _default() {
         return [{
-          link: route('configurations.company'),
-          label: 'Company',
-          component: 'Configurations/Company Information'
+          link: route('members.show', member.id),
+          label: 'Member information',
+          component: 'Members/Show'
         }, {
-          link: route('configurations.pages'),
-          label: 'Pages',
-          component: 'Configurations/Pages'
+          link: route('loans.create'),
+          label: 'Loan',
+          component: 'Loan/Create'
         }, {
-          link: route('configurations.theme'),
-          label: 'Preferences',
-          component: 'Configurations/Theme'
+          link: route('savings.create'),
+          label: 'Savings',
+          component: 'Savings/Create'
         }];
       }
     }

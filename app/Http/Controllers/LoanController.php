@@ -8,7 +8,6 @@ use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Loanable;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreLoanRequest;
 
 class LoanController extends Controller
 {
@@ -27,14 +26,18 @@ class LoanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id = null)
+    public function create(Member $member)
     {
-        $member = Member::find($id);
+        $loan = Loan::where('member_id','=',$member->id)->with('payments')->latest()->first();
 
         return inertia('Loan/Create', [
+            'loan' => $loan,
+            'bal' => $loan?->receivable - $loan?->total_payments(),
+            'history' => Loan::onlyTrashed()
+                                ->where('member_id', $member->id)
+                                ->get(),
             'member' => $member,
-            'savings' => $member->savings,
-            'loanables' => Loanable::where('requirement', '<=', $member->savings)->get(),
+            'loanables' => Loanable::where('requirement', '<=', $member->share_capital)->get(),
         ]);
     }
 
@@ -44,11 +47,30 @@ class LoanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLoanRequest $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'member_id' => 'required',
+            'rate' => 'required|numeric|max:100',
+            'term' => 'required|numeric|max:100',
+            'amortization' => 'required|numeric|max:100',
+            'maturity' => 'required|date'
+        ]);
+
         $member = Member::find($request->member_id);
 
-        $loan = Loan::create($request->validated());
+        $loanable = Loanable::find($request->loanable);
+
+        $loan = Loan::create([
+            'member_id' => $request->member_id,
+            'loan_name' => $loanable->name,
+            'principal' => $loanable->equivalent,
+            'rate' => $request->rate,
+            'term' => $request->term,
+            'amortization' => $request->amortization,
+            'maturity' => $request->maturity,
+        ]);
+        
         $pays = $loan->amortization / $loan->term;
         $date = Carbon::parse($loan->maturity);
         $day = $date->day;
@@ -88,7 +110,7 @@ class LoanController extends Controller
             $payment->save();
         }
 
-        return redirect()->route('members.show', $member->id);
+        return redirect()->back();
     }
 
     /**

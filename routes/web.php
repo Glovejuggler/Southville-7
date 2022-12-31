@@ -3,7 +3,9 @@
 use App\Models\Loan;
 use Inertia\Inertia;
 use App\Models\Member;
+use App\Models\Saving;
 use App\Models\Payment;
+use App\Models\ShareCapital;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -21,6 +23,7 @@ use App\Http\Controllers\SavingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\LoanableController;
 use App\Http\Controllers\SubsidiaryController;
+use App\Http\Controllers\ShareCapitalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,29 +72,46 @@ Route::get('/dashboard', function () {
     } else {
         return Inertia::render('Dashboard/User', [
             'self' => Member::find(Auth::user()->member_id),
+            'overdue_payments' => Payment::whereDate('month','<',now())
+                                            ->where('payment','=',null)
+                                            ->whereHas('loan', function($q) {
+                                                $q->where('member_id',Auth::user()->member_id);
+                                            })
+                                            ->get(),
+            'due_payments' => Payment::whereDate('month','=',now())
+                                        ->where('payment','=', null)
+                                        ->whereHas('loan', function($q) {
+                                                $q->where('member_id',Auth::user()->member_id);
+                                            })
+                                        ->get(),
+            'savings_transactions' => Saving::where('member_id', Auth::user()->member_id)->latest()->paginate(10),
+            'share_transactions' => ShareCapital::where('member_id', Auth::user()->member_id)->latest()->paginate(10),
         ]);
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/settings', [UserController::class, 'settings'])->name('user.settings')->middleware(['auth']);
 
-Route::get('/pass/check', [UserController::class, 'checkpass'])->name('pass.check');
+Route::get('/pass/check', [UserController::class, 'checkpass'])->name('pass.check')->middleware('auth');
 
 Route::put('/settings/password/update', [UserController::class, 'changepassword'])->name('settings.update.password')->middleware(['auth']);
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::resource('members', MemberController::class);
     Route::get('member/view/{member}', [MemberController::class, 'view'])->name('member.view');
 
     Route::resource('roles', RoleController::class);
 
     Route::resource('loans', LoanController::class);
-    Route::get('/loans/create/{id}', [LoanController::class, 'create'])->name('loans.create');
+    Route::get('/loans/create/{member}', [LoanController::class, 'create'])->name('loans.create');
+
+    Route::get('/share/{member}', [ShareCapitalController::class, 'create'])->name('share.capital');
+    Route::post('/share/store', [ShareCapitalController::class, 'store'])->name('share_capital.store');
 
     Route::resource('loanables', LoanableController::class);
 
     Route::resource('savings', SavingController::class);
-    Route::get('savings/create/{id}', [SavingController::class, 'create'])->name('savings.create');
+    Route::get('savings/create/{member}', [SavingController::class, 'create'])->name('savings.create');
 
     Route::resource('events', EventController::class);
 
@@ -100,7 +120,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('files', FileController::class);
     Route::get('/download/{id}', [FileController::class, 'download'])->name('file.download');
 
-    Route::post('/user/store/{member}', [UserController::class, 'store'])->name('user.store');
+    Route::post('/user/store/', [UserController::class, 'store'])->name('user.store');
 
     // Posts
     Route::get('/archive/posts', [PostController::class, 'index'])->name('post.index');

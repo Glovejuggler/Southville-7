@@ -16,10 +16,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $posts = Post::query()->latest()->paginate(10);
+        if ($request->wantsJson()) {
+            return $posts;
+        }
+
         return inertia('Posts/Index', [
-            'posts' => Post::query()->latest()->paginate(10)
+            'posts' => $posts,
         ]);
     }
 
@@ -43,12 +48,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'title' => 'required',
             'content' => 'required'
         ]);
-
-        // dd($request);
 
         $new = Post::create([
             'event_id' => $request->event_id,
@@ -56,19 +60,21 @@ class PostController extends Controller
             'content' => $request->content
         ]);
 
-        foreach ($request->file as $file) {
-            $newPhoto = Storage::putFileAs(
-                'posts/'.$new->id.'/pictures/'.$request->member_id,
-                $file,
-                Str::random(20).'.'.$file->getClientOriginalExtension()
-            );
+        if ($request->file) {
+            foreach ($request->file as $file) {
+                $newPhoto = Storage::putFileAs(
+                    'posts/'.$new->id.'/pictures/'.$request->member_id,
+                    $file,
+                    Str::random(20).'.'.$file->getClientOriginalExtension()
+                );
 
-            $photo = new Photo;
+                $photo = new Photo;
 
-            $photo->post_id = $new->id;
-            $photo->path = $newPhoto;
+                $photo->post_id = $new->id;
+                $photo->path = $newPhoto;
 
-            $photo->save();
+                $photo->save();
+            }
         }
 
         return redirect()->route('post.index');

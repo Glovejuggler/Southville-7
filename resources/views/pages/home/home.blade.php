@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="lg:h-auto h-auto bg-theme-800 text-white flex justify-start p-8 lg:p-20">
+<div class="lg:h-screen h-auto bg-theme-800 text-white flex justify-start p-8 lg:p-20">
     <div
         class="max-w-screen-2xl mx-auto px-8 flex lg:flex-row flex-col lg:items-center justify-center lg:justify-around">
         <img src="images/logo.png" class="rounded-full w-1/2 lg:w-1/3 self-center" alt="">

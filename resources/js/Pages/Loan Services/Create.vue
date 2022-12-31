@@ -9,14 +9,14 @@
     <div class="bg-white dark:bg-zinc-900 shadow">
         <div class="max-w-screen-2xl mx-auto py-6 px-6 lg:px-8">
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-white/90 my-auto">
+                <h2 class="font-semibold text-xl text-theme-800 dark:text-white/90 my-auto">
                     New Loan Service
                 </h2>
             </div>
         </div>
     </div>
 
-    <div class="py-12">
+    <div class="py-4">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
             <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
                 <div class="p-6 bg-white dark:bg-zinc-900">
@@ -31,7 +31,7 @@
                         <div class="mt-5">
                             <BreezeLabel for="type" value="Type" />
                             <select v-model="form.type" id="type"
-                                class="block rounded-lg dark:bg-zinc-900 text-sm dark:text-white/70 text-gray-700 border-gray-300 dark:border-white/30
+                                class="block rounded-lg dark:bg-zinc-900 dark:text-white/70 text-gray-700 border-gray-300 dark:border-white/30
                             focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm mt-2 lg:mt-0 w-full lg:w-96">
                                 <option value="" disabled hidden selected>Select one</option>
                                 <option value="Cash">Cash</option>

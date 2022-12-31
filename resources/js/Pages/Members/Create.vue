@@ -55,7 +55,7 @@
                             </div>
                         </div>
 
-                        <div class="mt-8">
+                        <div class="mt-4">
                             <span class="font-bold">Contact information</span>
                             <div class="">
                                 <BreezeLabel for="contact_number" value="Contact Number" />
@@ -79,7 +79,7 @@
                             </div>
                         </div>
 
-                        <div class="mt-8">
+                        <div class="mt-4">
                             <span class="font-bold">Others</span>
                             <div class="">
                                 <BreezeLabel for="religion" value="Religion" />
@@ -131,9 +131,68 @@
                             </div>
                         </div>
 
-                        <div>
-                            <BreezeButton class="mt-4 w-full lg:w-1/2 justify-center"
-                                :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Add
+                        <div class="mt-4">
+                            <div class="flex items-center space-x-3">
+                                <span class="font-bold">Beneficiaries</span>
+                                <button @click="addBeneficiary" type="button"
+                                    class="border rounded-lg border-green-500 px-3 py-2 text-green-500 text-xs active:bg-green-500 active:text-white">Add</button>
+                            </div>
+
+                            <div>
+                                <div v-for="(beneficiary, index) in form.beneficiaries" :key="index" class="mb-5">
+                                    <div class="flex items-center">
+                                        <i @click="removeBeneficiary(index)"
+                                            class="bx bxs-trash border border-red-500 text-red-500 p-1 rounded-lg mr-2 active:bg-red-500 active:text-white cursor-pointer"></i>
+                                        <span class="font-semibold text-sm">Beneficiary {{ index + 1 }}</span>
+                                    </div>
+                                    <div class="lg:flex">
+                                        <div class="mt-2 lg:w-1/4">
+                                            <BreezeLabel :for="`${index}.name`" value="Name" />
+                                            <BreezeInput :id="`${index}.name`" type="text" class="mt-1 block w-full"
+                                                v-model="beneficiary.name" />
+                                            <div v-if="errors[`beneficiaries.${index}.name`]" class="text-red-600">{{
+        errors[`beneficiaries.${index}.name`]
+}}</div>
+                                        </div>
+                                        <div class="mt-2 lg:ml-1 lg:w-1/4">
+                                            <BreezeLabel :for="`${index}.relation`" value="Relation" />
+                                            <BreezeInput :id="`${index}.relation`" type="text" class="mt-1 block w-full"
+                                                v-model="beneficiary.relation" />
+                                            <div v-if="errors[`beneficiaries.${index}.relation`]" class="text-red-600">
+                                                {{
+        errors[`beneficiaries.${index}.relation`]
+}}</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="lg:flex">
+                                        <div class="mt-2 lg:w-1/4">
+                                            <BreezeLabel :for="`${index}.birthday`" value="Birthday" />
+                                            <BreezeInput :id="`${index}.birthday`" type="date" class="mt-1 block w-full"
+                                                v-model="beneficiary.birthday" />
+                                            <div v-if="errors[`beneficiaries.${index}.birthday`]" class="text-red-600">
+                                                {{
+        errors[`beneficiaries.${index}.birthday`]
+}}</div>
+                                        </div>
+
+
+                                        <div class="mt-2 lg:ml-1 lg:w-1/4">
+                                            <BreezeLabel :for="`${index}.phone`" value="Phone number" />
+                                            <BreezeInput :id="`${index}.phone`" type="text" class="mt-1 block w-full"
+                                                v-model="beneficiary.phone" />
+                                            <div v-if="errors[`beneficiaries.${index}.phone`]" class="text-red-600">{{
+        errors[`beneficiaries.${index}.phone`]
+}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex lg:w-1/2 w-full">
+                            <BreezeButton class="mt-8 justify-center" :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing">Save
                             </BreezeButton>
                         </div>
                     </form>
@@ -176,12 +235,26 @@ export default {
             skills: '',
             employment: '',
             income: '',
+            beneficiaries: []
         })
 
         return { form }
     },
     props: {
         errors: Object
+    },
+    methods: {
+        addBeneficiary() {
+            this.form.beneficiaries.push({
+                relation: '',
+                name: '',
+                birthday: '',
+                phone: ''
+            })
+        },
+        removeBeneficiary(index) {
+            this.form.beneficiaries.splice(index, 1)
+        }
     }
 }
 </script>

@@ -23,11 +23,11 @@ class SavingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id = null)
+    public function create(Member $member)
     {
         return inertia('Savings/Create', [
-            'member' => Member::find($id),
-            'transactions' => Saving::where('member_id', $id)->latest()->paginate(10),
+            'member' => $member,
+            'transactions' => Saving::where('member_id', $member->id)->latest()->paginate(10),
         ]);
     }
 

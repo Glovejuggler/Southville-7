@@ -113,6 +113,8 @@ class LoanableController extends Controller
      */
     public function destroy(Loanable $loanable)
     {
-        //
+        $loanable->delete();
+
+        return redirect()->route('loanables.index');
     }
 }

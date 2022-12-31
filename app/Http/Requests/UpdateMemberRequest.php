@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMemberRequest extends FormRequest
+class UpdateMemberRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,7 @@ class StoreMemberRequest extends FormRequest
             'address' => 'required',
             'prov_address' => 'nullable',
             'contact_number' => 'required|max:20',
-            'email' => 'nullable|email|unique:members,email',
+            'email' => 'nullable|email',
             'facebook' => 'nullable',
             'birthdate' => 'required|date',
             'birthplace' => 'required',

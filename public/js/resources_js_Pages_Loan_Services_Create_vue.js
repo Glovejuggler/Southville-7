@@ -248,13 +248,13 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex justify-between"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-  "class": "font-semibold text-xl text-gray-800 dark:text-white/90 my-auto"
+  "class": "font-semibold text-xl text-theme-800 dark:text-white/90 my-auto"
 }, " New Loan Service ")])])], -1
 /* HOISTED */
 );
 
 var _hoisted_3 = {
-  "class": "py-12"
+  "class": "py-4"
 };
 var _hoisted_4 = {
   "class": "max-w-screen-2xl mx-auto px-6 lg:px-8"
@@ -360,7 +360,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $setup.form.type = $event;
     }),
     id: "type",
-    "class": "block rounded-lg dark:bg-zinc-900 text-sm dark:text-white/70 text-gray-700 border-gray-300 dark:border-white/30 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm mt-2 lg:mt-0 w-full lg:w-96"
+    "class": "block rounded-lg dark:bg-zinc-900 dark:text-white/70 text-gray-700 border-gray-300 dark:border-white/30 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm mt-2 lg:mt-0 w-full lg:w-96"
   }, _hoisted_12, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.form.type]]), $props.errors.type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.type), 1

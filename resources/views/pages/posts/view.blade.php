@@ -16,10 +16,10 @@
     <div class="font-bold text-lg text-theme-800 my-6">
         Gallery
     </div>
-    <div class="flex flex-wrap">
+    <div class="grid gap-2 grid-cols-4">
         @forelse ($post->photos as $photo)
-        <div class="w-1/4 rounded-lg p-2">
-            <img class="rounded-lg" src="../../{{ $photo->path }}" alt="">
+        <div class="rounded-lg overflow-hidden">
+            <img class="rounded-lg hover:scale-125 ease-in-out duration-200" src="../../{{ $photo->path }}" alt="">
         </div>
         @empty
         no photos

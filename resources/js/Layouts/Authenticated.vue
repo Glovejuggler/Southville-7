@@ -28,16 +28,22 @@
                         Loan Services
                         </Link>
                     </li>
-                    <li v-if="$page.props.auth.is_admin"
+                    <li v-if="$page.props.auth.is_admin || $page.props.auth.position.includes('Secretary')"
                         class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
                         <Link @click="isDropdownOpen = false" :href="route('events.index')" class="block py-4 px-2">
                         Events
                         </Link>
                     </li>
-                    <li v-if="$page.props.auth.is_admin"
+                    <li v-if="$page.props.auth.is_admin || $page.props.auth.position.includes('Secretary')"
                         class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
                         <Link @click="isDropdownOpen = false" :href="route('post.index')" class="block py-4 px-2">
                         Posts
+                        </Link>
+                    </li>
+                    <li v-if="$page.props.auth.is_admin"
+                        class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">
+                        <Link @click="isDropdownOpen = false" :href="route('roles.index')" class="block py-4 px-2">
+                        Roles
                         </Link>
                     </li>
                     <li class="hover:bg-theme-800 hover:text-white ease-in-out duration-200">

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Beneficiary extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'member_id',
+        'name',
+        'relation',
+        'birthday',
+        'phone'
+    ];
 }

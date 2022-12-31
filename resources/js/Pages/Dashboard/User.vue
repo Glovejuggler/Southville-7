@@ -16,18 +16,115 @@
         </div>
     </div>
 
-    <div class="py-8">
-        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 lg:flex">
-            <div class="p-2 lg:w-1/2 w-full">
-                <div class="bg-white rounded-lg p-6">
+    <div class="mt-4" v-if="page !== 'Main'">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 flex items-center space-x-2 text-black/75 hover:text-black cursor-pointer"
+            @click="page = 'Main'">
+            <i class="bx bx-arrow-back text-3xl"></i>
+            <p class="font-semibold">Back</p>
+        </div>
+    </div>
+
+    <div class="py-4" v-if="page === 'Main'">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 mb-4" v-if="overdue_payments.length">
+            <div class="w-full bg-red-700 rounded-lg p-3 text-white flex items-center space-x-4">
+                <i class="bx bxs-error-circle text-3xl"></i>
+                <p class="text-sm">You have an overdue payment in your current loan</p>
+            </div>
+        </div>
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 mb-4" v-if="due_payments.length">
+            <div class="w-full bg-yellow-400 rounded-lg p-3 text-black flex items-center space-x-4">
+                <i class="bx bxs-error-circle text-3xl"></i>
+                <p class="text-sm">You have a payment due today</p>
+            </div>
+        </div>
+
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 lg:grid gap-2 grid-cols-2">
+            <div class="w-full" @click="page = 'Savings'">
+                <div class="bg-white rounded-lg p-6 cursor-pointer border border-transparent hover:border-theme-800">
                     <span class="font-bold block mb-5">Savings</span>
                     <span class="font-bold text-5xl">₱ {{ self.savings }}</span>
                 </div>
             </div>
-            <div class="p-2 lg:w-1/2 w-full">
-                <div class="bg-white rounded-lg p-6">
+            <div class="w-full lg:mt-0 mt-4" @click="page = 'Share'">
+                <div class="bg-white rounded-lg p-6 cursor-pointer border border-transparent hover:border-theme-800">
                     <span class="font-bold block mb-5">Share capital</span>
-                    <span class="font-bold text-5xl">₱ 0</span>
+                    <span class="font-bold text-5xl">₱ {{ self.share_capital }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Savings -->
+    <div v-if="page === 'Savings'">
+        <div class="pt-4">
+            <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+                <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
+                    <div class="p-6 bg-white dark:bg-zinc-900">
+                        <span class="block text-sm font-bold pb-2">Savings:</span>
+                        <span class="text-5xl">₱{{ self.savings }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction Logs -->
+        <div class="py-4" v-if="savings_transactions.data.length">
+            <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+                <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
+                    <div class="p-6 bg-white dark:bg-zinc-900">
+                        <span class="text-sm font-bold">Transaction logs</span>
+                        <table>
+                            <tbody>
+                                <tr v-for="transaction in savings_transactions.data"
+                                    class="hover:bg-black/10 group cursor-pointer">
+                                    <td class="p-3 rounded-l-lg">{{ format_dateMDY(transaction.created_at) }}</td>
+                                    <td class="p-3" :class="{ 'text-red-600': transaction.method === 'Withdrawal' }">
+                                        {{ transaction.method === 'Withdrawal' ? '-' : '' }}₱{{ transaction.amount }}
+                                    </td>
+                                    <td class="p-3 rounded-r-lg">{{ transaction.method }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <Pagination class="mt-6" :links="savings_transactions.links" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Capital -->
+    <div v-if="page === 'Share'">
+        <div class="py-4">
+            <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+                <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
+                    <div class="p-6 bg-white dark:bg-zinc-900">
+                        <span class="block text-sm font-bold pb-2">Share Capital:</span>
+                        <span class="text-5xl">₱{{ self.share_capital }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Logs -->
+            <div class="py-4" v-if="share_transactions.data.length">
+                <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+                    <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
+                        <div class="p-6 bg-white dark:bg-zinc-900">
+                            <span class="text-sm font-bold">Transaction logs</span>
+                            <table>
+                                <tbody>
+                                    <tr v-for="transaction in share_transactions.data"
+                                        class="hover:bg-black/10 group cursor-pointer">
+                                        <td class="p-3 rounded-l-lg">{{ format_dateMDY(transaction.created_at) }}</td>
+                                        <td class="p-3 rounded-r-lg">₱{{
+        transaction.amount
+}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <Pagination class="mt-6" :links="share_transactions.links" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,13 +133,31 @@
 
 <script>
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import Pagination from '@/Components/Pagination.vue';
+import moment from 'moment';
 
 export default {
     components: {
-        Head, Link
+        Head, Link, Pagination
     },
     props: {
-        self: Object
+        self: Object,
+        overdue_payments: Object,
+        due_payments: Object,
+        savings_transactions: Object,
+        share_transactions: Object,
     },
+    data() {
+        return {
+            page: 'Main'
+        }
+    },
+    methods: {
+        format_dateMDY(value) {
+            if (value) {
+                return moment(String(value)).format('LL LTS')
+            }
+        },
+    }
 }
 </script>

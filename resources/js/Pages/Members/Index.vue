@@ -39,50 +39,27 @@
         </div>
     </div>
 
-    <div class="py-4">
-        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
-            <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
-                <div class="p-6 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-0">
-                    <table class="table-fixed w-full text-sm whitespace-nowrap">
-                        <thead>
-                            <tr class="uppercase text-left dark:text-white/80">
-                                <th class="px-3">Name</th>
-                                <th class="px-3">Address</th>
-                                <th class="px-3"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="member in members.data"
-                                class="hover:bg-neutral-200 dark:hover:bg-white/10 group dark:text-white/90">
-                                <td class="rounded-l-lg">
-                                    <Link class="flex p-3" :href="route('members.show', member.id)">
-                                    {{ member.name }}
-                                    </Link>
-                                </td>
-                                <td>
-                                    <Link class="flex p-3" :href="route('members.show', member.id)">
-                                    {{ member.address }}
-                                    </Link>
-                                </td>
-                                <td class="rounded-r-lg">
-                                    <Link class="flex p-3" :href="route('members.show', member.id)">
-                                    <span v-if="member.loan"
-                                        class="px-2 inline-flex rounded-lg bg-green-200 text-green-800 dark:bg-transparent dark:border-green-500 dark:border dark:text-green-500">
-                                        Active</span>
-                                    <span v-if="member.loan?.has_late_payment && filters.status === 'overdue'"
-                                        class="text-red-800 rounded-full inline-flex mx-1 px-2 bg-red-200 place-items-center dark:border dark:border-red-500 dark:text-red-500 dark:bg-transparent">
-                                        {{ member.loan?.has_late_payment }}
-                                    </span>
-                                    </Link>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <Pagination class="mt-6" :links="members.links" />
+    <InfiniteScroll :loadMore="loadMoreMembers">
+        <div class="py-4">
+            <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 lg:grid lg:gap-2 flex flex-col"
+                :class="{ 'grid-cols-2': visibleMembers.data.length > 1 }">
+                <Link :href="route('members.show', member.id)"
+                    class="bg-white rounded-lg border border-transparent hover:border-theme-800 p-3 mb-2 flex justify-between"
+                    v-for="member in visibleMembers.data">
+                <div>{{ member.name }}</div>
+                <div>
+                    <span v-if="member.loan"
+                        class="px-2 inline-flex rounded-lg text-xs bg-green-200 text-green-800 dark:bg-transparent dark:border-green-500 dark:border dark:text-green-500">
+                        Active</span>
+                    <span v-if="member.loan?.has_late_payment && filters.status === 'overdue'"
+                        class="text-red-800 rounded-full text-xs inline-flex mx-1 px-2 bg-red-200 place-items-center dark:border dark:border-red-500 dark:text-red-500 dark:bg-transparent">
+                        {{ member.loan?.has_late_payment }}
+                    </span>
                 </div>
+                </Link>
             </div>
         </div>
-    </div>
+    </InfiniteScroll>
 </template>
 
 <script>
@@ -96,7 +73,8 @@ export default {
             form: {
                 search: this.filters.search,
                 status: this.filters.status ?? "",
-            }
+            },
+            visibleMembers: this.members,
         }
     },
     watch: {
@@ -106,19 +84,33 @@ export default {
                 this.$inertia.get('/members', pickBy(this.form), {
                     preserveState: true,
                     preserveScroll: true,
-                    replace: true
+                    replace: true,
+                    onFinish: () => this.visibleMembers = this.members,
                 });
             }, 150),
         }
-    }
+    },
+    methods: {
+        loadMoreMembers() {
+            if (!this.visibleMembers.next_page_url) {
+                return Promise.resolve();
+            }
+
+            return axios.get(this.visibleMembers.next_page_url).then(response => {
+                this.visibleMembers = {
+                    ...response.data,
+                    data: [...this.visibleMembers.data, ...response.data.data]
+                }
+            });
+        }
+    },
 }
 </script>
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import Pagination from '@/Components/Pagination.vue';
 import BreezeInput from '@/Components/Input.vue';
-import { ref, watch } from "vue";
-import { Inertia } from '@inertiajs/inertia';
 import throttle from 'lodash/throttle';
 import pickBy from 'lodash/pickBy';
+import axios from 'axios';
+import InfiniteScroll from '@/Components/InfiniteScroll.vue';
 </script>

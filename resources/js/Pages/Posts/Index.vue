@@ -27,25 +27,26 @@
 
     <div class="py-8">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
-            <span v-if="!posts.data.length" class="italic">No posts published yet. Create one through the "New
+            <span v-if="!visiblePosts.data.length" class="italic">No posts published yet. Create one through the "New
                 Post"
                 button</span>
-            <Link class="overflow-hidden shadow-sm rounded-lg" v-for="post in posts.data"
-                :href="route('post.edit', post)">
-            <div
-                class="p-6 mb-4 bg-white hover:border-theme-900/50 dark:bg-zinc-900 border border-transparent rounded-lg group">
-                <div class="flex flex-col">
-                    <span class="font-bold">
-                        {{ post.title }}
-                        <span class="font-normal ml-5 text-xs opacity-70">{{ format_dateMDY(post.created_at) }}</span>
-                    </span>
-                    <span class="text-sm">{{ post.content.slice(0, 255) }}... <span
-                            class="opacity-50 group-hover:text-theme-600">Show
-                            more</span></span>
+
+            <InfiniteScroll :loadMore="loadMorePosts">
+                <Link class="overflow-hidden shadow-sm rounded-lg" v-for="post in visiblePosts.data"
+                    :href="route('post.edit', post)">
+                <div
+                    class="p-6 mb-4 bg-white hover:border-theme-900/50 dark:bg-zinc-900 border border-transparent rounded-lg group">
+                    <div class="flex flex-col">
+                        <span class="font-bold">
+                            {{ post.title }}
+                            <span class="font-normal ml-5 text-xs opacity-70">{{ format_dateMDY(post.created_at)
+}}</span>
+                        </span>
+                        <span class="text-sm">{{ post.content.slice(0, 255) }}</span>
+                    </div>
                 </div>
-            </div>
-            </Link>
-            <Pagination class="mt-6" :links="posts.links" />
+                </Link>
+            </InfiniteScroll>
         </div>
     </div>
 </template>
@@ -54,7 +55,7 @@
 export default {
     data() {
         return {
-            showDeleteModal: false,
+            visiblePosts: this.posts
         }
     },
     props: {
@@ -66,11 +67,24 @@ export default {
                 return moment(String(value)).format('MMMM D, YYYY')
             }
         },
-    }
+        loadMorePosts() {
+            if (!this.visiblePosts.next_page_url) {
+                return Promise.resolve();
+            }
+
+            return axios.get(this.visiblePosts.next_page_url).then(response => {
+                this.visiblePosts = {
+                    ...response.data,
+                    data: [...this.visiblePosts.data, ...response.data.data]
+                }
+            });
+        }
+    },
 }
 </script>
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import Pagination from '@/Components/Pagination.vue';
 import moment from 'moment';
+import axios from 'axios';
+import InfiniteScroll from '@/Components/InfiniteScroll.vue';
 </script>

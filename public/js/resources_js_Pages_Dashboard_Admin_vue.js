@@ -69,7 +69,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_3 = {
-  "class": "lg:flex mt-12 max-w-screen-2xl mx-auto sm:px-6 lg:px-8"
+  "class": "lg:flex mt-4 max-w-screen-2xl mx-auto sm:px-6 lg:px-8"
 };
 var _hoisted_4 = {
   "class": "max-w-7xl mx-auto p-3 lg:p-4"

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SharedCapital;
+use App\Models\Member;
+use App\Models\ShareCapital;
 use Illuminate\Http\Request;
 
-class SharedCapitalController extends Controller
+class ShareCapitalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,9 +23,12 @@ class SharedCapitalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Member $member)
     {
-        //
+        return inertia('Share Capital/Create', [
+            'member' => $member,
+            'transactions' => ShareCapital::where('member_id', $member->id)->latest()->paginate(10),
+        ]);
     }
 
     /**
@@ -35,7 +39,17 @@ class SharedCapitalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'member_id' => 'required',
+            'amount' => 'required|numeric'
+        ]);
+
+        ShareCapital::create([
+            'member_id' => $request->member_id,
+            'amount' => $request->amount,
+        ]);
+
+        return redirect()->back();
     }
 
     /**

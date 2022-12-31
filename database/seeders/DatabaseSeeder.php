@@ -23,16 +23,50 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'),
         ]);
 
+        // Roles
         DB::table('roles')->insert([
             [
-                'position' => 'President'
+                'position' => 'Chairman'
             ],
             [
-                'position' => 'Treasurer'
+                'position' => 'Vice Chairman'
             ],
             [
                 'position' => 'Secretary'
+            ],
+            [
+                'position' => 'Treasurer'
             ]
         ]);
+
+        // Loan services
+        DB::table('loanables')->insert([
+            [
+                'type' => 'Cash',
+                'name' => '3000 pesos',
+                'equivalent' => 3000,
+                'requirement' => 2000,
+            ],
+            [
+                'type' => 'Cash',
+                'name' => '4500 pesos',
+                'equivalent' => 4500,
+                'requirement' => 3000,
+            ],
+            [
+                'type' => 'Cash',
+                'name' => '6000 pesos',
+                'equivalent' => 6000,
+                'requirement' => 4000,
+            ],
+            [
+                'type' => 'Goods',
+                'name' => '1 sack of rice',
+                'equivalent' => 500,
+                'requirement' => 500,
+            ],
+        ]);
+
+        
     }
 }

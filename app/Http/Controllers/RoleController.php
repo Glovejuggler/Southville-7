@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
 {
@@ -13,11 +15,20 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson()) {
+            return [
+                'members' => Member::query()
+                        ->filter(\Illuminate\Support\Facades\Request::only(['search']))
+                        ->get(),
+                'filters' => \Illuminate\Support\Facades\Request::only(['search']),
+            ];
+        }
+
         return inertia('Roles/Index', [
             'roles' => Role::all(),
-            'members' => Member::all()
+            'filters' => \Illuminate\Support\Facades\Request::only(['search']),
         ]);
     }
 
@@ -77,7 +88,11 @@ class RoleController extends Controller
             'member_id' => $request->member_id
         ]);
 
-        return redirect()->back();
+        if (Gate::allows('isAdmin')) {
+            return redirect()->back();
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**

@@ -1,4 +1,4 @@
-<div class="bg-white">
+<div class="bg-white z-60 fixed top-0 left-0 right-0 shadow-md">
     <div class="max-w-screen-2xl mx-auto py-0 px-4 lg:px-8">
         <div class="flex flex-wrap justify-between items-center my-0 py-0">
             <a href="{{ route('home') }}" class="font-semibold text-xl text-theme-800 my-5">
@@ -35,6 +35,25 @@
                     class="px-3 py-4 rounded-lg font-medium hover:bg-black hover:text-white mx-2 border-2 border-black transition ease-in-out duration-200">Log
                     In</a>
             </div>
+            <div class="block lg:hidden">
+                <div onclick="toggleNav()" id="toggle"
+                    class="border-2 border-theme-800 text-theme-800 p-1 flex items-center rounded-lg cursor-pointer">
+                    <i class="bx bx-menu text-3xl"></i>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+<div id="mobileNav" class="bg-white fixed left-0 right-0 bottom-0 top-0 mt-[68px] hidden flex-col overflow-y-auto pt-4">
+    <a href="{{ route('home') }}"
+        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Home</a>
+    <a href="{{ route('about') }}"
+        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">About</a>
+    <a href="{{ route('events') }}"
+        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Events</a>
+    <a href="{{ route('contacts') }}"
+        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Contacts</a>
+    <a href="{{ route('login') }}"
+        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Login</a>
 </div>

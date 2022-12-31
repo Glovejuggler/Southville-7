@@ -30,8 +30,9 @@ class UserController extends Controller
         // ]);
     }
 
-    public function store (Member $member)
+    public function store (Request $request)
     {
+        $member = Member::find($request->member_id);
         $pw = Str::random(8);
 
         $user = User::create([
@@ -48,7 +49,7 @@ class UserController extends Controller
                     ->subject('Welcome to Southville 7 Credit Cooperative');
         });
 
-        return redirect()->back();
+        return redirect()->route('members.show', $member);
     }
 
     /**

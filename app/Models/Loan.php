@@ -11,6 +11,7 @@ class Loan extends Model
 {
     protected $fillable = [
         'member_id',
+        'loan_name',
         'principal',
         'rate',
         'term',

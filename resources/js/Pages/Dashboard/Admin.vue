@@ -18,7 +18,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
         </div>
     </div>
 
-    <div class="lg:flex mt-12 max-w-screen-2xl mx-auto sm:px-6 lg:px-8">
+    <div class="lg:flex mt-4 max-w-screen-2xl mx-auto sm:px-6 lg:px-8">
         <Link class="w-1/4" :href="route('members.index')">
         <div class="max-w-7xl mx-auto p-3 lg:p-4">
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">

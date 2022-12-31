@@ -5,7 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SharedCapital extends Model
+class ShareCapital extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'member_id',
+        'amount'
+    ];
 }

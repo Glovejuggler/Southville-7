@@ -38,13 +38,9 @@
 
                         <!-- Pictures -->
                         <div class="mt-5 lg:w-1/2 w-full">
-                            <div class="flex justify-end">
-                                <button type="button" @click="showAddPhotoModal = !showAddPhotoModal"
-                                    class="text-xs p-3 bg-green-700 hover:bg-green-800 active:bg-green-900 rounded-lg text-white">Add
-                                    photos</button>
-                            </div>
-                            <div class="lg:flex lg:flex-wrap mt-4">
-                                <div v-for="pic in pics" class="basis-1/4 p-1 cursor-pointer
+                            <div class="font-semibold text-sm">Photos</div>
+                            <div class="grid gap-2 grid-cols-2 lg:grid-cols-4 mt-2">
+                                <div v-for="pic in pics" class="cursor-pointer
                                                 [&>div>div:nth-child(3)]:hover:z-30
                                                 [&>div>div:nth-child(3)]:hover:delay-500
                                                 [&>div>div:nth-child(3)]:hover:translate-x-0
@@ -66,6 +62,10 @@
                                             <i class="bx bx-trash text-lg leading-none"></i></Link>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="rounded-lg h-48 bg-blue-50 border-blue-500 border border-dashed flex justify-center items-center cursor-pointer text-4xl hover:text-5xl duration-200 ease-in-out"
+                                    @click="showAddPhotoModal = !showAddPhotoModal">
+                                    <i class="bx bx-plus text-blue-500"></i>
                                 </div>
                             </div>
                         </div>
@@ -95,23 +95,41 @@
             <div v-if="showAddPhotoModal"
                 class="overflow-auto inset-0 fixed z-50 h-screen w-screen flex justify-center items-center"
                 @click.self="this.showAddPhotoModal = false">
-                <div class="relative bg-white dark:bg-zinc-900 w-auto h-auto max-h-[80%] p-6 rounded-lg">
+                <div class="relative bg-white dark:bg-zinc-900 w-full lg:w-[40vw] h-auto max-h-[80%] p-6 rounded-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-semibold">Add photos</span>
+                        <button class="inline-flex rounded-full hover:bg-black/20 dark:hover:bg-white/20"
+                            @click="this.showAddPhotoModal = false"><i
+                                class="bx bx-x text-[25px] text-black/60 dark:text-white/60"></i></button>
+                    </div>
                     <form @submit.prevent="submitFile">
                         <label class="flex">
                             <span class="sr-only">Choose files</span>
-                            <input type="file" name="file" accept="image/*" @input="fileform.file = $event.target.files"
-                                class="block w-full text-sm text-slate-500 dark:text-white/70
+                            <input @change="update" type="file" name="file" accept="image/*"
+                                @input="fileform.file = $event.target.files" class="block w-full text-sm text-slate-500 dark:text-white/70
                                                     file:mr-4 file:py-2 file:px-4
                                                     file:rounded-full file:border-0
                                                     file:text-sm file:font-semibold
                                                     file:bg-gray-50 file:text-gray-700 dark:file:text-white/70 dark:file:bg-zinc-600
                                                     hover:file:bg-gray-100
                                                     " multiple />
-                            <button :disabled="fileform.processing" type="submit"
-                                class="text-sm uppercase rounded-lg text-white font-semibold bg-gray-800 px-3">
+                        </label>
+                        <div v-if="images.length" class="pt-3 grid gap-2 lg:max-h-[50vh] max-h-[80vh] overflow-y-auto"
+                            :class="{ 'grid-cols-2': images.length > 1, 'grid-cols-4': images.length > 3 }">
+                            <div class="relative" v-for="(item, index) in images" :key="index">
+                                <button type="button" @click="removeImage(index)"
+                                    class="inline-flex bg-black/75 m-1 absolute top-0 left-0 text-white hover:bg-black rounded-full text-xl"><i
+                                        class="bx bx-x"></i></button>
+                                <img :src="item.url" alt="" class="rounded-lg object-cover h-48 w-full">
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button v-if="fileform.file.length" :disabled="fileform.processing"
+                                :class="{ 'opacity-50': fileform.processing }" type="submit"
+                                class="text-sm uppercase rounded-lg text-white font-semibold bg-theme-800 px-3 py-2 mt-3">
                                 Upload
                             </button>
-                        </label>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -167,6 +185,7 @@ export default {
         return {
             showDeleteModal: false,
             showAddPhotoModal: false,
+            images: []
         }
     },
     components: {
@@ -210,6 +229,26 @@ export default {
         toggleDeleteModal() {
             this.showDeleteModal = true;
         },
+        update() {
+            this.images.splice(0, this.images.length);
+            Array.from(this.fileform.file).forEach((image) => {
+                let reader = new FileReader();
+                reader.readAsDataURL(image);
+
+                reader.onload = (e) => {
+                    this.images.push({
+                        url: e.target.result
+
+                    });
+                }
+            });
+        },
+        removeImage(index) {
+            const filelist = [...this.fileform.file];
+            this.images.splice(index, 1);
+            filelist.splice(index, 1);
+            this.fileform.file = filelist;
+        }
 
     }
 }

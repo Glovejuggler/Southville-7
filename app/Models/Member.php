@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Loan;
 use App\Models\Saving;
+use App\Models\Beneficiary;
+use App\Models\ShareCapital;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -28,7 +30,7 @@ class Member extends Model
     ];
 
     protected $appends = [
-        'has_history', 'savings'
+        'has_history', 'savings', 'share_capital'
     ];
 
     use HasFactory;
@@ -50,6 +52,11 @@ class Member extends Model
         return $this->hasMany(Loan::class)->onlyTrashed()->with('payments');
     }
 
+    public function beneficiaries()
+    {
+        return $this->hasMany(Beneficiary::class);
+    }
+
     public function getHasHistoryAttribute()
     {
         return $this->hasMany(Loan::class)->onlyTrashed()->count();
@@ -63,6 +70,11 @@ class Member extends Model
                 $this->hasMany(Saving::class)
                     ->where('method','Withdrawal')
                     ->sum('amount');
+    }
+
+    public function getShareCapitalAttribute()
+    {
+        return $this->hasMany(ShareCapital::class)->sum('amount');
     }
 
     // Search filter

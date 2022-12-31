@@ -25,6 +25,7 @@ class StoreLoanRequest extends FormRequest
     {
         return [
             'member_id' => 'required',
+            'loan_name' => 'required',
             'principal' => 'required|numeric|max:999999',
             'rate' => 'required|numeric|max:100',
             'term' => 'required|numeric|max:100',

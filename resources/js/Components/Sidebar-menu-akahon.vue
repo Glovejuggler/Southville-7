@@ -14,14 +14,17 @@
       <div id="my-scroll" style="margin: 6px 14px 0 14px;">
         <ul class="nav-list" style="overflow: visible;">
 
-          <span v-for="(menuItem, index) in menuItems" :key="index">
-            <li v-if="$page.props.auth.is_admin ? 1 : $page.props.auth.is_admin == menuItem.admin">
+          <span class="relative group" v-for="(menuItem, index) in menuItems" :key="index">
+            <li
+              v-if="menuItem.role.some(r => $page.props.auth.position.includes(r)) || $page.props.auth.is_admin || menuItem.role.length < 1">
               <Link :href="menuItem.link" :class="{ 'active': $page.component.startsWith(menuItem.parent) }"
                 class="dark:bg-zinc-900">
               <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
               <span class="links_name">{{ menuItem.name }}</span>
               </Link>
-              <span class="tooltip">{{ menuItem.tooltip || menuItem.name }}</span>
+              <span class="tooltip">{{
+    menuItem.tooltip
+}}</span>
             </li>
           </span>
         </ul>
@@ -35,7 +38,10 @@
               {{ $page.props.auth.user.name }}
             </div>
             <div class="job">
-              Admin
+              {{ $page.props.auth.user.id === 1 ?
+    'Superuser' : $page.props.auth.position.length ?
+      $page.props.auth.position[0] : 'Member'
+}}
             </div>
           </div>
         </div>
@@ -96,7 +102,7 @@ export default {
           tooltip: 'Dashboard',
           icon: 'bx-grid-alt',
           parent: 'Dashboard',
-          admin: false
+          role: []
         },
         {
           link: route('members.index'),
@@ -104,7 +110,11 @@ export default {
           tooltip: 'Members',
           icon: 'bx-user',
           parent: 'Members',
-          admin: true
+          role: [
+            'Secretary',
+            'Chairman',
+            'Vice Chairman'
+          ]
         },
         {
           link: route('loanables.index'),
@@ -112,7 +122,11 @@ export default {
           tooltip: 'Loan Services',
           icon: 'bx-donate-heart',
           parent: 'Loan Services',
-          admin: true
+          role: [
+            'Chairman',
+            'Vice Chairman',
+            'Treasurer'
+          ]
         },
         {
           link: route('events.index'),
@@ -120,7 +134,9 @@ export default {
           tooltip: 'Events',
           icon: 'bx-calendar-event',
           parent: 'Events',
-          admin: true
+          role: [
+            'Secretary'
+          ],
         },
         {
           link: route('post.index'),
@@ -128,7 +144,9 @@ export default {
           tooltip: 'Posts',
           icon: 'bx-news',
           parent: 'Posts',
-          admin: true
+          role: [
+            'Secretary'
+          ],
         },
         {
           link: route('roles.index'),
@@ -136,7 +154,10 @@ export default {
           tooltip: 'Roles',
           icon: 'bx-briefcase',
           parent: 'Roles',
-          admin: true
+          role: [
+            'Chairman',
+            'Vice Chairman'
+          ]
         },
         {
           link: route('user.settings'),
@@ -144,7 +165,7 @@ export default {
           tooltip: 'Settings',
           icon: 'bx-cog',
           parent: 'User',
-          admin: false
+          role: []
         },
       ],
     },
@@ -160,7 +181,7 @@ export default {
     },
     profileRole: {
       type: String,
-      default: 'Frontend vue developer',
+      default: '',
     },
     isExitButton: {
       type: Boolean,

@@ -15,6 +15,7 @@ class CreateBeneficiariesTable extends Migration
     {
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
+            $table->smallInteger('member_id');
             $table->string('relation', 32);
             $table->string('name', 64);
             $table->date('birthday');

@@ -7,8 +7,10 @@ use App\Models\Loan;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Saving;
+use App\Models\Beneficiary;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreMemberRequest;
+use App\Http\Requests\UpdateMemberRequest;
 
 class MemberController extends Controller
 {
@@ -17,17 +19,24 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
         // dd(Member::with(['loan' => function ($query) {
         //     $query->orderBy('id', 'asc');
         // }])->get());
+        if ($request->wantsJson()) {
+            return Member::query()
+                            ->filter(Request::only('search', 'status'))
+                            ->with('loan')
+                            ->paginate(30)
+                            ->withQueryString();
+        }
 
         return inertia('Members/Index', [
             'members' => Member::query()
                             ->filter(Request::only('search', 'status'))
                             ->with('loan')
-                            ->paginate(10)
+                            ->paginate(30)
                             ->withQueryString(),
             'filters' => Request::only(['search', 'status']),
             'today' => now(),
@@ -70,6 +79,16 @@ class MemberController extends Controller
             'income' => $request->income,
         ]);
 
+        foreach ($request->beneficiaries as $beneficiary) {
+            Beneficiary::create([
+                'member_id' => $member->id,
+                'name' => $beneficiary['name'],
+                'relation' => $beneficiary['relation'],
+                'birthday' => $beneficiary['birthday'],
+                'phone' => $beneficiary['phone'],
+            ]);
+        }
+
         return redirect()->route('members.show', $member->id);
     }
 
@@ -92,6 +111,7 @@ class MemberController extends Controller
             'bal' => $loan?->receivable - $loan?->total_payments(),
             'pics' => File::where('member_id', $member->id)->get(),
             'user' => User::where('member_id', $member->id)->get(),
+            'beneficiaries' => Beneficiary::where('member_id', $member->id)->get(),
         ]);
     }
 
@@ -100,7 +120,6 @@ class MemberController extends Controller
      */
     public function view(Member $member)
     {
-        // dd($Member->history);
         return inertia('Members/View', [
             'history' => $member->history,
             'member' => $member
@@ -127,7 +146,7 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreMemberRequest $request, Member $member)
+    public function update(UpdateMemberRequest $request, Member $member)
     {
         $member->name = $request->name;
         $member->address = $request->address;

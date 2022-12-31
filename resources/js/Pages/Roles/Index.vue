@@ -43,16 +43,23 @@
             <div v-if="showAssignModal"
                 class="overflow-auto inset-0 fixed z-50 h-screen w-screen flex justify-center items-center"
                 @click.self="this.showAssignModal = false">
-                <div class="relative bg-white dark:bg-zinc-900 w-auto h-auto max-h-[80%] p-6 rounded-lg">
-                    <div class="">
+                <div class="relative bg-white dark:bg-zinc-900 min-w-max w-auto h-auto max-h-[80%] p-6 rounded-lg">
+                    <div class="mb-5">
                         <span class="font-bold block">{{ role.position }}</span>
                         <span>{{ role.member ? role.member.name + ' (Current)' : 'Unassigned' }}</span>
                     </div>
-                    <div class="mt-6 max-h-96">
-                        <span>Members</span>
-                        <div v-for="member in members" @click="assignmentConfirmationModal(member)"
-                            class="w-96 p-3 hover:bg-black/5 rounded-lg cursor-pointer">
-                            <span>{{ member.name }}</span>
+                    <BreezeInput v-model="searchform.search" class="block w-full mb-3" type="text"
+                        placeholder="Search..." />
+                    <span class="font-semibold block pb-3">Members</span>
+                    <div class="max-h-[40vh] overflow-y-auto overflow-x-hidden">
+                        <div class="text-center my-5 w-full" v-if="loading">
+                            <i class="bx bx-loader-alt text-3xl text-theme-800 animate-spin"></i>
+                        </div>
+                        <div v-if="!loading">
+                            <div v-for="member in visibleMembers" @click="assignmentConfirmationModal(member)"
+                                class="w-96 p-3 hover:bg-black/5 rounded-lg cursor-pointer">
+                                <span>{{ member.name }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +85,8 @@
                         <span class="font-bold text-lg block mb-2">Confirmation</span>
                         <span class="font-normal text-sm">Assign {{ member.name }} as {{ role.position }}?</span>
                     </div>
-                    <form @submit="form.put(route('roles.update', role))">
+                    <form
+                        @submit.prevent="form.put(route('roles.update', role), { preserveState: false, preserveScroll: true })">
                         <div class="flex justify-end mt-6">
                             <button class="mx-2 text-sm hover:underline" type="button"
                                 @click="this.showConfirmationModal = false">Cancel</button>
@@ -100,6 +108,9 @@
 
 <script>
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import BreezeInput from '@/Components/Input.vue';
+import throttle from 'lodash/throttle';
+import axios from 'axios';
 
 export default {
     data() {
@@ -108,17 +119,32 @@ export default {
             role: null,
             showConfirmationModal: false,
             member: null,
+            searchform: {
+                search: this.filters.search
+            },
+            visibleMembers: '',
+            loading: false
         }
     },
     components: {
-        Head, Link
+        Head, Link, BreezeInput
     },
     props: {
         roles: Object,
-        members: Object,
+        filters: Object,
+        members: Object
     },
     methods: {
         assignMemberModal(role) {
+            if (!this.visibleMembers) {
+                this.loading = true;
+                axios.get('/roles').then(response => {
+                    this.visibleMembers = {
+                        ...response.data.members,
+                        data: [...this.visibleMembers, ...response.data.members]
+                    }
+                }).finally(() => this.loading = false);
+            }
             this.showAssignModal = true;
             this.role = role;
             this.form.role = role.id;
@@ -128,7 +154,7 @@ export default {
             this.showConfirmationModal = true;
             this.member = member;
             this.form.member_id = member.id;
-        }
+        },
     },
     setup() {
         const form = useForm({
@@ -136,6 +162,20 @@ export default {
         })
 
         return { form }
+    },
+    watch: {
+        searchform: {
+            deep: true,
+            handler: throttle(function () {
+                axios.get(route('roles.index'), {
+                    params: {
+                        'search': this.searchform.search
+                    }
+                }).then(response => {
+                    this.visibleMembers = response.data.members;
+                });
+            }, 150),
+        }
     }
 }
 </script>

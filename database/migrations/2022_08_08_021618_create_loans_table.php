@@ -16,6 +16,7 @@ class CreateLoansTable extends Migration
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
             $table->smallInteger('member_id');
+            $table->string('loan_name', 64);
             $table->integer('principal');
             $table->smallInteger('rate');
             $table->smallInteger('term');

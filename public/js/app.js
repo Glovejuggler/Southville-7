@@ -65,7 +65,7 @@ __webpack_require__.r(__webpack_exports__);
           tooltip: 'Members',
           icon: 'bx-user',
           parent: 'Members',
-          role: ['Secretary', 'Chairman', 'Vice Chairman']
+          role: ['Secretary', 'Chairman', 'Vice Chairman', 'Treasurer']
         }, {
           link: route('loanables.index'),
           name: 'Loan Services',
@@ -326,7 +326,8 @@ var _hoisted_11 = {
 var _hoisted_12 = {
   key: 0,
   src: "/images/photo.jpg",
-  alt: "profileImg"
+  alt: "profileImg",
+  "class": "hidden"
 };
 var _hoisted_13 = {
   key: 1,
@@ -379,7 +380,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: index
     }, [menuItem.role.some(function (r) {
       return _ctx.$page.props.auth.position.includes(r);
-    }) || _ctx.$page.props.auth.is_admin || menuItem.role.length < 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+    }) || menuItem.role.length < 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
       href: menuItem.link,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([{
         'active': _ctx.$page.component.startsWith(menuItem.parent)
@@ -458,7 +459,7 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "bx bx-menu text-theme-800"
+  "class": "bx bx-menu"
 }, null, -1
 /* HOISTED */
 );
@@ -469,53 +470,58 @@ var _hoisted_6 = {
   "class": "relative bg-white"
 };
 var _hoisted_7 = {
-  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200"
+  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white"
 };
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Dashboard ");
 
 var _hoisted_9 = {
   key: 0,
-  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200"
+  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white"
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Members ");
 
 var _hoisted_11 = {
   key: 1,
-  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200"
+  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white"
 };
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Loan Services ");
 
 var _hoisted_13 = {
   key: 2,
-  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200"
+  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white"
 };
 
 var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Events ");
 
 var _hoisted_15 = {
   key: 3,
-  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200"
+  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white"
 };
 
 var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Posts ");
 
 var _hoisted_17 = {
   key: 4,
-  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200"
+  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white"
 };
 
 var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Roles ");
 
 var _hoisted_19 = {
-  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200"
+  "class": "hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white"
 };
 
 var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Settings ");
 
-var _hoisted_21 = {
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Logout");
+
+var _hoisted_22 = {
+  "class": "px-2 text-xs text-black/50 group-hover:text-white group-active:text-white"
+};
+var _hoisted_23 = {
   id: "main"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -529,8 +535,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $data.isDropdownOpen = !$data.isDropdownOpen;
     }),
-    "class": "bg-white m-3 text-4xl flex items-center rounded-lg border-theme-800 border"
-  }, _hoisted_5)]), $data.isDropdownOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["m-3 text-4xl flex items-center rounded-lg bg-white text-theme-800 border-theme-800 border", {
+      'bg-theme-800 text-white': $data.isDropdownOpen
+    }])
+  }, _hoisted_5, 2
+  /* CLASS */
+  )]), $data.isDropdownOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.isDropdownOpen = false;
     }),
@@ -545,7 +555,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])]), _ctx.$page.props.auth.is_admin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  , ["href"])]), _ctx.$page.props.auth.position.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $data.isDropdownOpen = false;
     }),
@@ -560,7 +570,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.is_admin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.position.some(function (r) {
+    return ['Chairman', 'Vice Chairman', 'Treasurer'].includes(r);
+  }) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     onClick: _cache[3] || (_cache[3] = function ($event) {
       return $data.isDropdownOpen = false;
     }),
@@ -575,7 +587,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.is_admin || _ctx.$page.props.auth.position.includes('Secretary') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.position.includes('Secretary') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $data.isDropdownOpen = false;
     }),
@@ -590,7 +602,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.is_admin || _ctx.$page.props.auth.position.includes('Secretary') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.position.includes('Secretary') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return $data.isDropdownOpen = false;
     }),
@@ -605,7 +617,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.is_admin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  , ["href"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$page.props.auth.position.some(function (r) {
+    return ['Chairman', 'Vice Chairman'].includes(r);
+  }) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $data.isDropdownOpen = false;
     }),
@@ -635,7 +649,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")])])], 2
+  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $data.isDropdownOpen = false;
+    }),
+    href: _ctx.route('logout'),
+    method: "post",
+    "class": "py-4 px-2 hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white flex items-center group"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.auth.user.name) + ")", 1
+      /* TEXT */
+      )];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["href"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")])])], 2
   /* CLASS */
   );
 }

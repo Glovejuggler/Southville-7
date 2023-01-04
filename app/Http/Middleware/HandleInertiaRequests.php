@@ -41,10 +41,11 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
-                'is_admin' => Gate::allows('isAdmin'),
                 'position' => function () {
-                    if (Auth::user()) {
-                        return Auth::user()->role->pluck('position')->toArray();
+                    if (Auth::user()?->id != 1) {
+                        return Auth::user()?->role->pluck('position')->toArray();
+                    } else {
+                        return ['Chairman', 'Vice Chairman', 'Secretary', 'Treasurer'];
                     }
                 },
             ],

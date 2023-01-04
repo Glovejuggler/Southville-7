@@ -12,7 +12,8 @@
                 <h2 class="font-semibold text-xl text-theme-800 dark:text-white/90">
                     Members
                 </h2>
-                <Link as="button" :href="route('members.create')" class="inline-flex cursor-pointer
+                <Link v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
+                    as="button" :href="route('members.create')" class="inline-flex cursor-pointer
                         items-center px-4 py-2 bg-theme-800 dark:bg-white/90 dark:text-zinc-800
                         border border-transparent rounded-md 
                         font-semibold text-xs text-white uppercase

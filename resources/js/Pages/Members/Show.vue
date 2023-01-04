@@ -27,7 +27,7 @@
 
                     <div>
                         <button
-                            v-if="!user.length && member.email && $page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r)) || $page.props.auth.is_admin"
+                            v-if="!user.length && member.email && $page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
                             @click="showAccountCreateModal = true" type="button" class="inline-flex cursor-pointer
                                                     items-center mx-2 px-4 py-2 bg-theme-800
                                                     border border-transparent rounded-md 
@@ -38,7 +38,7 @@
                             Create account
                         </button>
                         <Link
-                            v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r)) || $page.props.auth.is_admin"
+                            v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
                             as="button" :href="route('members.edit', member.id)" class="inline-flex cursor-pointer
                                                     items-center px-4 py-2 bg-emerald-800
                                                      rounded-md tracking-widest
@@ -127,13 +127,13 @@
     </div>
 
     <!-- Picture upload -->
-    <div class="lg:mt-8 mt-4 max-w-screen-2xl mx-auto px-6 lg:px-8 pb-4 group"
-        v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r)) || $page.props.auth.is_admin">
+    <div class="lg:mt-8 mt-4 max-w-screen-2xl mx-auto px-6 lg:px-8 pb-4 group">
         <div class="bg-white dark:bg-zinc-900 overflow-x-auto shadow-sm rounded-lg">
             <div class="p-6 bg-white dark:bg-zinc-900">
                 <div class="flex justify-between">
                     <span class="font-bold dark:text-white/90 text-theme-800">Images</span>
-                    <form @submit.prevent="submit">
+                    <form @submit.prevent="submit"
+                        v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))">
                         <label class="flex">
                             <span class="sr-only">Choose files</span>
                             <input type="file" name="file" accept="image/*" @input="fileform.file = $event.target.files"
@@ -165,7 +165,8 @@
                                 @click.self="toggleModal(pic.path, pic.id)">
                             <div class="z-10 absolute bg-black w-full h-full">
                             </div>
-                            <div class="absolute z-0 grid w-full h-full translate-x-1/4 ease-in-out duration-300"
+                            <div v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
+                                class="absolute z-0 grid w-full h-full translate-x-1/4 ease-in-out duration-300"
                                 @click.self="toggleModal(pic.path, pic.id)">
                                 <Link class="uppercase text-white font-bold place-self-end
                                     inline-flex p-3 bg-red-600 hover:bg-red-500

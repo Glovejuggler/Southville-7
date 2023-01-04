@@ -24,7 +24,7 @@
                 <div class="p-6 bg-white dark:bg-zinc-900">
                     <span class="block text-sm font-bold pb-2">Savings:</span>
                     <span class="text-5xl">₱{{ member.savings }}</span>
-                    <div class="flex mt-4">
+                    <div v-if="$page.props.auth.position.includes('Treasurer')" class="flex mt-4">
                         <BreezeButton type="button" class="" @click="toggleDeposit">Deposit</BreezeButton>
                         <BreezeButton type="button" class="ml-2" @click="toggleWithdrawal">Withdraw</BreezeButton>
                     </div>
@@ -84,8 +84,8 @@
                         <div>
                             <BreezeButton class="mt-4" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing">{{ showDeposit ? 'Deposit' :
-                                        'Withdraw'
-                                }}
+        'Withdraw'
+}}
                             </BreezeButton>
                         </div>
                     </form>

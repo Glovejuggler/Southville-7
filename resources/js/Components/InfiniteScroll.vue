@@ -2,7 +2,7 @@
     <div>
         <slot></slot>
     </div>
-    <div v-if="loading" class="my-4 text-center">
+    <div v-if="loading" class="mt-4 mb-8 text-center">
         <i class="bx bx-loader-alt animate-spin text-3xl text-theme-800"></i>
     </div>
 </template>
@@ -21,7 +21,7 @@ export default {
     },
     mounted() {
         window.addEventListener('scroll', debounce((e) => {
-            let pixelsFromBottom = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight;
+            let pixelsFromBottom = document.documentElement.offsetHeight - document.documentElement.scrollTop - (window.innerHeight ?? screen.height);
 
             if (pixelsFromBottom < 200 && !this.loading) {
                 this.loading = true;

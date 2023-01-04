@@ -24,7 +24,7 @@
                 <div class="p-6 bg-white dark:bg-zinc-900">
                     <span class="block text-sm font-bold pb-2">Share Capital:</span>
                     <span class="text-5xl">₱{{ member.share_capital }}</span>
-                    <div class="flex mt-4">
+                    <div v-if="$page.props.auth.position.includes('Treasurer')" class="flex mt-4">
                         <BreezeButton type="button" @click="this.showAddModal = true">Add</BreezeButton>
                     </div>
                 </div>
@@ -43,8 +43,8 @@
                                     class="hover:bg-black/10 group cursor-pointer">
                                     <td class="p-3 rounded-l-lg">{{ format_dateMDY(transaction.created_at) }}</td>
                                     <td class="p-3 rounded-r-lg">₱{{
-                                            transaction.amount
-                                    }}
+        transaction.amount
+}}
                                     </td>
                                 </tr>
                             </tbody>

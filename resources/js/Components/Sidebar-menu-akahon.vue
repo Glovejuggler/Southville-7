@@ -15,8 +15,7 @@
         <ul class="nav-list" style="overflow: visible;">
 
           <span class="relative group" v-for="(menuItem, index) in menuItems" :key="index">
-            <li
-              v-if="menuItem.role.some(r => $page.props.auth.position.includes(r)) || $page.props.auth.is_admin || menuItem.role.length < 1">
+            <li v-if="menuItem.role.some(r => $page.props.auth.position.includes(r)) || menuItem.role.length < 1">
               <Link :href="menuItem.link" :class="{ 'active': $page.component.startsWith(menuItem.parent) }"
                 class="dark:bg-zinc-900">
               <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
@@ -31,7 +30,7 @@
       </div>
       <div v-if="isLoggedIn" class="profile dark:bg-zinc-900">
         <div class="profile-details dark:bg-zinc-900 bg-theme-800">
-          <img v-if="profileImg" src="/images/photo.jpg" alt="profileImg">
+          <img v-if="profileImg" src="/images/photo.jpg" alt="profileImg" class="hidden">
           <i v-else class="bx bxs-user-rectangle" />
           <div class="name_job">
             <div class="name">
@@ -113,7 +112,8 @@ export default {
           role: [
             'Secretary',
             'Chairman',
-            'Vice Chairman'
+            'Vice Chairman',
+            'Treasurer'
           ]
         },
         {

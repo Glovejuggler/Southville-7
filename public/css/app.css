@@ -799,10 +799,6 @@ select {
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
@@ -810,6 +806,10 @@ select {
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
+}
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 .my-3 {
   margin-top: 0.75rem;
@@ -887,6 +887,9 @@ select {
 .mt-3 {
   margin-top: 0.75rem;
 }
+.mb-8 {
+  margin-bottom: 2rem;
+}
 .-mb-1 {
   margin-bottom: -0.25rem;
 }
@@ -901,9 +904,6 @@ select {
 }
 .mt-1 {
   margin-top: 0.25rem;
-}
-.mb-8 {
-  margin-bottom: 2rem;
 }
 .mb-12 {
   margin-bottom: 3rem;
@@ -2418,6 +2418,16 @@ select {
 
 .group:hover .group-hover\:bg-black\/\[0\.02\] {
   background-color: rgb(0 0 0 / 0.02);
+}
+
+.group:hover .group-hover\:text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.group:active .group-active\:text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .peer\/about:hover ~ .peer-hover\/about\:flex {

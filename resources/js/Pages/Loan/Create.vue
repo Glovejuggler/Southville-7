@@ -105,7 +105,7 @@
                                             :class="isLate(payment.month) && payment.payment == null ? 'text-red-500' : ''">{{
         format_dateMDY(payment.month)
 }}</span>
-                                        <button
+                                        <button v-if="$page.props.auth.position.includes('Treasurer')"
                                             class="text-lg invisible group-hover:visible hover:text-green-600 dark:hover:text-green-500"
                                             @click="togglePayment(payment)"><i class="bx bx-edit"></i></button>
                                     </div>

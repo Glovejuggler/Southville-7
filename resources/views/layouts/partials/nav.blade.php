@@ -32,8 +32,8 @@
                 <a href="{{ route('contacts') }}"
                     class="px-3 py-6 hover:text-theme-800 font-bold mx-2 {{ Route::is('contacts') ? 'text-theme-600 font-bold' : '' }}">Contacts</a>
                 <a href="{{ route('login') }}"
-                    class="px-3 py-4 rounded-lg font-medium hover:bg-black hover:text-white mx-2 border-2 border-black transition ease-in-out duration-200">Log
-                    In</a>
+                    class="px-3 py-4 rounded-lg font-medium hover:bg-black hover:text-white mx-2 border-2 border-black transition ease-in-out duration-200 {{ Auth::check() ? 'text-xs' : '' }}">{{
+                    Auth::user()->name ?? 'Login' }}</a>
             </div>
             <div class="block lg:hidden">
                 <div onclick="toggleNav()" id="toggle"

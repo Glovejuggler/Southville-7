@@ -21,15 +21,16 @@
     <div class="lg:flex pt-4 max-w-screen-2xl mx-auto px-6 lg:px-8">
         <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg w-full">
             <div class="p-6 bg-white dark:bg-zinc-900 group-hover:bg-black/[0.02]">
-                <div class="flex justify-between">
-                    <span class="uppercase font-bold block text-theme-800 dark:text-white/90 text-lg">{{ member.name
-}}</span>
+                <div class="lg:flex justify-between">
+                    <span class="uppercase font-bold block text-theme-800 dark:text-white/90 text-lg">{{
+                        member.name
+                    }}</span>
 
-                    <div>
+                    <div class="lg:flex flex-col lg:flex-row space-x-2">
                         <button
                             v-if="!user.length && member.email && $page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
                             @click="showAccountCreateModal = true" type="button" class="inline-flex cursor-pointer
-                                                    items-center mx-2 px-4 py-2 bg-theme-800
+                                                    items-center px-4 py-2 bg-theme-800
                                                     border border-transparent rounded-md 
                                                     font-semibold text-xs text-white uppercase
                                                     tracking-widest hover:bg-theme-700 active:bg-theme-900
@@ -54,8 +55,8 @@
                 <div class="lg:flex">
                     <div class="w-full lg:w-1/2">
                         <span class="block">Birthdate: {{ format_dateMDY(member.birthdate) }} ({{
-        age(member.birthdate)
-}} years old)</span>
+                            age(member.birthdate)
+                        }} years old)</span>
                         <span class="block">Birthplace: {{ member.birthplace }}</span>
                     </div>
                     <div class="w-full lg:w-1/2">
@@ -197,17 +198,18 @@
                         <div>
                             <span class="font-bold text-lg block mb-2">Confirmation</span>
                             <span class="font-normal text-sm">Are you sure you want to create a user account for {{
-        member.name
-}}?</span>
+                                member.name
+                            }}?</span>
                         </div>
                         <div class="flex justify-end mt-6">
                             <button class="mx-2 text-sm hover:underline"
                                 @click="this.showAccountCreateModal = false">Cancel</button>
                             <button type="button" @click="account.post(route('user.store'), {
-    preserveScroll: true,
-    preserveState: false,
-    onSuccess: () => this.showAccountCreateModal = false
-})" class="mx-2 p-3 bg-theme-600 hover:bg-theme-700 active:bg-theme-900 text-white text-sm rounded-lg flex items-center">
+                                preserveScroll: true,
+                                preserveState: false,
+                                onSuccess: () => this.showAccountCreateModal = false
+                            })"
+                                class="mx-2 p-3 bg-theme-600 hover:bg-theme-700 active:bg-theme-900 text-white text-sm rounded-lg flex items-center">
                                 Yes</button>
                         </div>
                     </div>

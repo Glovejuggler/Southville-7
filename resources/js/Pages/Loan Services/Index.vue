@@ -27,52 +27,50 @@
 
     <div class="py-8">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
-            <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
-                <div class="p-6 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-0">
-                    <table class="table-fixed w-full text-sm whitespace-nowrap">
-                        <thead>
-                            <tr class="uppercase text-left dark:text-white/80">
-                                <th class="px-3">Item name</th>
-                                <th class="px-3">Type</th>
-                                <th class="px-3">Required share capital</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="loanable in loanables.data"
-                                class="hover:bg-neutral-200 dark:hover:bg-white/10 group dark:text-white/90">
-                                <td class="rounded-l-lg">
-                                    <Link class="flex p-3" :href="route('loanables.edit', loanable)">
-                                    {{ loanable.name }}
-                                    </Link>
-                                </td>
-                                <td>
-                                    <Link class="flex p-3" :href="route('loanables.edit', loanable)">
-                                    {{ loanable.type }}
-                                    </Link>
-                                </td>
-                                <td class="rounded-r-lg">
-                                    <Link class="flex p-3" :href="route('loanables.edit', loanable)">
-                                    {{ loanable.requirement }}
-                                    </Link>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <Pagination class="mt-6" :links="loanables.links" />
+            <InfiniteScroll :loadMore="loadMoreLoanables">
+                <div class="flex flex-col space-y-3">
+                    <Link :href="route('loanables.edit', loanable)" v-for="loanable in visibleLoanables.data"
+                        class="p-3 rounded-lg border border-transparent bg-white hover:border-theme-800 active:border-theme-800">
+                    <span class="text-theme-800 font-semibold">{{ loanable.name }}</span>
+                    <div class="flex flex-col">
+                        <div class="text-sm text-black/75">{{ loanable.type }}</div>
+                        <div class="text-sm text-black/75">Required share capital: {{ loanable.requirement }}</div>
+                    </div>
+                    </Link>
                 </div>
-            </div>
+            </InfiniteScroll>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            visibleLoanables: this.loanables
+        }
+    },
     props: {
         loanables: Object,
+    },
+    methods: {
+        loadMoreLoanables() {
+            if (!this.visibleLoanables.next_page_url) {
+                return Promise.resolve();
+            }
+
+            return axios.get(this.visibleLoanables.next_page_url).then(response => {
+                this.visibleLoanables = {
+                    ...response.data,
+                    data: [...this.visibleLoanables.data, ...response.data.data]
+                }
+            });
+        }
     }
 }
 </script>
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Pagination from '@/Components/Pagination.vue';
+import InfiniteScroll from '@/Components/InfiniteScroll.vue';
 </script>

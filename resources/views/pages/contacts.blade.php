@@ -18,27 +18,21 @@
                     </div>
                     <div class="flex items-center">
                         <i class="bx bx-home-heart text-2xl text-theme-800 mx-1"></i>
-                        <span>Sunlife Learning Center, NHA Site 3, Brgy. Sto.Tomas Calauan, Laguna</span>
+                        <span>Lot 15, Block 5, Site 2, Southville 7, Brgy. Dayap, Calauan, Laguna</span>
                     </div>
                 </div>
             </div>
-            <div class="mapouter flex flex-row items-center justify-center">
-                <div class="gmap_canvas self-center"><iframe width="600" height="500" id="gmap_canvas"
+            <div class="flex flex-row items-center justify-center max-w-7xl mx-auto">
+                <div class="gmap_canvas self-center"><iframe width="600" height="500" class="gmap_canvas"
                         src="https://maps.google.com/maps?q=southville%207&t=&z=13&ie=UTF8&iwloc=&output=embed"
                         frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                    <style>
-                        .mapouter {
-                            text-align: right;
-                            height: 500px;
-                            width: 600px;
-                        }
-                    </style>
                     <style>
                         .gmap_canvas {
                             overflow: hidden;
                             background: none !important;
                             height: 500px;
                             width: 600px;
+                            max-width: 90vw;
                         }
                     </style>
                 </div>

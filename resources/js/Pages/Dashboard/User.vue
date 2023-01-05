@@ -51,6 +51,11 @@
                     <span class="font-bold text-5xl">₱ {{ self.share_capital }}</span>
                 </div>
             </div>
+            <div @click="page = 'Loan'"
+                class="bg-white rounded-lg p-3 lg:mt-0 mt-4 cursor-pointer border border-transparent hover:border-theme-800 col-span-2 flex justify-between items-center">
+                <span>Loans</span>
+                <i class="bx bx-chevron-right text-2xl"></i>
+            </div>
         </div>
     </div>
 
@@ -116,14 +121,94 @@
                                         class="hover:bg-black/10 group cursor-pointer">
                                         <td class="p-3 rounded-l-lg">{{ format_dateMDY(transaction.created_at) }}</td>
                                         <td class="p-3 rounded-r-lg">₱{{
-        transaction.amount
-}}
+                                            transaction.amount
+                                        }}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <Pagination class="mt-6" :links="share_transactions.links" />
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loans -->
+    <div v-if="page === 'Loan'">
+        <div class="py-4">
+            <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+                <div class="bg-white rounded-lg p-6">
+                    <div class="font-bold uppercase text-theme-800">Loan information</div>
+                    <div class="flex flex-col mt-4">
+                        <span class="font-bold text-sm text-theme-800 uppercase">Loan</span>
+                        <span>{{ loan.loan_name }}</span>
+                    </div>
+                    <div class="flex flex-col mt-4">
+                        <span class="font-bold text-sm text-theme-800 uppercase">To pay</span>
+                        <span>₱{{ loan.receivable }}</span>
+                    </div>
+                </div>
+
+                <!-- Payments -->
+                <div class="bg-white rounded-lg p-6 mt-8">
+                    <div class="uppercase text-theme-800 font-bold">Payments</div>
+                    <table class="table-auto w-full text-left text-sm">
+                        <thead>
+                            <tr class="uppercase dark:text-white/80">
+                                <th class="p-2">Date</th>
+                                <th class="p-2">Date paid</th>
+                                <th class="p-2">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="payment in loan.payments" class="dark:hover:bg-white/10 dark:text-white/90">
+                                <td class="rounded-l-lg">
+                                    <div class="flex justify-between">
+                                        <span class="p-2"
+                                            :class="isLate(payment.month) && payment.payment == null ? 'text-red-500' : ''">{{
+                                                formatPaymentDate(payment.month)
+                                            }}</span>
+                                    </div>
+                                </td>
+                                <td class="p-2">
+                                    <div class="flex justify-between">
+                                        <div>
+                                            {{ formatPaymentDate(payment.date_paid) }}
+                                            <span v-if="payment.is_late"
+                                                class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
+                                            <span v-if="payment.payment && payment.payment < Math.round(loan.paymentm)"
+                                                class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
+                                        </div>
+                                        <span class="text-green-700 dark:text-green-500 pr-8">{{
+                                            payment.payment?.toLocaleString()
+                                        }}</span>
+                                    </div>
+                                </td>
+                                <td class="rounded-r-lg p-2">
+                                    {{
+                                        payment.payment ?
+                                            payment.balance?.toLocaleString() : ''
+                                    }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div v-if="bal > 0" class="flex justify-end font-semibold uppercase dark:text-white/90">Remaining
+                        balance: ₱{{
+                            bal.toLocaleString()
+                        }}</div>
+                </div>
+
+                <!-- History -->
+                <div v-if="history.length" class="font-bold mt-8">Loan history</div>
+                <div v-if="history.length" class="bg-white rounded-lg p-6 mt-4">
+                    <div v-for="(loanHistory) in history" class="flex lg:w-1/4 w-full justify-between my-3">
+                        <div>
+                            {{ formatPaymentDate(loanHistory.created_at) }}
+                        </div>
+                        <div>{{ loanHistory.loan_name }}</div>
                     </div>
                 </div>
             </div>
@@ -146,6 +231,9 @@ export default {
         due_payments: Object,
         savings_transactions: Object,
         share_transactions: Object,
+        loan: Object,
+        bal: Number,
+        history: Object
     },
     data() {
         return {
@@ -158,6 +246,16 @@ export default {
                 return moment(String(value)).format('LL LTS')
             }
         },
+        isLate(value) {
+            if (value) {
+                return moment().diff(moment(String(value)), 'days') >= 1
+            }
+        },
+        formatPaymentDate(value) {
+            if (value) {
+                return moment(String(value)).format('MMMM D, YYYY')
+            }
+        }
     }
 }
 </script>

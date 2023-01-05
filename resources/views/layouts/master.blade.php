@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Southville 7</title>
+    <title>Southville 7 Credit Cooperative</title>
     <!-- Fonts -->
     {{--
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
@@ -17,12 +17,14 @@
     <script src="{{ mix('js/app.js') }}" defer></script>
     {{-- <script src="{{ mix('js/manifest.js') }}" defer></script> --}}
     {{-- <script src="{{ mix('js/vendor.js') }}" defer></script> --}}
+
+    @yield('styles')
 </head>
 
 <body class="font-sans antialiased min-h-screen bg-white flex flex-col">
     @include('layouts.partials.nav')
 
-    <div class="mt-[68px]">
+    <div class="{{ Route::is('home') ? '' : 'mt-[68px]' }}">
         @yield('content')
     </div>
 
@@ -37,6 +39,10 @@
                 document.getElementById('mobileNav').classList.add('flex');
                 document.getElementById('toggle').classList.add('bg-theme-800');
                 document.getElementById('toggle').classList.add('text-white');
+              	document.querySelector('#nav').classList.add('bg-white');
+              	document.querySelector('#nav').classList.remove('bg-transparent');
+              	document.querySelector('#title').classList.add('text-theme-800');
+              	document.querySelector('#title').classList.remove('text-white');
                 document.body.style.overflow = 'hidden';
                 document.body.style.height = '100vh';
             } else {
@@ -44,11 +50,17 @@
                 document.getElementById('mobileNav').classList.add('hidden');
                 document.getElementById('toggle').classList.remove('bg-theme-800','text-white');
                 document.getElementById('toggle').classList.add('text-theme-800');
+              	document.querySelector('#nav').classList.remove('bg-white');
+              	document.querySelector('#nav').classList.add('bg-transparent');
+              	document.querySelector('#title').classList.remove('text-theme-800');
+              	document.querySelector('#title').classList.add('text-white');
                 document.body.style.overflow = 'auto';
                 document.body.style.height = 'auto';
             }
         }
     </script>
+
+    @yield('scripts')
 </body>
 
 </html>

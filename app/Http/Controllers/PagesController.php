@@ -10,7 +10,9 @@ class PagesController extends Controller
 {
     public function home()
     {
-        return view('pages.home.home');
+        return view('pages.home.home', [
+            'stories' => Post::latest()->take(3)->get()
+        ]);
     }
 
     public function about()
@@ -39,7 +41,7 @@ class PagesController extends Controller
             'events' => Event::where('status', 'Upcoming')
                                 ->where('date','>=',now())
                                 ->get(),
-            'posts' => Post::all(),
+            'posts' => Post::latest()->get(),
         ]);
     }
 

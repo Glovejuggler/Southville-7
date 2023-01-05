@@ -24,7 +24,7 @@
                 <div class="p-6 bg-white dark:bg-zinc-900">
                     <!-- Cannot loan -->
                     <div v-if="!loanables.length">
-                        <span class="italic">{{ member.name }} does not have enough savings required for any
+                        <span class="italic">{{ member.name }} does not have enough share capital required for any
                             loan.</span>
                     </div>
 
@@ -98,16 +98,17 @@
                         </thead>
                         <tbody>
                             <tr v-for="payment in loan.payments"
-                                class="hover:bg-black/10 dark:hover:bg-white/10 dark:text-white/90 group">
+                                class="hover:bg-black/10 dark:hover:bg-white/10 dark:text-white/90 cursor-pointer"
+                                @click="togglePayment(payment)">
                                 <td class="rounded-l-lg">
                                     <div class="flex justify-between">
                                         <span class="p-2"
                                             :class="isLate(payment.month) && payment.payment == null ? 'text-red-500' : ''">{{
-        format_dateMDY(payment.month)
-}}</span>
-                                        <button v-if="$page.props.auth.position.includes('Treasurer')"
+                                                format_dateMDY(payment.month)
+                                            }}</span>
+                                        <!-- <button v-if="$page.props.auth.position.includes('Treasurer')"
                                             class="text-lg invisible group-hover:visible hover:text-green-600 dark:hover:text-green-500"
-                                            @click="togglePayment(payment)"><i class="bx bx-edit"></i></button>
+                                            @click="togglePayment(payment)"><i class="bx bx-edit"></i></button> -->
                                     </div>
                                 </td>
                                 <td class="p-2">
@@ -120,22 +121,23 @@
                                                 class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
                                         </div>
                                         <span class="text-green-700 dark:text-green-500 pr-8">{{
-        payment.payment?.toLocaleString()
-}}</span>
+                                            payment.payment?.toLocaleString()
+                                        }}</span>
                                     </div>
                                 </td>
                                 <td class="rounded-r-lg p-2">
-                                    {{ payment.payment ?
-        payment.balance?.toLocaleString() : ''
-}}
+                                    {{
+                                        payment.payment ?
+                                            payment.balance?.toLocaleString() : ''
+                                    }}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div v-if="bal > 0" class="flex justify-end font-semibold uppercase dark:text-white/90">Remaining
                         balance: ₱{{
-        bal.toLocaleString()
-}}</div>
+                            bal.toLocaleString()
+                        }}</div>
                 </div>
             </div>
         </div>
@@ -192,8 +194,8 @@
                         class="relative bg-white dark:bg-zinc-900 w-auto h-auto overflow-y-auto max-h-[80%] p-6 rounded-lg">
                         <div class="flex justify-between pb-3">
                             <span class="font-semibold text-gray-800 dark:text-white/90">{{
-        format_dateMDY(paymentform.paymentMonth)
-}}</span>
+                                format_dateMDY(paymentform.paymentMonth)
+                            }}</span>
                             <button class="inline-flex rounded-full hover:bg-black/20 dark:hover:bg-white/20"
                                 @click="this.showPayment = false"><i
                                     class="bx bx-x text-[25px] text-black/60 dark:text-white/60"></i></button>
@@ -328,15 +330,17 @@ export default {
             }
         },
         togglePayment(value) {
-            this.showPayment = true;
-            this.paymentform.paymentMonth = value.month;
-            this.paymentform.paymentId = value.id;
-            this.paymentform.payment = value.payment;
-            this.paymentform.notes = value.notes;
-            if (value.date_paid) {
-                this.paymentform.date_paid = moment(String(value.date_paid)).format('YYYY\-MM\-DD');
-            } else {
-                this.paymentform.date_paid = null;
+            if (this.$page.props.auth.position.some(r => ['Treasurer'].includes(r))) {
+                this.showPayment = true;
+                this.paymentform.paymentMonth = value.month;
+                this.paymentform.paymentId = value.id;
+                this.paymentform.payment = value.payment;
+                this.paymentform.notes = value.notes;
+                if (value.date_paid) {
+                    this.paymentform.date_paid = moment(String(value.date_paid)).format('YYYY\-MM\-DD');
+                } else {
+                    this.paymentform.date_paid = null;
+                }
             }
         }
     }

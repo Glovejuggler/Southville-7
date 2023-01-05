@@ -13,10 +13,14 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson()) {
+            return Event::paginate(10);
+        }
+
         return inertia('Events/Index', [
-            'events' => Event::query()->latest()->paginate(10),
+            'events' => Event::paginate(10),
         ]);
     }
 

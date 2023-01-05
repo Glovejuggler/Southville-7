@@ -12,8 +12,12 @@ class LoanableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson()) {
+            return Loanable::paginate(10);
+        }
+        
         return inertia('Loan Services/Index', [
             'loanables' => Loanable::paginate(10),
         ]);

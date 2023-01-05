@@ -1,5 +1,6 @@
 <template>
-  <div v-if="width > 768" class="sidebar dark:bg-zinc-900" :class="isOpened ? 'open' : ''" :style="cssVars">
+  <div v-if="width > 768" class="sidebar dark:bg-zinc-900 bg-theme-800" :class="isOpened ? 'open' : ''"
+    :style="cssVars">
     <div class="logo-details" style="margin: 6px 14px 0 14px;">
       <img v-if="menuLogo" :src="menuLogo" alt="menu-logo" class="menu-logo icon">
       <i v-else class="bx icon" :class="menuIcon" />
@@ -22,8 +23,8 @@
               <span class="links_name">{{ menuItem.name }}</span>
               </Link>
               <span class="tooltip">{{
-    menuItem.tooltip
-}}</span>
+                menuItem.tooltip
+              }}</span>
             </li>
           </span>
         </ul>
@@ -37,10 +38,11 @@
               {{ $page.props.auth.user.name }}
             </div>
             <div class="job">
-              {{ $page.props.auth.user.id === 1 ?
-    'Superuser' : $page.props.auth.position.length ?
-      $page.props.auth.position[0] : 'Member'
-}}
+              {{
+                $page.props.auth.user.id === 1 ?
+                  'Superuser' : $page.props.auth.position.length ?
+                    $page.props.auth.position[0] : 'Member'
+              }}
             </div>
           </div>
         </div>
@@ -195,7 +197,7 @@ export default {
     //! Styles
     bgColor: {
       type: String,
-      default: '#4A2C2A',
+      default: '#012129',
     },
     secondaryColor: {
       type: String,
@@ -315,7 +317,6 @@ main {
   min-height: min-content;
   /* overflow-y: auto; */
   width: 78px;
-  background: var(--bg-color);
   /* padding: 6px 14px 0 14px; */
   z-index: 30;
   transition: all 0.5s ease;
@@ -440,7 +441,6 @@ main {
   align-items: center;
   text-decoration: none;
   transition: all 0.4s ease;
-  background: var(--bg-color);
 }
 
 .sidebar li a.active {

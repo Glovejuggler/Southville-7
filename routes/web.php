@@ -86,6 +86,11 @@ Route::get('/dashboard', function () {
                                         ->get(),
             'savings_transactions' => Saving::where('member_id', Auth::user()->member_id)->latest()->paginate(10),
             'share_transactions' => ShareCapital::where('member_id', Auth::user()->member_id)->latest()->paginate(10),
+            'loan' => Loan::where('member_id','=',Auth::user()->member_id)->with('payments')->latest()->first(),
+            'bal' => Loan::where('member_id','=',Auth::user()->member_id)->with('payments')->latest()->first()?->receivable - Loan::where('member_id','=',Auth::user()->member_id)->with('payments')->latest()->first()?->total_payments(),
+            'history' => Loan::onlyTrashed()
+                                ->where('member_id', Auth::user()->member_id)
+                                ->get(),
         ]);
     }
 })->middleware(['auth', 'verified'])->name('dashboard');

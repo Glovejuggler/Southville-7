@@ -9,9 +9,10 @@
                     <!--body-->
                     <div class="relative">
                         <img :src="`/${shownImage}`" alt=""
-                            class="relative max-w-4xl max-h-[80vh] object-contain bg-white">
+                            class="relative max-w-[90vw] lg:max-w-4xl max-h-[80vh] object-contain bg-white">
                     </div>
-                    <a v-if="$page.props.auth.is_admin" :href="route('file.download', fileId)"
+                    <a v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
+                        :href="route('file.download', fileId)"
                         class="flex text-gray-300 hover:text-white hover:underline font-semibold cursor-pointer">
                         Download
                     </a>

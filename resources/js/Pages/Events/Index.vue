@@ -27,48 +27,32 @@
 
     <div class="py-8">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
-            <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
-                <div class="p-6 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-0">
-                    <table class="table-fixed w-full text-sm whitespace-nowrap">
-                        <thead>
-                            <tr class="uppercase text-left dark:text-white/80">
-                                <th class="px-3">Title</th>
-                                <th class="px-3">Date</th>
-                                <th class="px-3">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="event in events.data"
-                                class="hover:bg-neutral-200 dark:hover:bg-white/10 group dark:text-white/90">
-                                <td class="rounded-l-lg">
-                                    <Link class="flex p-3" :href="route('events.edit', event)">
-                                    {{ event.title }}
-                                    </Link>
-                                </td>
-                                <td class="">
-                                    <Link class="flex p-3" :href="route('events.edit', event)">
-                                    {{ format_dateMDY(event.date) }}
-                                    </Link>
-                                </td>
-                                <td class="rounded-r-lg">
-                                    <Link class="flex p-3" :href="route('events.edit', event)">
-                                    {{ event.status }}
-                                    </Link>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <Pagination class="mt-6" :links="events.links" />
+            <InfiniteScroll :loadMore="loadMoreEvents" v-if="visibleEvents.data.length">
+                <div class="flex flex-col space-y-3">
+                    <Link v-for="event in visibleEvents.data" :href="route('events.edit', event)"
+                        class="bg-white rounded-lg p-3 border border-transparent hover:border-theme-800 active:border-theme-800">
+                    <span class="font-semibold text-theme-800">{{ event.title }}</span>
+                    <div class="flex lg:flex-row lg:justify-between lg:w-1/4 flex-col">
+                        <div class="text-sm">{{ format_dateMDY(event.date) }}</div>
+                        <div class="text-sm">{{ event.status }}</div>
+                    </div>
+                    </Link>
                 </div>
-            </div>
+            </InfiniteScroll>
+            <div v-if="!visibleEvents.data.length" class="italic">Create new event using the Add button</div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            visibleEvents: this.events
+        }
+    },
     props: {
-        events: Object
+        events: Object,
     },
     methods: {
         format_dateMDY(value) {
@@ -76,11 +60,23 @@ export default {
                 return moment(String(value)).format('MMMM D, YYYY')
             }
         },
+        loadMoreEvents() {
+            if (!this.visisbleEvents.next_page_url) {
+                return Promise.resolve();
+            }
+
+            return axios.get(this.visisbleEvents.next_page_url).then(response => {
+                this.visisbleEvents = {
+                    ...response.data,
+                    data: [...this.visisbleEvents.data, ...response.data.data]
+                }
+            });
+        }
     }
 }
 </script>
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import Pagination from '@/Components/Pagination.vue';
+import InfiniteScroll from '@/Components/InfiniteScroll.vue';
 import moment from 'moment';
 </script>

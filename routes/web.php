@@ -23,6 +23,7 @@ use App\Http\Controllers\SavingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\LoanableController;
 use App\Http\Controllers\SubsidiaryController;
+use App\Http\Controllers\BeneficiaryController;
 use App\Http\Controllers\ShareCapitalController;
 
 /*
@@ -136,6 +137,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/archive/post/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
 
     Route::resource('photo', PhotoController::class);
+
+    Route::post('/beneficiary/store', [BeneficiaryController::class, 'store'])->name('beneficiaries.store');
+    Route::get('/member/{member}/beneficiaries', [BeneficiaryController::class, 'edit'])->name('beneficiaries.edit');
+    Route::put('/beneficiary/{beneficiary}/update', [BeneficiaryController::class, 'update'])->name('beneficiaries.update');
+    Route::delete('/beneficiary/{beneficiary}/delete', [BeneficiaryController::class, 'destroy'])->name('beneficiaries.destroy');
 });
 
 require __DIR__.'/auth.php';

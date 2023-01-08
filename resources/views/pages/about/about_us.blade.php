@@ -6,9 +6,9 @@
         <div class="bg-white rounded-lg p-8 lg:w-9/12">
             <span class="font-bold text-xl block text-theme-900">About us</span>
 
-            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas fugit unde corporis possimus, optio
-                maiores! Error magnam quia odio officiis impedit aliquam provident quos voluptatem! Maiores illo rem sed
-                eos.</span>
+            <span class="mt-4">We are Southville 7 Credit Cooperative. We aim to build a wonderful community within
+                Southville 7 residence, and
+                eventually spread our ideals to other people and communities.</span>
         </div>
         @include('pages.about.partials.contents')
     </div>

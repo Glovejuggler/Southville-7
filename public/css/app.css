@@ -731,9 +731,6 @@ select {
 .left-0 {
   left: 0px;
 }
-.bottom-0 {
-  bottom: 0px;
-}
 .right-0\.5 {
   right: 0.125rem;
 }
@@ -2994,20 +2991,6 @@ select {
 
   .lg\:text-\[64px\] {
     font-size: 64px;
-  }
-
-  .lg\:transition-all {
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-  }
-
-  .lg\:duration-200 {
-    transition-duration: 200ms;
-  }
-
-  .lg\:ease-in-out {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 

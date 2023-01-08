@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Beneficiary;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,22 @@ class BeneficiaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'relation' => 'required',
+            'birthday' => 'required|date',
+            'phone' => 'required',
+        ]);
+
+        $beneficiary = Beneficiary::create([
+            'member_id' => $request->member_id,
+            'name' => $request->name,
+            'relation' => $request->relation,
+            'birthday' => $request->birthday,
+            'phone' => $request->phone,
+        ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -55,9 +71,12 @@ class BeneficiaryController extends Controller
      * @param  \App\Models\Beneficiary  $beneficiary
      * @return \Illuminate\Http\Response
      */
-    public function edit(Beneficiary $beneficiary)
+    public function edit(Member $member)
     {
-        //
+        return inertia('Beneficiary/Edit', [
+            'beneficiaries' => Beneficiary::where('member_id',$member->id)->get(),
+            'member' => $member
+        ]);
     }
 
     /**
@@ -69,7 +88,15 @@ class BeneficiaryController extends Controller
      */
     public function update(Request $request, Beneficiary $beneficiary)
     {
-        //
+        // dd($request);
+        $beneficiary->update([
+            'name' => $request->name,
+            'relation' => $request->relation,
+            'birthday' => $request->birthday,
+            'phone' => $request->phone,
+        ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -80,6 +107,8 @@ class BeneficiaryController extends Controller
      */
     public function destroy(Beneficiary $beneficiary)
     {
-        //
+        $beneficiary->delete();
+
+        return redirect()->back();
     }
 }

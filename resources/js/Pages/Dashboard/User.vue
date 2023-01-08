@@ -51,7 +51,7 @@
                     <span class="font-bold text-5xl">₱ {{ self.share_capital }}</span>
                 </div>
             </div>
-            <div @click="page = 'Loan'"
+            <div @click="page = 'Loan'" v-if="loan"
                 class="bg-white rounded-lg p-3 lg:mt-0 mt-4 cursor-pointer border border-transparent hover:border-theme-800 col-span-2 flex justify-between items-center">
                 <span>Loans</span>
                 <i class="bx bx-chevron-right text-2xl"></i>

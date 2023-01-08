@@ -90,7 +90,13 @@
                 </div>
 
                 <div class="mt-3">
-                    <div class="font-semibold">Beneficiaries</div>
+                    <div class="flex items-center space-x-4">
+                        <span class="font-semibold">Beneficiaries</span>
+                        <Link :href="route('beneficiaries.edit', member)" class="hover:text-green-500">
+                        <i
+                            class="bx bx-edit text-xl rounded-full h-8 w-8 hover:bg-black/10 p-2 inline-flex items-center justify-center"></i>
+                        </Link>
+                    </div>
                     <div class="hidden lg:flex">
                         <table class="table-fixed lg:w-3/4 w=full text-left" v-if="beneficiaries.length">
                             <thead class="font-semibold text-xs">
@@ -161,9 +167,9 @@
                         [&>div>img]:hover:opacity-75
                         rounded-lg">
                         <div class="relative h-48 rounded-lg overflow-hidden content-center">
-                            <img :src="`../${pic.path}`"
+                            <img :src="`../${pic.path}`" height="50%" width="50%"
                                 class="z-20 absolute h-full w-full bg-white object-cover rounded-lg ease-in-out duration-300"
-                                @click.self="toggleModal(pic.path, pic.id)">
+                                @click.self="toggleModal(pic.path, pic.id)" @contextmenu.prevent="">
                             <div class="z-10 absolute bg-black w-full h-full">
                             </div>
                             <div v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"

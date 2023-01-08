@@ -1,4 +1,4 @@
-<div class="{{ Route::is('home') ? 'bg-transparent' : 'bg-white' }} z-50 fixed top-0 left-0 right-0 lg:transition-all lg:duration-200 lg:ease-in-out"
+<div class="{{ Route::is('home') ? 'bg-transparent' : 'bg-white' }} z-50 fixed top-0 left-0 right-0 transition-all duration-200 ease-in-out"
     id="nav">
     <div class="max-w-screen-2xl mx-auto py-0 px-4 lg:px-8">
         <div class="flex flex-wrap justify-between items-center my-0 py-0">
@@ -46,7 +46,8 @@
     </div>
 </div>
 
-<div id="mobileNav" class="bg-white fixed left-0 right-0 bottom-0 top-0 mt-[68px] hidden flex-col overflow-y-auto pt-4">
+<div id="mobileNav"
+    class="bg-white fixed inset-0 mt-[68px] hidden flex-col overflow-y-auto pt-4 transition-all duration-200 ease-in-out">
     <a href="{{ route('home') }}"
         class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Home</a>
     <a href="{{ route('about') }}"

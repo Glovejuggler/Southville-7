@@ -19,7 +19,8 @@
     <div class="grid gap-2 lg:grid-cols-4 grid-cols-2">
         @forelse ($post->photos as $photo)
         <div onclick="viewPhoto({{ $loop->index }})" class="rounded-lg overflow-hidden cursor-pointer">
-            <img class="rounded-lg hover:scale-125 ease-in-out duration-200 object-cover h-48 w-full"
+            <img oncontextmenu="return false;"
+                class="rounded-lg hover:scale-125 ease-in-out duration-200 object-cover h-48 w-full"
                 src="../../{{ $photo->path }}" alt="">
         </div>
         @empty

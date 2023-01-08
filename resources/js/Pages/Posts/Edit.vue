@@ -48,7 +48,7 @@
                                                 [&>div>img]:hover:opacity-75
                                                 rounded-lg">
                                     <div class="relative h-48 rounded-lg overflow-hidden content-center">
-                                        <img :src="`../../${pic.path}`"
+                                        <img :src="`../../${pic.path}`" @contextmenu.prevent=""
                                             class="z-20 absolute h-full w-full bg-white object-cover rounded-lg ease-in-out duration-300"
                                             @click.self="toggleModal(pic.path, pic.id)">
                                         <div class="z-10 absolute bg-black w-full h-full">

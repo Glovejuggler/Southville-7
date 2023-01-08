@@ -2,14 +2,14 @@
     id="nav">
     <div class="max-w-screen-2xl mx-auto py-0 px-4 lg:px-8">
         <div class="flex flex-wrap justify-between items-center my-0 py-0">
-            <a href="{{ route('home') }}" class="font-semibold text-xl text-theme-800 my-5" id="title">
-                Southville 7
+            <a href="{{ route('home') }}" class="my-3 duration-200 transition-all ease-in-out h-12 w-12" id="title">
+                <img src="{{ asset('images/logo.png') }}" alt="">
             </a>
-            <div class="hidden lg:block ">
+            <div class="hidden lg:block">
                 <a href="{{ route('home') }}"
-                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 nav-link {{ Route::is('home') ? 'font-bold' : '' }}">Home</a>
+                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 nav-link {{ Route::is('home') ? 'font-bold' : '' }} transition-all duration-200 ease-in-out">Home</a>
                 <a href="{{ route('about') }}"
-                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} peer/about px-3 py-6 mx-2 {{ Route::is('about*') ? 'font-bold' : '' }} nav-link">About
+                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} peer/about px-3 py-6 mx-2 {{ Route::is('about*') ? 'font-bold' : '' }} nav-link transition-all duration-200 ease-in-out">About
                     Us
                 </a>
                 {{-- @if (!Route::is('about*'))
@@ -29,11 +29,11 @@
                 </div>
                 @endif --}}
                 <a href="{{ route('events') }}"
-                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('events*') ? 'font-bold' : '' }} nav-link">Events</a>
+                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('events*') ? 'font-bold' : '' }} nav-link transition-all duration-200 ease-in-out">Events</a>
                 <a href="{{ route('contacts') }}"
-                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('contacts') ? 'font-bold' : '' }} nav-link">Contacts</a>
+                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('contacts') ? 'font-bold' : '' }} nav-link transition-all duration-200 ease-in-out">Contacts</a>
                 <a href="{{ route('login') }}" id="login"
-                    class="px-4 py-2 rounded-3xl mx-2 transition ease-in-out duration-200 border-2 {{ Auth::check() ? 'text-xs' : '' }} {{ Route::is('home') ? 'text-white border-white hover:bg-white hover:text-theme-800' : 'text-black border-black hover:bg-black hover:text-white' }}">{{
+                    class="px-4 py-2 rounded-3xl mx-2 transition-all ease-in-out duration-200 border-2 {{ Auth::check() ? 'text-xs' : '' }} {{ Route::is('home') ? 'text-white border-white hover:bg-white hover:text-theme-800' : 'text-black border-black hover:bg-black hover:text-white' }}">{{
                     Auth::user()->name ?? 'Login' }}</a>
             </div>
             <div class="block lg:hidden">

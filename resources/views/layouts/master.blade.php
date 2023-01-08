@@ -24,7 +24,7 @@
 <body class="font-sans antialiased min-h-screen bg-white flex flex-col">
     @include('layouts.partials.nav')
 
-    <div class="{{ Route::is('home') ? '' : 'mt-[68px]' }}">
+    <div id="content" class="{{ Route::is('home') ? '' : 'mt-[68px]' }} overflow-x-hidden">
         @yield('content')
     </div>
 
@@ -58,6 +58,24 @@
                 document.body.style.height = 'auto';
             }
         }
+
+        window.addEventListener('scroll', function (e) {
+            if (document.documentElement.scrollTop > 50) {
+                document.querySelectorAll('.nav-link').forEach(element => {
+                    element.classList.add('text-sm')
+                });
+                document.querySelector('#title').classList.remove('h-12','w-12')
+                document.querySelector('#title').classList.add('h-10','w-10')
+                document.querySelector('#login').classList.add('text-sm')
+            } else {
+                document.querySelectorAll('.nav-link').forEach(element => {
+                    element.classList.remove('text-sm')
+                });
+                document.querySelector('#title').classList.add('h-12','w-12')
+                document.querySelector('#title').classList.remove('h-10','w-10')
+                document.querySelector('#login').classList.remove('text-sm')
+            }
+        })
     </script>
 
     @yield('scripts')

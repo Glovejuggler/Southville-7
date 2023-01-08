@@ -2,7 +2,7 @@
     <div>
         <slot></slot>
     </div>
-    <div v-if="loading" class="mt-4 mb-8 text-center">
+    <div v-if="loading" class="mt-4 pb-8 text-center">
         <i class="bx bx-loader-alt animate-spin text-3xl text-theme-800"></i>
     </div>
 </template>

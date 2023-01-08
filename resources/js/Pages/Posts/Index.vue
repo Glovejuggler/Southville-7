@@ -39,10 +39,11 @@
                     <div class="flex flex-col">
                         <span class="font-bold">
                             {{ post.title }}
-                            <span class="font-normal ml-5 text-xs opacity-70">{{ format_dateMDY(post.created_at)
-}}</span>
+                            <span class="font-normal ml-5 text-xs opacity-70">{{
+                                format_dateMDY(post.created_at)
+                            }}</span>
                         </span>
-                        <span class="text-sm">{{ post.content.slice(0, 255) }}</span>
+                        <span class="text-sm block line-clamp-3">{{ post.content }}</span>
                     </div>
                 </div>
                 </Link>

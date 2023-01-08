@@ -25,6 +25,11 @@ class PagesController extends Controller
         return view('pages.about.vm');
     }
 
+    public function history()
+    {
+        return view('pages.about.history');
+    }
+
     public function bod()
     {
         return view('pages.about.bod');

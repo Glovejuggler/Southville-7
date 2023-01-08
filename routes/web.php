@@ -51,6 +51,8 @@ Route::get('/about', [PagesController::class, 'about'])->name('about');
 
 Route::get('/about/vm', [PagesController::class, 'vm'])->name('about.vm');
 
+Route::get('/history', [PagesController::class, 'history'])->name('about.history');
+
 Route::get('/board_of_directors', [PagesController::class, 'bod'])->name('about.bod');
 
 Route::get('/contacts', [PagesController::class, 'contacts'])->name('contacts');

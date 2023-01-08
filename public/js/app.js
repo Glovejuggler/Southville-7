@@ -1030,6 +1030,10 @@ var map = {
 		"./resources/js/Pages/Auth/VerifyEmail.vue",
 		"resources_js_Pages_Auth_VerifyEmail_vue"
 	],
+	"./Beneficiary/Edit.vue": [
+		"./resources/js/Pages/Beneficiary/Edit.vue",
+		"resources_js_Pages_Beneficiary_Edit_vue"
+	],
 	"./Clients/Create.vue": [
 		"./resources/js/Pages/Clients/Create.vue",
 		"resources_js_Pages_Clients_Create_vue"

@@ -35,27 +35,20 @@
         function toggleNav() {
             navToggle = !navToggle;
             if (navToggle === true) {
-                document.getElementById('mobileNav').classList.remove('hidden');
+                document.getElementById('mobileNav').classList.remove('translate-x-full');
                 document.getElementById('mobileNav').classList.add('flex');
-                document.getElementById('toggle').classList.add('bg-theme-800');
-                document.getElementById('toggle').classList.add('text-white');
-              	document.querySelector('#nav').classList.add('bg-white');
-              	document.querySelector('#nav').classList.remove('bg-transparent');
-              	document.querySelector('#title').classList.add('text-theme-800');
-              	document.querySelector('#title').classList.remove('text-white');
-                document.body.style.overflow = 'hidden';
-                document.body.style.height = '100vh';
+                toggle.addEventListener('animationend', function() {
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.height = '100vh';
+                    document.body.classList.add('fixed')
+                })
             } else {
                 document.getElementById('mobileNav').classList.remove('flex');
-                document.getElementById('mobileNav').classList.add('hidden');
-                document.getElementById('toggle').classList.remove('bg-theme-800','text-white');
-                document.getElementById('toggle').classList.add('text-theme-800');
-              	document.querySelector('#nav').classList.remove('bg-white');
-              	document.querySelector('#nav').classList.add('bg-transparent');
-              	document.querySelector('#title').classList.remove('text-theme-800');
-              	document.querySelector('#title').classList.add('text-white');
-                document.body.style.overflow = 'auto';
-                document.body.style.height = 'auto';
+                document.getElementById('mobileNav').classList.add('translate-x-full');
+                toggle.addEventListener('animationend', function() {
+                    document.body.style.overflow = 'auto';
+                    document.body.style.height = 'auto';
+                })
             }
         }
 

@@ -56,8 +56,8 @@
                     <Link @click="isDropdownOpen = false" :href="route('logout')" method="post"
                         class="py-4 px-2 hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white flex items-center group">
                     Logout<span class="px-2 text-xs text-black/50 group-hover:text-white group-active:text-white">({{
-        $page.props.auth.user.name
-                        }})</span>
+                        $page.props.auth.user.name
+                    }})</span>
                     </Link>
 
                 </ul>
@@ -68,16 +68,20 @@
             </main>
         </div>
     </div>
+
+    <ToastList />
 </template>
 
 <script>
 import SidebarMenuAkahon from '@/Components/Sidebar-menu-akahon.vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import ToastList from '@/Components/ToastList.vue';
 
 export default {
     components: {
         SidebarMenuAkahon,
-        Link
+        Link,
+        ToastList
     },
     data() {
         return {

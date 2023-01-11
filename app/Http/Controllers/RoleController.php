@@ -89,9 +89,15 @@ class RoleController extends Controller
         ]);
 
         if (Gate::allows('isAdmin')) {
-            return redirect()->back();
+            return redirect()->back()->with([
+                'type' => 'success',
+                'message' => 'Assigned member successfully'
+            ]);
         } else {
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->with([
+                'type' => 'success',
+                'message' => 'Assigned member successfully'
+            ]);
         }
     }
 

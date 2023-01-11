@@ -77,7 +77,10 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with([
+            'type' => 'success', 
+            'message' => 'Post added successfully'
+        ]);
     }
 
     /**
@@ -124,7 +127,10 @@ class PostController extends Controller
 
         $post->update();
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with([
+            'type' => 'success',
+            'message' => 'Edit successful'
+        ]);
     }
 
     /**
@@ -139,6 +145,9 @@ class PostController extends Controller
 
         Photo::where('post_id',$post->id)->delete();
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with([
+            'type' => 'error',
+            'message' => 'Post deleted'
+        ]);
     }
 }

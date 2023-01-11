@@ -45,16 +45,37 @@ class PagesController extends Controller
         return view('pages.events.index', [
             'events' => Event::where('status', 'Upcoming')
                                 ->where('date','>=',now())
-                                ->get(),
-            'posts' => Post::latest()->get(),
+                                ->paginate(5),
+            'posts' => Post::latest()->paginate(5),
+        ]);
+    }
+
+    public function event(Event $event)
+    {
+        return view('pages.events.view', [
+            'event' => $event
+        ]);
+    }
+
+    public function events_archive()
+    {
+        return view('pages.events.archive', [
+            'events' => Event::where('status', 'Done')->paginate(10)
+        ]);
+    }
+
+    public function stories()
+    {
+        return view('pages.posts.index', [
+            'posts' => Post::latest()->paginate(10)
         ]);
     }
 
     public function post(Post $post)
     {
-        // dd($post);
         return view('pages.posts.view', [
-            'post' => $post
+            'post' => $post,
+            'latests' => Post::latest()->take(5)->get(),
         ]);
     }
 }

@@ -82,6 +82,9 @@ class UserController extends Controller
             'password' => Hash::make($request->confirmpassword)
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with([
+            'type' => 'success',
+            'message' => 'Password changed'
+        ]);
     }
 }

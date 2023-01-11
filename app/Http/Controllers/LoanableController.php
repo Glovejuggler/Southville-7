@@ -56,7 +56,10 @@ class LoanableController extends Controller
             'requirement' => $request->requirement,
         ]);
         
-        return redirect()->route('loanables.index');
+        return redirect()->route('loanables.index')->with([
+            'type' => 'success',
+            'message' => 'Loan service added'
+        ]);
     }
 
     /**
@@ -106,7 +109,10 @@ class LoanableController extends Controller
 
         $loanable->update();
 
-        return redirect()->route('loanables.index');
+        return redirect()->route('loanables.index')->with([
+            'type' => 'success', 
+            'message' => 'Edit successful'
+        ]);
     }
 
     /**
@@ -119,6 +125,9 @@ class LoanableController extends Controller
     {
         $loanable->delete();
 
-        return redirect()->route('loanables.index');
+        return redirect()->route('loanables.index')->with([
+            'type' => 'error', 
+            'message' => 'Loan service deleted'
+        ]);
     }
 }

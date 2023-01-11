@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Member;
 use App\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,9 +33,9 @@ class Loan extends Model
     /**
      * Relations
      */
-    public function client()
+    public function member()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Member::class);
     }
 
     public function payments()

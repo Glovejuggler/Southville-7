@@ -58,7 +58,11 @@ Route::get('/board_of_directors', [PagesController::class, 'bod'])->name('about.
 Route::get('/contacts', [PagesController::class, 'contacts'])->name('contacts');
 
 Route::get('/coop_events', [PagesController::class, 'events'])->name('events');
-Route::get('/event/archive/{post}', [PagesController::class, 'post'])->name('archive');
+Route::get('/event/view/{event}', [PagesController::class, 'event'])->name('viewevent');
+Route::get('/event/archive', [PagesController::class, 'events_archive'])->name('archive');
+
+Route::get('/stories', [PagesController::class, 'stories'])->name('stories');
+Route::get('/story/{post}', [PagesController::class, 'post'])->name('story');
 
 Route::get('/dashboard', function () {
     if (Gate::allows('isAdmin')) {
@@ -140,6 +144,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('photo', PhotoController::class);
 
+    // Beneficiary
     Route::post('/beneficiary/store', [BeneficiaryController::class, 'store'])->name('beneficiaries.store');
     Route::get('/member/{member}/beneficiaries', [BeneficiaryController::class, 'edit'])->name('beneficiaries.edit');
     Route::put('/beneficiary/{beneficiary}/update', [BeneficiaryController::class, 'update'])->name('beneficiaries.update');

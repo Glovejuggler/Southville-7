@@ -61,14 +61,14 @@ export default {
             }
         },
         loadMoreEvents() {
-            if (!this.visisbleEvents.next_page_url) {
+            if (!this.visibleEvents.next_page_url) {
                 return Promise.resolve();
             }
 
-            return axios.get(this.visisbleEvents.next_page_url).then(response => {
-                this.visisbleEvents = {
+            return axios.get(this.visibleEvents.next_page_url).then(response => {
+                this.visibleEvents = {
                     ...response.data,
-                    data: [...this.visisbleEvents.data, ...response.data.data]
+                    data: [...this.visibleEvents.data, ...response.data.data]
                 }
             });
         }

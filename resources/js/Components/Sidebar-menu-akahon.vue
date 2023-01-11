@@ -40,7 +40,7 @@
             <div class="job">
               {{
                 $page.props.auth.user.id === 1 ?
-                  'Superuser' : $page.props.auth.position.length ?
+                  'Admin' : $page.props.auth.position.length ?
                     $page.props.auth.position[0] : 'Member'
               }}
             </div>
@@ -538,7 +538,6 @@ main {
 .sidebar.open .profile #log_out {
   width: 50px;
   /* background: var(--secondary-color); */
-  opacity: 0;
 }
 
 .sidebar.open .profile:hover #log_out {
@@ -547,11 +546,11 @@ main {
 
 .sidebar.open .profile #log_out:hover {
   opacity: 1;
-  color: red;
+  color: #ed7464;
 }
 
 .sidebar .profile #log_out:hover {
-  color: red;
+  color: #ed7464;
 }
 
 .home-section {

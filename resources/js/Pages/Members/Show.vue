@@ -188,6 +188,11 @@
         </div>
     </div>
 
+    <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 flex justify-end pb-4">
+        <button type="button" @click="this.showMemberDeletionModal = true"
+            class="rounded-lg py-2 px-4 uppercase font-semibold text-xs text-red-600 border border-red-600 hover:text-white hover:bg-red-600 duration-200 ease-in-out">Delete
+            member</button>
+    </div>
     <!-- Image modal -->
     <ShowImage ref="showImageModal" />
 
@@ -230,6 +235,48 @@
             enter-to-class="opacity-100" leave-active-class="duration-200 ease opacity-90" leave-from-class="opacity-90"
             leave-to-class="transform opacity-0" appear>
             <div v-if="showAccountCreateModal" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-md"></div>
+        </Transition>
+    </div>
+
+    <!-- Confirm member deletion modal -->
+    <div>
+        <Transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0 scale-75"
+            enter-to-class="opacity-100 scale-100" leave-active-class="duration-200 ease-out"
+            leave-from-class="opacity-100 scale-100" leave-to-class="transform opacity-0 scale-75">
+            <div v-if="showMemberDeletionModal"
+                class="overflow-auto inset-0 fixed z-50 h-screen w-screen flex justify-center items-center"
+                @click.self="this.showMemberDeletionModal = false">
+                <div class="relative bg-white dark:bg-zinc-900 w-auto h-auto max-h-[80%] p-6 rounded-lg">
+                    <div v-if="!account.processing">
+                        <div>
+                            <span class="font-bold text-lg block mb-2">Confirmation</span>
+                            <div class="font-normal text-sm">Are you sure you want to delete this member: <span
+                                    class="font-semibold text-theme-800">{{
+                                        member.name
+                                    }}</span>?</div>
+                            <div class="text-sm italic">
+                                This action cannot be undone
+                            </div>
+                        </div>
+                        <div class="flex justify-end mt-6">
+                            <button class="mx-2 text-sm hover:underline"
+                                @click="this.showMemberDeletionModal = false">Cancel</button>
+                            <button type="button" @click="this.$inertia.delete(route('members.destroy', member), {
+                                preserveScroll: true,
+                                preserveState: false,
+                                onSuccess: () => this.showMemberDeletionModal = false
+                            })"
+                                class="mx-2 p-3 bg-red-600 hover:bg-red-700 active:bg-red-900 text-white text-sm rounded-lg flex items-center">
+                                Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+        <Transition enter-active-class="duration-200 ease opacity-0" enter-from-class="opacity-0"
+            enter-to-class="opacity-100" leave-active-class="duration-200 ease opacity-90" leave-from-class="opacity-90"
+            leave-to-class="transform opacity-0" appear>
+            <div v-if="showMemberDeletionModal" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-md"></div>
         </Transition>
     </div>
 </template>
@@ -311,6 +358,7 @@ export default {
     data() {
         return {
             showAccountCreateModal: false,
+            showMemberDeletionModal: false,
         }
     }
 }

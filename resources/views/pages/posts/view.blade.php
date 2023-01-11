@@ -1,33 +1,64 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-    {{-- Title --}}
-    <div class="font-bold text-2xl text-theme-800 mb-6">
-        {{ $post->title }}
-    </div>
-
-    {{-- Content --}}
-    <div>
-        <span>{!! nl2br($post->content) !!}</span>
-    </div>
-
-    {{-- Gallery/Photos --}}
-    <div class="font-bold text-lg text-theme-800 my-6">
-        Gallery
-    </div>
-    <div class="grid gap-2 lg:grid-cols-4 grid-cols-2">
-        @forelse ($post->photos as $photo)
-        <div onclick="viewPhoto({{ $loop->index }})" class="rounded-lg overflow-hidden cursor-pointer">
-            <img oncontextmenu="return false;"
-                class="rounded-lg hover:scale-125 ease-in-out duration-200 object-cover h-48 w-full"
-                src="../../{{ $photo->path }}" alt="">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:flex">
+    <div class="lg:w-9/12">
+        {{-- Title --}}
+        <div class="font-bold text-2xl text-theme-800 mb-6">
+            {{ $post->title }}
         </div>
+
+        {{-- Content --}}
+        <div class="text-justify">
+            <span>{!! nl2br($post->content) !!}</span>
+        </div>
+
+        {{-- Gallery/Photos --}}
+        <div class="font-bold text-lg text-theme-800 my-6">
+            Gallery
+        </div>
+        <div class="grid gap-2 lg:grid-cols-4 grid-cols-2">
+            @forelse ($post->photos as $photo)
+            <div onclick="viewPhoto({{ $loop->index }})" class="rounded-lg overflow-hidden cursor-pointer">
+                <img oncontextmenu="return false;"
+                    class="rounded-lg hover:scale-125 ease-in-out duration-200 object-cover h-48 w-full"
+                    src="../../{{ $photo->path }}" alt="">
+            </div>
+            @empty
+            No photos
+            @endforelse
+        </div>
+    </div>
+
+    {{-- Latest posts --}}
+    <div class="w-full p-8 lg:w-3/12">
+        <div class="font-semibold text-white bg-theme-800 py-2 text-sm text-center">Latest</div>
+        @forelse ($latests as $latest)
+        <a href="{{ route('story', $latest) }}"
+            class="px-2 py-4 hover:bg-black/5 flex flex-col border border-b-theme-900 border-x-transparent border-t-transparent">
+            <div class="text-theme-800 font-semibold">
+                {{ $latest->created_at->isoformat('MMMM D, YYYY') }}
+            </div>
+            <div class="text-sm">
+                {{ $latest->title }}
+            </div>
+        </a>
         @empty
-        No photos
+        <span class="italic opacity-70">No latest posts</span>
         @endforelse
     </div>
 </div>
+
+{{-- Back to stories --}}
+<div class="max-w-7xl mx-auto px-6 lg:px-8 mb-8">
+    <a href="{{ route('stories') }}"
+        class="w-full lg:w-9/12 rounded-lg py-3 px-5 uppercase bg-theme-800 hover:bg-theme-600 hover:px-2 duration-300 ease-in-out active:bg-theme-900 flex items-center justify-between text-white font-semibold">
+        <i class="bx bxs-left-arrow place-self-left"></i>
+        <span>stories</span>
+        <p></p>
+    </a>
+</div>
+
 
 <div id="viewPhoto" class="fixed inset-0 z-50 h-screen justify-center items-center hidden">
     <div class="relative">

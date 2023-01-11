@@ -89,7 +89,10 @@ class MemberController extends Controller
             ]);
         }
 
-        return redirect()->route('members.show', $member->id);
+        return redirect()->route('members.show', $member->id)->with([
+            'type' => 'success', 
+            'message' => 'Member added successfully'
+        ]);
     }
 
     /**
@@ -166,7 +169,10 @@ class MemberController extends Controller
 
         $member->update();
 
-        return redirect()->route('members.show', $member->id);
+        return redirect()->route('members.show', $member->id)->with([
+            'type' => 'success',
+            'message' => 'Edit successful'
+        ]);
     }
 
     /**
@@ -179,6 +185,9 @@ class MemberController extends Controller
     {
         $member->delete();
 
-        return redirect()->route('members.index');
+        return redirect()->route('members.index')->with([
+            'type' => 'error',
+            'message' => 'Member deleted'
+        ]);
     }
 }

@@ -55,7 +55,10 @@ class EventController extends Controller
             'status' => 'Upcoming',
         ]);
 
-        return redirect()->route('events.index');
+        return redirect()->route('events.index')->with([
+            'type' => 'success', 
+            'message' => 'Event added successfully'
+        ]);
     }
 
     /**
@@ -107,10 +110,16 @@ class EventController extends Controller
         $event->update();
 
         if ($request->status == 'Done' && $request->post) {
-            return redirect()->route('post.create', $event->id);
+            return redirect()->route('post.create', $event->id)->with([
+                'type' => 'success',
+                'message' => 'Edit successful'
+            ]);
         }
 
-        return redirect()->route('events.index');
+        return redirect()->route('events.index')->with([
+            'type' => 'success',
+            'message' => 'Edit successful'
+        ]);
     }
 
     /**
@@ -121,6 +130,11 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+
+        return redirect()->route('events.index')->with([
+            'type' => 'error',
+            'message' => 'Event deleted'
+        ]);
     }
 }

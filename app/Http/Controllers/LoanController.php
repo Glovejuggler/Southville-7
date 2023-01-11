@@ -119,9 +119,13 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function show(Loan $loan)
+    public function show($id)
     {
-        //
+        $loan = Loan::onlyTrashed()->with('payments')->find($id);
+        return inertia('Loan/View', [
+            'loan' => $loan,
+            'member' => $loan->member
+        ]);
     }
 
     /**

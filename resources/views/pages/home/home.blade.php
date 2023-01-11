@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="lg:h-screen h-auto bg-theme-800 overflow-hidden relative flex items-center lg:justify-start justify-center"
+<div class="h-screen bg-theme-800 overflow-hidden relative flex items-center lg:justify-start justify-center"
     id="header">
     <div class="bg-theme-800 opacity-80 z-40 w-full h-full absolute"></div>
     <img id="header-img" src="{{ asset('images/bg_1.jpg') }}"
-        class="z-30 w-full absolute object-cover transition-all duration-500 ease-in-out animate-fade-in" alt="">
+        class="z-30 w-full h-full absolute object-cover transition-all duration-500 ease-in-out animate-fade-in" alt="">
     <div class="z-40 lg:my-0 my-10">
         <div class="text-white lg:text-7xl text-3xl leading-tight font-semibold mx-96 animate-fade-in">Southville 7
             Credit
@@ -75,7 +75,7 @@
             <div class="mt-4 flex flex-col md:flex-row justify-center space-y-2 md:space-y-0 md:space-x-2 transition-all -translate-x-1/3 opacity-0 duration-[1500ms] ease-out"
                 id="posts">
                 @foreach ($stories as $story)
-                <a href="{{ route('archive', $story) }}"
+                <a href="{{ route('story', $story) }}"
                     class="group hover:-translate-y-2 hover:shadow-lg duration-300 ease-in-out transition-all border bg-white border-theme-800 p-0 rounded-lg w-full md:w-1/3">
                     <div class="overflow-hidden h-48 rounded-t-lg">
                         @if ($story->photos->count())
@@ -98,7 +98,7 @@
     </div>
     <div class="max-w-7xl mx-auto text-center">
         <a class="mt-4 border border-theme-800 hover:bg-theme-800 hover:text-white duration-300 ease-in-out p-3"
-            href="{{ route('events') }}">
+            href="{{ route('stories') }}">
             See more
         </a>
     </div>
@@ -144,9 +144,9 @@
 
     const nav = document.querySelector('#nav');
     const head = document.querySelector('#header');
-    const title = document.querySelector('#title');
     const navlinks = document.querySelectorAll('.nav-link');
     const login = document.querySelector('#login');
+    const toggle = document.querySelector('#toggle');
 
     const options = {
         root: null,
@@ -159,25 +159,25 @@
             if(!entry.isIntersecting) {
                 nav.classList.remove('bg-transparent')
                 nav.classList.add('bg-white', 'shadow-md')
-                title.classList.add('text-theme-800')
-                title.classList.remove('text-white')
                 navlinks.forEach(element => {
                     element.classList.remove('text-white')
                     element.classList.add('text-theme-800')
                 });
                 login.classList.remove('border-white', 'text-white', 'hover:bg-white', 'hover:text-theme-800')
                 login.classList.add('border-black', 'text-black', 'hover:bg-black', 'hover:text-white')
+                toggle.classList.remove('text-white', 'border-white')
+                toggle.classList.add('text-theme-800', 'border-theme-800')
             } else {
                 nav.classList.add('bg-transparent')
                 nav.classList.remove('bg-white', 'shadow-md')
-                title.classList.add('text-white')
-                title.classList.remove('text-theme-800')
                 navlinks.forEach(element => {
                     element.classList.remove('text-theme-800')
                     element.classList.add('text-white')
                 });
                 login.classList.add('border-white', 'text-white', 'hover:bg-white', 'hover:text-theme-800')
                 login.classList.remove('border-black', 'text-black', 'hover:bg-black', 'hover:text-white')
+                toggle.classList.add('text-white', 'border-white')
+                toggle.classList.remove('text-theme-800', 'border-theme-800')
             }
         });
     }, options);

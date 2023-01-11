@@ -1,6 +1,5 @@
 <script setup>
 import BreezeButton from '@/Components/Button.vue';
-import BreezeCheckbox from '@/Components/Checkbox.vue';
 import BreezeGuestLayout from '@/Layouts/Guest.vue';
 import BreezeInput from '@/Components/Input.vue';
 import BreezeLabel from '@/Components/Label.vue';
@@ -31,6 +30,13 @@ const submit = () => {
 
         <Head title="Log in" />
 
+        <div class="flex justify-center">
+            <img src="../../../../public/images/logo-large.png" class="h-48 w-48" alt="">
+        </div>
+        <div class="flex justify-center mt-2 font-bold text-theme-800 text-lg">
+            Login
+        </div>
+
         <BreezeValidationErrors class="mb-4" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -50,13 +56,17 @@ const submit = () => {
                     autocomplete="current-password" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <BreezeButton type="submit" class="ml-4" :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing">
+            <div class="flex items-center mt-4">
+                <BreezeButton type="submit" class="w-full flex justify-center"
+                    :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </BreezeButton>
             </div>
         </form>
+
+        <div class="mt-3 flex justify-center">
+            <a :href="route('home')" class="text-theme-300 underline">Back to home</a>
+        </div>
     </BreezeGuestLayout>
 </template>
 

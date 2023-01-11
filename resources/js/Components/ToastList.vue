@@ -1,0 +1,35 @@
+<script setup>
+import Toast from './Toast.vue';
+import { onUnmounted, onMounted } from 'vue';
+import { usePage } from '@inertiajs/inertia-vue3';
+import { Inertia } from '@inertiajs/inertia';
+import toast from '@/Stores/toast';
+
+function remove(index) {
+    toast.remove(index)
+}
+
+const page = usePage();
+
+let removeFinishEventListener = Inertia.on('finish', () => {
+    if (page.props.value.flash.message) {
+        toast.add({
+            message: page.props.value.flash.message,
+            type: page.props.value.flash.type
+        })
+    }
+})
+
+onUnmounted(() => {
+    removeFinishEventListener();
+});
+</script>
+
+<template>
+    <TransitionGroup tag="div" enter-from-class="translate-x-full opacity-0"
+        enter-active-class="duration-500 ease-in-out" leave-active-class="duration-500 ease-in-out"
+        leave-to-class="translate-x-full opacity-0" class="fixed top-4 right-4 max-w-xs w-full z-[999] space-y-3">
+        <Toast v-for="(item, index) in toast.items" :key="item.key" :message="item.message" :type="item.type"
+            @remove="remove(index)" />
+    </TransitionGroup>
+</template>

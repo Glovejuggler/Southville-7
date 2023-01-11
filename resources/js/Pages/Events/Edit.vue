@@ -53,14 +53,17 @@
                             <div v-if="errors.status" class="text-red-600">{{ errors.status }}</div>
                         </div>
 
-                        <div class="lg:flex">
-                            <BreezeButton @click="form.post = false" class="mt-4"
+                        <div class="flex space-x-2 lg:w-96 w-full">
+                            <BreezeButton @click="form.post = false" class="mt-4 grow flex justify-center"
                                 :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Save
                             </BreezeButton>
                             <BreezeButton v-if="form.status === 'Done' && hasPost === null" @click="form.post = true"
-                                class="mt-4 ml-2 bg-green-800 hover:bg-green-700 active:bg-green-900 focus:border-green-900"
+                                class="mt-4 bg-green-600 hover:bg-green-700 active:bg-green-900 focus:border-green-900"
                                 :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Save and make a
                                 post</BreezeButton>
+                            <Link as="button" method="delete" :href="route('events.destroy', event)"
+                                class="mt-4 rounded-lg px-4 py-2 text-xs uppercase text-white border border-transparent font-semibold tracking-widest bg-red-600 hover:bg-red-700 active:bg-red-900">
+                            Delete</Link>
                         </div>
                     </form>
                 </div>

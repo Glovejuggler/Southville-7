@@ -17,13 +17,13 @@
     </div>
 
     <div class="py-8">
-        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 flex flex-col space-y-4">
             <div class="overflow-hidden shadow-sm rounded-lg cursor-pointer" v-for="role in roles"
                 @click="assignMemberModal(role)">
                 <div
-                    class="p-6 mb-4 bg-white hover:border-theme-900/50 dark:bg-zinc-900 border border-transparent rounded-lg group">
+                    class="p-6 bg-white hover:border-theme-900/50 dark:bg-zinc-900 border border-transparent rounded-lg group">
                     <div class="flex flex-col">
-                        <span class="font-bold">
+                        <span class="font-bold text-theme-800">
                             {{ role.position }}
                         </span>
                         <span class="font-normal">
@@ -31,6 +31,10 @@
                         </span>
                     </div>
                 </div>
+            </div>
+            <div class="flex items-center space-x-2 opacity-70">
+                <i class="bx bx-info-circle text-xl"></i>
+                <span>Click a role to assign a member</span>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="max-w-screen-2xl mx-auto py-0 px-4 lg:px-8">
         <div class="flex flex-wrap justify-between items-center my-0 py-0">
             <a href="{{ route('home') }}" class="my-3 duration-200 transition-all ease-in-out h-12 w-12" id="title">
-                <img src="{{ asset('images/logo.png') }}" alt="">
+                <img src="{{ asset('images/logo.png') }}" class="rounded-full" alt="">
             </a>
             <div class="hidden lg:block">
                 <a href="{{ route('home') }}"
@@ -29,7 +29,9 @@
                 </div>
                 @endif --}}
                 <a href="{{ route('events') }}"
-                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('events*') ? 'font-bold' : '' }} nav-link transition-all duration-200 ease-in-out">Events</a>
+                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('events', 'viewevent', 'archive') ? 'font-bold' : '' }} nav-link transition-all duration-200 ease-in-out">Events</a>
+                <a href="{{ route('stories') }}"
+                    class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('story*', 'stories') ? 'font-bold' : '' }} nav-link transition-all duration-200 ease-in-out">Stories</a>
                 <a href="{{ route('contacts') }}"
                     class="{{ Route::is('home') ? 'text-white' : 'text-black' }} px-3 py-6 mx-2 {{ Route::is('contacts') ? 'font-bold' : '' }} nav-link transition-all duration-200 ease-in-out">Contacts</a>
                 <a href="{{ route('login') }}" id="login"
@@ -38,7 +40,7 @@
             </div>
             <div class="block lg:hidden">
                 <div onclick="toggleNav()" id="toggle"
-                    class="border-2 border-black text-black p-1 flex items-center rounded-lg cursor-pointer">
+                    class="border-2 p-1 flex items-center rounded-lg cursor-pointer {{ Route::is('home') ? 'border-white text-white' : 'border-theme-800 text-theme-800' }}">
                     <i class="bx bx-menu text-3xl"></i>
                 </div>
             </div>
@@ -47,15 +49,23 @@
 </div>
 
 <div id="mobileNav"
-    class="bg-white fixed inset-0 mt-[68px] hidden flex-col overflow-y-auto pt-4 transition-all duration-200 ease-in-out">
-    <a href="{{ route('home') }}"
-        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Home</a>
-    <a href="{{ route('about') }}"
-        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">About</a>
-    <a href="{{ route('events') }}"
-        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Events</a>
-    <a href="{{ route('contacts') }}"
-        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Contacts</a>
-    <a href="{{ route('login') }}"
-        class="p-3 bg-white hover:bg-theme-800 hover:text-white active:bg-theme-800 active:text-white">Login</a>
+    class="bg-white fixed inset-0 z-[69] translate-x-full overflow-y-auto transition-all duration-100 ease-in-out">
+    <div class="w-full px-3 space-y-2 mt-20">
+        <a href="{{ route('home') }}"
+            class="p-3 rounded-lg active:bg-theme-500 active:text-white text-2xl flex {{ Route::is('home') ? 'text-white bg-theme-800' : 'bg-white text-black' }}">Home</a>
+        <a href="{{ route('about') }}"
+            class="p-3 rounded-lg active:bg-theme-500 active:text-white text-2xl flex {{ Route::is('about*') ? 'text-white bg-theme-800' : 'bg-white text-black' }}">About</a>
+        <a href="{{ route('events') }}"
+            class="p-3 rounded-lg active:bg-theme-500 active:text-white text-2xl flex {{ Route::is('events', 'viewevent', 'archive') ? 'text-white bg-theme-800' : 'bg-white text-black' }}">Events</a>
+        <a href="{{ route('stories') }}"
+            class="p-3 rounded-lg active:bg-theme-500 active:text-white text-2xl flex {{ Route::is('story*', 'stories') ? 'text-white bg-theme-800' : 'bg-white text-black' }}">Stories</a>
+        <a href="{{ route('contacts') }}"
+            class="p-3 rounded-lg active:bg-theme-500 active:text-white text-2xl flex {{ Route::is('contacts') ? 'text-white bg-theme-800' : 'bg-white text-black' }}">Contacts</a>
+        <a href="{{ route('login') }}" class="p-3 rounded-lg active:bg-theme-500 active:text-white text-2xl flex">{{
+            Auth::user()->name ?? 'Login' }}</a>
+    </div>
+    <div onclick="toggleNav()"
+        class="fixed top-4 right-4 border-2 border-theme-800 bg-white cursor-pointer rounded-lg flex items-center p-1">
+        <i class="bx bx-x text-3xl"></i>
+    </div>
 </div>

@@ -170,7 +170,7 @@
                                 @click="this.showDeleteModal = false">Cancel</button>
                             <Link as="button" :href="route('loans.destroy', loan.id)" method="delete"
                                 class="mx-2 p-3 bg-red-600 hover:bg-red-700 active:bg-red-900 text-white text-sm rounded-lg">
-                            Delete</Link>
+                            Yes</Link>
                         </div>
                     </div>
                 </div>
@@ -243,12 +243,14 @@
     <div class="py-4 max-w-screen-2xl mx-auto px-6 lg:px-8" v-if="history.length">
         <div class="font-bold mb-3">Loan history</div>
         <div class="p-6 bg-white rounded-lg">
-            <div v-for="(loanHistory) in history" class="flex lg:w-1/4 w-full justify-between my-3">
-                <div>
-                    {{ format_dateMDY(loanHistory.created_at) }}
-                </div>
-                <div>{{ loanHistory.loan_name }}</div>
+            <Link :href="route('loans.show', loanHistory)" v-for="(loanHistory) in history"
+                class="flex items-center group rounded-lg lg:w-1/3 md:w-full p-3 w-full justify-between hover:bg-black/10">
+            <div>
+                {{ format_dateMDY(loanHistory.created_at) }}
             </div>
+            <div>{{ loanHistory.loan_name }}</div>
+            <i class="bx bxs-show group-hover:text-[#ed7464]"></i>
+            </Link>
         </div>
     </div>
 </template>

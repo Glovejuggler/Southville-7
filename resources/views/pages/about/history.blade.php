@@ -4,9 +4,13 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 lg:flex">
         <div class="bg-white rounded-lg p-8 lg:w-9/12">
-            <span class="font-bold text-xl block text-theme-900">History</span>
+            <div class="font-bold text-4xl block text-theme-900 text-center transition-all duration-1000 ease-out opacity-0 -translate-y-5"
+                id="history">History</div>
 
-            <span class="mt-4">The Southville 7 Credit Cooperative was established through the help of Congressman
+            <div class="mt-4 text-justify transition-all duration-1000 ease-out opacity-0 translate-y-5" id="details">
+                The Southville
+                7 Credit Cooperative was established through the help of
+                Congressman
                 Benitez, the chairman of housing.
                 The Congressman approached and talked to the National Housing Authority (NHA) to help the issue of the
                 relocation and
@@ -22,9 +26,18 @@
                 financial support to
                 “Angat Buhay Foundation” by the former Vice President Leni Robredo. The Cooperative will continue to
                 give quality
-                service to its members for a better future.</span>
+                service to its members for a better future.</div>
         </div>
         @include('pages.about.partials.contents')
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    window.addEventListener('load', function () {
+        document.querySelector('#history').classList.remove('opacity-0', '-translate-y-5');
+        document.querySelector('#details').classList.remove('opacity-0', 'translate-y-5');
+    })
+</script>
 @endsection

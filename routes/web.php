@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Models\Member;
 use App\Models\Saving;
 use App\Models\Payment;
+use App\Models\Loanable;
 use App\Models\ShareCapital;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -84,13 +85,13 @@ Route::get('/dashboard', function () {
                                             ->whereHas('loan', function($q) {
                                                 $q->where('member_id',Auth::user()->member_id);
                                             })
-                                            ->get(),
+                                            ->count(),
             'due_payments' => Payment::whereDate('month','=',now())
                                         ->where('payment','=', null)
                                         ->whereHas('loan', function($q) {
                                                 $q->where('member_id',Auth::user()->member_id);
                                             })
-                                        ->get(),
+                                        ->count(),
             'savings_transactions' => Saving::where('member_id', Auth::user()->member_id)->latest()->paginate(10),
             'share_transactions' => ShareCapital::where('member_id', Auth::user()->member_id)->latest()->paginate(10),
             'loan' => Loan::where('member_id','=',Auth::user()->member_id)->with('payments')->latest()->first(),
@@ -98,6 +99,7 @@ Route::get('/dashboard', function () {
             'history' => Loan::onlyTrashed()
                                 ->where('member_id', Auth::user()->member_id)
                                 ->get(),
+            'loanables' => Loanable::where('requirement','<=',Auth()->user()->member->share_capital)->get(),
         ]);
     }
 })->middleware(['auth', 'verified'])->name('dashboard');

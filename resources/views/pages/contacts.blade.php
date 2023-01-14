@@ -6,15 +6,21 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="bg-white rounded-lg p-8">
             <span class="text-xl font-bold text-theme-800">Contact Us</span>
-            <div class="mt-12 flex justify-between">
+            <div class="mt-8 flex justify-between">
                 <div>
-                    <div>
-                        <span class="text-black/80 italic">
-                            Please get in touch with us should there be any inquiries.
-                        </span>
+                    <span class="text-black/80 italic">
+                        Please get in touch with us should there be any inquiries.
+                    </span>
+                    <div class="mt-4 text-lg font-semibold text-theme-800">
+                        Contact Information
                     </div>
-                    <div class="mt-4">
-                        <span class="text-lg font-semibold text-theme-800">Contact Information</span>
+                    <div class="flex items-center">
+                        <i class="bx bx-phone text-2xl text-theme-800 mx-1"></i>
+                        <span>Wilma Vibar (0967-597-5552)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="bx bx-envelope text-2xl text-theme-800 mx-1"></i>
+                        <span>admin@southville7cc.online</span>
                     </div>
                     <div class="flex items-center">
                         <i class="bx bx-home-heart text-2xl text-theme-800 mx-1"></i>

@@ -16,11 +16,9 @@
         </div>
     </div>
 
-    <ShowMemberTabs :member="member" />
-
-    <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+    <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 mt-4">
         <div class="cursor-pointer flex px-3 space-x-2 hover:px-1 duration-200 ease-in-out items-center"
-            @click="this.$inertia.visit(route('loans.create', member))">
+            onclick="history.back()">
             <i class="bx bx-arrow-back"></i>
             <span>Back</span>
         </div>

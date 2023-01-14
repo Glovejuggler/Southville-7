@@ -4,29 +4,46 @@
 <div class="py-12 text-gray-800 p-1">
     <div class="max-w-7xl mx-auto bg-white rounded-lg p-8">
         <span class="font-bold text-2xl">Terms and Conditions</span>
-        <p class="mt-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic aspernatur dolore iure dolorem, eum
-            exercitationem officiis, distinctio, explicabo non iste quisquam. Illo voluptas maxime ratione aperiam
-            animi. Possimus, quibusdam dignissimos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
-            laboriosam amet magnam. Obcaecati distinctio modi, aliquam eum reiciendis perferendis animi necessitatibus
-            aut rem laboriosam nostrum? Quo debitis provident sequi adipisci? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Iste ut distinctio sit, deleniti, vel qui quae quasi sint non eos hic delectus velit
-            dignissimos animi alias. Dolor illum dolorem quibusdam! Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Nihil nam temporibus sunt cum earum omnis. Ullam porro soluta sed quia totam assumenda, facilis,
-            similique vitae incidunt architecto neque. Fuga, corporis. Lorem ipsum dolor sit, amet consectetur
-            adipisicing elit. Nihil iste nam quam quas vel at saepe odit totam blanditiis placeat velit ex ratione ea,
-            unde consequatur aperiam aut omnis facilis. lorem Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Omnis, mollitia in. Aliquid, ut esse impedit nostrum excepturi inventore quos hic fugit quis error totam
-            sapiente autem facilis maiores adipisci corrupti. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Sint non officia ab saepe quae ex impedit voluptatibus rem omnis esse rerum quo placeat provident deleniti,
-            ipsam debitis hic dolor quaerat! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut officia cum
-            culpa aspernatur corrupti molestias omnis incidunt minima iure modi ullam similique, in ipsa dolore,
-            deserunt impedit odit, dicta perferendis. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Accusantium quae repellat quos earum cumque, consectetur, dolor dolorum maxime atque asperiores porro.
-            Ratione temporibus natus quasi id animi sit, ullam enim? Lorem ipsum, dolor sit amet consectetur adipisicing
-            elit. Minima at aliquid, illo maiores quam ex ducimus. Voluptatibus, natus quam! Perspiciatis repudiandae
-            eum ipsum necessitatibus quasi recusandae fugit sed fuga in?
-        </p>
+        <div class="mt-4 text-justify">
+            <h3 class="font-bold text-theme-800 text-xl">Introduction</h3>
+            <p class="mb-4">These terms and conditions (the "Terms") govern the use of the services provided by
+                Southville 7 Credit
+                Cooperative (the
+                "Organization"). By using our services, you agree to be bound by these Terms. If you do not agree to
+                these Terms, you
+                may not use our services.</p>
+            <h3 class="font-bold text-theme-800 text-xl">Membership</h3>
+            <p class="mb-4">To become a member of the Organization, you must meet the eligibility criteria set forth in
+                our bylaws.
+                Membership is
+                subject to approval by the Organization's Board of Directors.</p>
+            <h3 class="font-bold text-theme-800 text-xl">Services</h3>
+            <p class="mb-4">The Organization provides its members with various financial services, including loans,
+                savings accounts,
+                and other
+                financial products. The terms and conditions of these services are set forth in separate agreements.</p>
+            <h3 class="font-bold text-theme-800 text-xl">Privacy</h3>
+            <p class="mb-4">The Organization respects the privacy of its members and is committed to protecting their
+                personal
+                information. Our
+                privacy policy sets forth the types of information we collect and how we use it. <span
+                    class="text-theme-300 text-sm hover:underline"><a href="{{ route('policy') }}">Learn
+                        more</a></span>
+            </p>
+            <h3 class="font-bold text-theme-800 text-xl">Governing Law</h3>
+            <p class="mb-4">These Terms and any disputes arising out of or related to these Terms shall be governed by
+                the laws of
+                the Philippines.</p>
+            <h3 class="font-bold text-theme-800 text-xl">Entire Agreement</h3>
+            <p class="mb-4">These Terms constitute the entire agreement between you and the Organization regarding the
+                use of our
+                services.</p>
+            <h3 class="font-bold text-theme-800 text-xl">Changes to Terms</h3>
+            <p class="mb-4">The Organization reserves the right to make changes to these Terms at any time. We will
+                provide notice of
+                any changes to
+                these Terms on our website.</p>
+        </div>
     </div>
 </div>
 @endsection

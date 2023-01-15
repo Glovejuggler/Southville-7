@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="lg:flex justify-center text-white/80">
-            © 2022 Southville 7. All Rights Reserved.
+            © 2023 Southville 7. All Rights Reserved.
         </div>
     </div>
 </div>

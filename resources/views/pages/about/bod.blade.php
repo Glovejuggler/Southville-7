@@ -9,14 +9,15 @@
                 id="bod">Board of Directors</span>
 
             <div id="details" class="transition-all duration-1000 ease-out opacity-0 translate-y-5">
-                <div class="pt-12 flex justify-center flex-col space-y-4">
+                <div class="pt-12 flex lg:grid grid-cols-2 flex-col justify-center space-y-4">
                     <div class="text-theme-800 font-bold text-xl flex items-center space-x-3">
                         <img src="{{ asset('images/bod/Desiree_Gamo_BOD.jpg') }}" class="rounded-full h-28 w-28" alt="">
                         <span>Desiree Gamo</span>
                     </div>
 
                     <div class="text-theme-800 font-bold text-xl flex items-center space-x-3">
-                        <img src="{{ asset('images/photo.jpg') }}" class="rounded-full h-28 w-28" alt="">
+                        <img src="{{ asset('images/bod/Rodalyn_Glorioso_BOD.jpg') }}" class="rounded-full h-28 w-28"
+                            alt="">
                         <span>Rodalyn Glorioso</span>
                     </div>
 
@@ -27,7 +28,8 @@
                     </div>
 
                     <div class="text-theme-800 font-bold text-xl flex items-center space-x-3">
-                        <img src="{{ asset('images/photo.jpg') }}" class="rounded-full h-28 w-28" alt="">
+                        <img src="{{ asset('images/bod/Celestina_Lumpas_BOD.jpg') }}" class="rounded-full h-28 w-28"
+                            alt="">
                         <span>Celestina Lumpas</span>
                     </div>
 

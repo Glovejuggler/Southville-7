@@ -51,6 +51,11 @@
                     <span class="font-bold text-5xl">₱ {{ self.share_capital }}</span>
                 </div>
             </div>
+            <div @click="page = 'Loanables'" v-if="!loan && loanables.length"
+                class="bg-white rounded-lg p-3 lg:mt-0 mt-4 cursor-pointer border border-transparent hover:border-theme-800 col-span-2 flex justify-between items-center">
+                <span>Available loans</span>
+                <i class="bx bx-chevron-right text-2xl"></i>
+            </div>
             <div @click="page = 'Loan'" v-if="loan"
                 class="bg-white rounded-lg p-3 lg:mt-0 mt-4 cursor-pointer border border-transparent hover:border-theme-800 col-span-2 flex justify-between items-center">
                 <span>Loans</span>
@@ -139,17 +144,6 @@
     <div v-if="page === 'Loan'">
         <div class="py-4">
             <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
-                <div v-if="!loan" class="bg-white rounded-lg p-6">
-                    <div class="font-bold uppercase text-theme-800">
-                        Available loans
-                    </div>
-                    <div class="mt-4 flex flex-col space-y-2">
-                        <div v-for="(loanable, index) in loanables" class="" :key="index">
-                            {{ loanable.name }}
-                        </div>
-                    </div>
-                </div>
-
                 <div class="bg-white rounded-lg p-6">
                     <div class="font-bold uppercase text-theme-800">Loan information</div>
                     <div class="flex flex-col mt-4">
@@ -227,6 +221,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Loanables -->
+    <div v-if="page === 'Loanables'">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 my-4">
+            <div class="bg-white rounded-lg p-6">
+                <div class="font-bold uppercase text-theme-800">
+                    Available loans
+                </div>
+                <div class="mt-4 flex flex-col space-y-2">
+                    <div v-for="(loanable, index) in loanables" class="" :key="index">
+                        {{ loanable.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <script>

@@ -22,7 +22,12 @@
 export default {
     props: {
 
-    }
+    },
+    data() {
+        return {
+            show: false,
+        }
+    },
 }
 
 </script>

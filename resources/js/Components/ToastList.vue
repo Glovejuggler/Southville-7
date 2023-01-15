@@ -1,6 +1,6 @@
 <script setup>
 import Toast from './Toast.vue';
-import { onUnmounted, onMounted } from 'vue';
+import { onUnmounted } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import toast from '@/Stores/toast';

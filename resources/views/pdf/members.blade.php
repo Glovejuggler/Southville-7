@@ -17,13 +17,36 @@
     </center>
 
     <br><br>
+    @if ($status === 'active')
     <center>
         <p>Members with active loans</p>
         <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
     </center>
+    @elseif ($status === 'inactive')
+    <center>
+        <p>Members with inactive loans</p>
+        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
+    </center>
+    @elseif ($status === 'overdue')
+    <center>
+        <p>Members with overdue payments</p>
+        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
+    </center>
+    @elseif ($status === 'dueToday')
+    <center>
+        <p>Members with payments due today</p>
+        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
+    </center>
+    @else
+    <center>
+        <p>Members list</p>
+        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
+    </center>
+    @endif
 
     <br><br>
 
+    @if ($status === 'active' || $status === 'overdue' || $status === 'dueToday')
     <table border="1" cellpadding="7" cellspacing="0" style="width:100%">
         <thead>
             <tr>
@@ -50,6 +73,11 @@
             @endforeach
         </tbody>
     </table>
+    @else
+    @foreach ($members as $member)
+    <p>{{ $loop->iteration.'. '.$member->name }}</p>
+    @endforeach
+    @endif
 </body>
 
 </html>

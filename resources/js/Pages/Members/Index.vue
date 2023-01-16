@@ -30,8 +30,9 @@
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 lg:flex justify-between">
             <BreezeInput v-model="form.search" class="mt-1 block lg:w-96 w-full" type="text" placeholder="Search..." />
             <div class="flex items-center flex-row space-x-2">
-                <a v-if="filters.status === 'active'" :href="route('members.pdf')"
-                    class="h-min px-4 py-2 text-xs rounded-lg bg-theme-600 hover:bg-theme-700 active:bg-theme-900 text-white inline-flex items-center">Download
+                <a type="button" v-if="visibleMembers.data.length" :href="route('members.pdf', filters.status)"
+                    class="h-min px-4 py-2 text-xs rounded-lg bg-theme-600 hover:bg-theme-700 active:bg-theme-900 text-white inline-flex items-center">
+                    Download
                     as
                     PDF</a>
                 <select v-model="form.status"

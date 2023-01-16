@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\Saving;
 use App\Models\Payment;
 use App\Models\Loanable;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\ShareCapital;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -113,11 +114,29 @@ Route::put('/settings/password/update', [UserController::class, 'changepassword'
 Route::middleware(['auth'])->group(function () {
     Route::resource('members', MemberController::class);
     Route::get('member/view/{member}', [MemberController::class, 'view'])->name('member.view');
+    Route::get('members/pdf/download', function () {
+        $members = Member::whereHas('loan')->get();
+
+        $pdf = Pdf::loadView('pdf.members', [
+            'members' => $members
+        ]);
+        return $pdf->download('members.pdf');
+    })->name('members.pdf');
 
     Route::resource('roles', RoleController::class);
 
     Route::resource('loans', LoanController::class);
     Route::get('/loans/create/{member}', [LoanController::class, 'create'])->name('loans.create');
+    Route::get('/loan/{id}/download/pdf', function($id) {
+        $loan = Loan::onlyTrashed()->find($id);
+        $data = [
+            'member' => $loan->member,
+            'loan' => $loan
+        ];
+        $pdf = Pdf::loadView('pdf.loan', $data);
+
+        return $pdf->download('loan.pdf');
+    })->name('pdf.download');
 
     Route::get('/share/{member}', [ShareCapitalController::class, 'create'])->name('share.capital');
     Route::post('/share/store', [ShareCapitalController::class, 'store'])->name('share_capital.store');

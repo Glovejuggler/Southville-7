@@ -63,7 +63,8 @@ class Loan extends Model
         'principalm',
         'paymentm',
         'is_fully_paid',
-        'has_late_payment'
+        'has_late_payment',
+        'balance',
     ];
 
     public function getReceivableAttribute()
@@ -120,5 +121,10 @@ class Loan extends Model
         }
 
         return $count;
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->principal * (1 + ($this->rate/100)) - $this->hasMany(Payment::class)->sum('payment');
     }
 }

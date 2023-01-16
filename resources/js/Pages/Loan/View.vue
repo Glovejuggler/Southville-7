@@ -16,12 +16,15 @@
         </div>
     </div>
 
-    <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 mt-4">
+    <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 mt-4 flex justify-between">
         <div class="cursor-pointer flex px-3 space-x-2 hover:px-1 duration-200 ease-in-out items-center"
             onclick="history.back()">
             <i class="bx bx-arrow-back"></i>
             <span>Back</span>
         </div>
+        <a :href="route('pdf.download', loan.id)"
+            class="text-xs px-4 py-2 rounded-lg bg-theme-600 text-white hover:bg-theme-700 active:bg-theme-900">Download
+            as PDF</a>
     </div>
 
     <!-- Loan Information -->

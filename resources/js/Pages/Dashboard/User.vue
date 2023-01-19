@@ -61,7 +61,7 @@
                 <span>Loans</span>
                 <i class="bx bx-chevron-right text-2xl"></i>
             </div>
-            <div @click="page = 'Loan History'" v-if="loan"
+            <div @click="page = 'Loan History'" v-if="history.length"
                 class="bg-white rounded-lg p-3 lg:mt-0 mt-4 cursor-pointer border border-transparent hover:border-theme-800 col-span-2 flex justify-between items-center">
                 <span>Loan history</span>
                 <i class="bx bx-chevron-right text-2xl"></i>
@@ -231,7 +231,7 @@
     </div>
 
     <!-- History -->
-    <div v-if="history.length && page === 'Loan History'">
+    <div v-if="page === 'Loan History'">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 my-4">
             <div class="bg-white rounded-lg p-6 mt-4">
                 <Link :href="route('loans.show', loanHistory)" v-for="(loanHistory) in history"

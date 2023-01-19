@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use App\Models\Saving;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SavingController extends Controller
 {
@@ -25,6 +26,13 @@ class SavingController extends Controller
      */
     public function create(Member $member)
     {
+        if (Gate::none(['isChairman', 'isSecretary', 'isViceChairman', 'isTreasurer'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Savings/Create', [
             'member' => $member,
             'transactions' => Saving::where('member_id', $member->id)->latest()->paginate(10),
@@ -39,20 +47,29 @@ class SavingController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('isTreasurer')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $request->validate([
             'amount' => 'required|numeric',
             'member_id' => 'required|numeric',
             'method' => 'required',
         ]);
 
-        // dd($request);
         $new = Saving::create([
             'amount' => $request->amount,
             'member_id' => $request->member_id,
             'method' => $request->method,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => $new->method.' successful',
+        ]);
     }
 
     /**

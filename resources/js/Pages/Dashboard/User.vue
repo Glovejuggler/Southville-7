@@ -61,6 +61,11 @@
                 <span>Loans</span>
                 <i class="bx bx-chevron-right text-2xl"></i>
             </div>
+            <div @click="page = 'Loan History'" v-if="loan"
+                class="bg-white rounded-lg p-3 lg:mt-0 mt-4 cursor-pointer border border-transparent hover:border-theme-800 col-span-2 flex justify-between items-center">
+                <span>Loan history</span>
+                <i class="bx bx-chevron-right text-2xl"></i>
+            </div>
         </div>
     </div>
 
@@ -205,19 +210,6 @@
                             bal.toLocaleString()
                         }}</div>
                 </div>
-
-                <!-- History -->
-                <div v-if="history.length" class="font-bold mt-8">Loan history</div>
-                <div v-if="history.length" class="bg-white rounded-lg p-6 mt-4">
-                    <Link :href="route('loans.show', loanHistory)" v-for="(loanHistory) in history"
-                        class="flex items-center group rounded-lg lg:w-1/3 md:w-full p-3 w-full justify-between hover:bg-black/10">
-                    <div>
-                        {{ format_dateMDY(loanHistory.created_at) }}
-                    </div>
-                    <div>{{ loanHistory.loan_name }}</div>
-                    <i class="bx bxs-show group-hover:text-[#ed7464]"></i>
-                    </Link>
-                </div>
             </div>
         </div>
     </div>
@@ -238,6 +230,21 @@
         </div>
     </div>
 
+    <!-- History -->
+    <div v-if="history.length && page === 'Loan History'">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 my-4">
+            <div class="bg-white rounded-lg p-6 mt-4">
+                <Link :href="route('loans.show', loanHistory)" v-for="(loanHistory) in history"
+                    class="flex items-center group rounded-lg lg:w-1/2 p-3 w-full justify-between hover:bg-black/10">
+                <div>
+                    {{ format_dateMDY(loanHistory.created_at) }}
+                </div>
+                <div>{{ loanHistory.loan_name }}</div>
+                <i class="bx bxs-show group-hover:text-[#ed7464]"></i>
+                </Link>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>

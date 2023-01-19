@@ -43,7 +43,7 @@
                                 format_dateMDY(post.created_at)
                             }}</span>
                         </span>
-                        <span class="text-sm block line-clamp-3">{{ post.content }}</span>
+                        <span class="text-sm block text-justify line-clamp-3">{{ post.content }}</span>
                     </div>
                 </div>
                 </Link>

@@ -17,6 +17,13 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        if (Gate::none(['isChairman', 'isViceChairman'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         if ($request->wantsJson()) {
             return [
                 'members' => Member::query()
@@ -84,11 +91,18 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        if (Gate::none(['isChairman', 'isViceChairman'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $role->update([
             'member_id' => $request->member_id
         ]);
 
-        if (Gate::allows('isAdmin')) {
+        if (Gate::any(['isChairman','isViceChairman'])) {
             return redirect()->back()->with([
                 'type' => 'success',
                 'message' => 'Assigned member successfully'

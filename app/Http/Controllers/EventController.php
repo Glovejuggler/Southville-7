@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -15,6 +16,13 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
+        if (Gate::denies('isSecretary')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         if ($request->wantsJson()) {
             return Event::paginate(10);
         }
@@ -31,6 +39,13 @@ class EventController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('isSecretary')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Events/Create');
     }
 
@@ -42,6 +57,13 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('isSecretary')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $request->validate([
             'title' => 'required',
             'content' => 'required',
@@ -80,6 +102,13 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        if (Gate::denies('isSecretary')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Events/Edit', [
             'event' => $event,
             'hasPost' => $event->post
@@ -95,6 +124,13 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
+        if (Gate::denies('isSecretary')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $request->validate([
             'title' => 'required',
             'content' => 'required',
@@ -130,6 +166,13 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        if (Gate::denies('isSecretary')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+        
         $event->delete();
 
         return redirect()->route('events.index')->with([

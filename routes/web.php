@@ -114,7 +114,7 @@ Route::put('/settings/password/update', [UserController::class, 'changepassword'
 Route::middleware(['auth'])->group(function () {
     Route::resource('members', MemberController::class);
     Route::get('member/view/{member}', [MemberController::class, 'view'])->name('member.view');
-    Route::get('members/{status?}/pdf/download', function ($status = null) {
+    Route::get('members/pdf/download/{status?}', function ($status = null) {
         if ($status === 'active') {
             $members = Member::whereHas('loan')->get();
         } elseif ($status === 'inactive') {

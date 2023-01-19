@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use App\Models\ShareCapital;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ShareCapitalController extends Controller
 {
@@ -25,6 +26,13 @@ class ShareCapitalController extends Controller
      */
     public function create(Member $member)
     {
+        if (Gate::none(['isChairman', 'isSecretary', 'isViceChairman', 'isTreasurer'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Share Capital/Create', [
             'member' => $member,
             'transactions' => ShareCapital::where('member_id', $member->id)->latest()->paginate(10),
@@ -39,6 +47,13 @@ class ShareCapitalController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('isTreasurer')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+        
         $request->validate([
             'member_id' => 'required',
             'amount' => 'required|numeric'

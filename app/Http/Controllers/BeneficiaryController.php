@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use App\Models\Beneficiary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class BeneficiaryController extends Controller
 {
@@ -36,6 +37,13 @@ class BeneficiaryController extends Controller
      */
     public function store(Request $request)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $request->validate([
             'name' => 'required',
             'relation' => 'required',
@@ -73,6 +81,13 @@ class BeneficiaryController extends Controller
      */
     public function edit(Member $member)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Beneficiary/Edit', [
             'beneficiaries' => Beneficiary::where('member_id',$member->id)->get(),
             'member' => $member
@@ -88,7 +103,13 @@ class BeneficiaryController extends Controller
      */
     public function update(Request $request, Beneficiary $beneficiary)
     {
-        // dd($request);
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $beneficiary->update([
             'name' => $request->name,
             'relation' => $request->relation,
@@ -107,6 +128,13 @@ class BeneficiaryController extends Controller
      */
     public function destroy(Beneficiary $beneficiary)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+        
         $beneficiary->delete();
 
         return redirect()->back();

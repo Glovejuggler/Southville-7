@@ -55,8 +55,8 @@
                             </div>
                         </div>
 
-                        <div class="flex space-x-2 lg:w-96 w-full">
-                            <BreezeButton @click="form.post = false" class="mt-4 grow flex justify-center"
+                        <div class="flex space-x-2 lg:w-1/2 w-full">
+                            <BreezeButton @click="form.post = false" class="mt-4"
                                 :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Save
                             </BreezeButton>
                             <BreezeButton v-if="form.status === 'Done' && hasPost === null" @click="form.post = true"

@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Loanable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LoanController extends Controller
 {
@@ -28,6 +29,13 @@ class LoanController extends Controller
      */
     public function create(Member $member)
     {
+        if (Gate::none(['isChairman', 'isSecretary', 'isViceChairman', 'isTreasurer'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $loan = Loan::where('member_id','=',$member->id)->with('payments')->latest()->first();
 
         return inertia('Loan/Create', [
@@ -49,6 +57,13 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('isTreasurer')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+        
         $request->validate([
             'member_id' => 'required',
             'rate' => 'required|numeric|max:100',
@@ -110,7 +125,10 @@ class LoanController extends Controller
             $payment->save();
         }
 
-        return redirect()->back();
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => 'Loan successful'
+        ]);
     }
 
     /**
@@ -120,8 +138,18 @@ class LoanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
         $loan = Loan::onlyTrashed()->with('payments')->find($id);
+
+        if (Gate::none(['isChairman','isViceChairman','isTreasurer'])) {
+            if(Auth::user()->member_id != $loan->member_id) {
+                return redirect()->back()->with([
+                    'type' => 'error',
+                    'message' => 'Unauthorized access'
+                ]);
+            }
+        }
+
         return inertia('Loan/View', [
             'loan' => $loan,
             'member' => $loan->member

@@ -27,7 +27,7 @@ onUnmounted(() => {
 
 <template>
     <TransitionGroup tag="div" enter-from-class="translate-x-full opacity-0"
-        enter-active-class="duration-500 ease-in-out" leave-active-class="duration-500 ease-in-out"
+        enter-active-class="duration-300 ease-in-out" leave-active-class="duration-500 ease-in-out"
         leave-to-class="translate-x-full opacity-0" class="fixed top-4 right-4 max-w-xs w-full z-[999] space-y-3">
         <Toast v-for="(item, index) in toast.items" :key="item.key" :message="item.message" :type="item.type"
             @remove="remove(index)" />

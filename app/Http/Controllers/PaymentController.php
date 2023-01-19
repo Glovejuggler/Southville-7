@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Loan;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PaymentController extends Controller
 {
@@ -74,6 +75,13 @@ class PaymentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('isTreasurer')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+        
         $request->validate([
             'payment' => 'required|numeric',
             'date_paid' => 'required'
@@ -89,7 +97,10 @@ class PaymentController extends Controller
 
         $payment->update();
 
-        return redirect()->back();
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => 'Payment successful'
+        ]);
     }
 
     /**

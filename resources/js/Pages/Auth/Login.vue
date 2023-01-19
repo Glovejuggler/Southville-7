@@ -65,6 +65,10 @@ const submit = () => {
         </form>
 
         <div class="mt-3 flex justify-center">
+            <Link :href="route('password.request')" class="text-theme-300 underline">Forgot your password?</Link>
+        </div>
+
+        <div class="mt-3 flex justify-center">
             <a :href="route('home')" class="text-theme-300 underline">Back to home</a>
         </div>
     </BreezeGuestLayout>

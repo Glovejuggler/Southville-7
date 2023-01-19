@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\Loan;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Saving;
 use App\Models\Beneficiary;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreMemberRequest;
 use App\Http\Requests\UpdateMemberRequest;
@@ -24,6 +27,13 @@ class MemberController extends Controller
         // dd(Member::with(['loan' => function ($query) {
         //     $query->orderBy('id', 'asc');
         // }])->get());
+        if (Gate::none(['isChairman', 'isViceChairman', 'isSecretary', 'isTreasurer'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         if ($request->wantsJson()) {
             return Member::query()
                             ->filter(Request::only('search', 'status'))
@@ -50,6 +60,13 @@ class MemberController extends Controller
      */
     public function create()
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Members/Create');
     }
 
@@ -61,6 +78,13 @@ class MemberController extends Controller
      */
     public function store(StoreMemberRequest $request)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $member = Member::create([
             'name' => $request->name,
             'address' => $request->address,
@@ -103,6 +127,13 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
+        if (Gate::none(['isChairman', 'isViceChairman', 'isSecretary', 'isTreasurer'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $loan = Loan::where('member_id','=',$member->id)->latest()->first();
 
         return inertia('Members/Show', [
@@ -119,7 +150,7 @@ class MemberController extends Controller
     }
 
     /**
-     * Shows the statement of accounts of the Member
+     * Shows the statement of accounts of the Member (not used omegalul)
      */
     public function view(Member $member)
     {
@@ -137,6 +168,13 @@ class MemberController extends Controller
      */
     public function edit(Member $member)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Members/Edit', [
             'member' => $member
         ]);
@@ -151,6 +189,13 @@ class MemberController extends Controller
      */
     public function update(UpdateMemberRequest $request, Member $member)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $member->name = $request->name;
         $member->address = $request->address;
         $member->prov_address = $request->prov_address;
@@ -183,6 +228,13 @@ class MemberController extends Controller
      */
     public function destroy(Member $member)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+        
         $member->delete();
 
         return redirect()->route('members.index')->with([

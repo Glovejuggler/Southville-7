@@ -10,6 +10,7 @@ use App\Models\Member;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -32,6 +33,13 @@ class UserController extends Controller
 
     public function store (Request $request)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+        
         $member = Member::find($request->member_id);
         $pw = Str::random(8);
 

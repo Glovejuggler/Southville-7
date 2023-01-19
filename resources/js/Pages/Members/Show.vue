@@ -188,7 +188,8 @@
         </div>
     </div>
 
-    <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 flex justify-end pb-4">
+    <div v-if="$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
+        class="max-w-screen-2xl mx-auto px-6 lg:px-8 flex justify-end pb-4">
         <button type="button" @click="this.showMemberDeletionModal = true"
             class="rounded-lg py-2 px-4 uppercase font-semibold text-xs text-red-600 border border-red-600 hover:text-white hover:bg-red-600 duration-200 ease-in-out">Delete
             member</button>

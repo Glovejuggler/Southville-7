@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Loanable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LoanableController extends Controller
 {
@@ -14,12 +15,19 @@ class LoanableController extends Controller
      */
     public function index(Request $request)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isTreasurer'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         if ($request->wantsJson()) {
-            return Loanable::paginate(10);
+            return Loanable::paginate(20);
         }
         
         return inertia('Loan Services/Index', [
-            'loanables' => Loanable::paginate(10),
+            'loanables' => Loanable::paginate(20),
         ]);
     }
 
@@ -30,6 +38,13 @@ class LoanableController extends Controller
      */
     public function create()
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Loan Services/Create');
     }
 
@@ -41,7 +56,13 @@ class LoanableController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $request->validate([
             'name' => 'required',
             'type' => 'required',
@@ -81,6 +102,13 @@ class LoanableController extends Controller
      */
     public function edit(Loanable $loanable)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         return inertia('Loan Services/Edit', [
             'loanable' => $loanable,
         ]);
@@ -95,6 +123,13 @@ class LoanableController extends Controller
      */
     public function update(Request $request, Loanable $loanable)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $request->validate([
             'name' => 'required',
             'type' => 'required',
@@ -123,6 +158,13 @@ class LoanableController extends Controller
      */
     public function destroy(Loanable $loanable)
     {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $loanable->delete();
 
         return redirect()->route('loanables.index')->with([

@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Loanable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class LoanController extends Controller

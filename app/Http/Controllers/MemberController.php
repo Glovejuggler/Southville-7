@@ -256,7 +256,7 @@ class MemberController extends Controller
             'status' => $request->status
         ]);
 
-        // return $pdf->download('members '.now().'.pdf');
-        return $pdf->stream();
+        return $pdf->download('Members '.now().'.pdf');
+        // return $pdf->stream();
     }
 }

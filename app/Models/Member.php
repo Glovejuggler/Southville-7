@@ -103,6 +103,14 @@ class Member extends Model
                     });
                 });
             }
+        })->when($filters['sortBy'] ?? null, function ($query, $sort) {
+            if ($sort === 'nameAsc') {
+                $query->orderBy('name', 'asc');
+            } elseif ($sort === 'nameDesc') {
+                $query->orderBy('name', 'desc');
+            } elseif ($sort === 'dateAddedDesc') {
+                $query->orderBy('created_at', 'desc');
+            }
         });
     }
 }

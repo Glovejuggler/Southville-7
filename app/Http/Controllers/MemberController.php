@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Models\Loan;
 use App\Models\Role;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Saving;
@@ -36,7 +37,7 @@ class MemberController extends Controller
 
         if ($request->wantsJson()) {
             return Member::query()
-                            ->filter(Request::only('search', 'status'))
+                            ->filter(Request::only('search', 'status', 'sortBy'))
                             ->with('loan')
                             ->paginate(30)
                             ->withQueryString();
@@ -44,11 +45,11 @@ class MemberController extends Controller
 
         return inertia('Members/Index', [
             'members' => Member::query()
-                            ->filter(Request::only('search', 'status'))
+                            ->filter(Request::only('search', 'status', 'sortBy'))
                             ->with('loan')
                             ->paginate(30)
                             ->withQueryString(),
-            'filters' => Request::only(['search', 'status']),
+            'filters' => Request::only(['search', 'status', 'sortBy']),
             'today' => now(),
         ]);
     }
@@ -241,5 +242,21 @@ class MemberController extends Controller
             'type' => 'error',
             'message' => 'Member deleted'
         ]);
+    }
+
+    /**
+     * 
+     */
+    public function download(\Illuminate\Http\Request $request)
+    {
+        $members = Member::query()->with('loan')->filter($request->only(['status', 'sortBy']))->get();
+
+        $pdf = Pdf::loadView('pdf.members', [
+            'members' => $members,
+            'status' => $request->status
+        ]);
+
+        // return $pdf->download('members '.now().'.pdf');
+        return $pdf->stream();
     }
 }

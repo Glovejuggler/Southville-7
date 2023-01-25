@@ -114,34 +114,7 @@ Route::put('/settings/password/update', [UserController::class, 'changepassword'
 Route::middleware(['auth'])->group(function () {
     Route::resource('members', MemberController::class);
     Route::get('member/view/{member}', [MemberController::class, 'view'])->name('member.view');
-    Route::get('members/pdf/download/{status?}', function ($status = null) {
-        if ($status === 'active') {
-            $members = Member::whereHas('loan')->get();
-        } elseif ($status === 'inactive') {
-            $members = Member::whereDoesntHave('loan')->get();
-        } elseif ($status === 'overdue') {
-            $members = Member::whereHas('loan', function ($q) {
-                            $q->whereHas('payments', function ($q) {
-                                $q->whereDate('month','<',now())
-                                    ->where('payment',null);
-                            });
-                        })->get();
-        } elseif ($status === 'dueToday') {
-            $members = Member::whereHas('loan', function ($q) {
-                    $q->whereHas('payments', function ($q) {
-                        $q->whereDate('month','=',now());
-                    });
-                })->get();
-        } else {
-            $members = Member::all()->sortBy('name');
-        }
-
-        $pdf = Pdf::loadView('pdf.members', [
-            'members' => $members,
-            'status' => $status
-        ]);
-        return $pdf->download('members.pdf');
-    })->name('members.pdf');
+    Route::get('members/pdf/download/', [MemberController::class, 'download'])->name('members.pdf');
 
     Route::resource('roles', RoleController::class);
 

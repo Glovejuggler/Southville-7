@@ -349,13 +349,6 @@ export default {
 
         return { fileform, submit, account }
     },
-    created() {
-        window.addEventListener('keydown', (e) => {
-            if (e.key == 'Escape') {
-                this.showPayment = false;
-            }
-        });
-    },
     data() {
         return {
             showAccountCreateModal: false,

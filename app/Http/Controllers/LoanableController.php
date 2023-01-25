@@ -38,7 +38,7 @@ class LoanableController extends Controller
      */
     public function create()
     {
-        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isTreasurer'])) {
             return redirect()->back()->with([
                 'type' => 'error',
                 'message' => 'Unauthorized access'
@@ -56,7 +56,7 @@ class LoanableController extends Controller
      */
     public function store(Request $request)
     {
-        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isTreasurer'])) {
             return redirect()->back()->with([
                 'type' => 'error',
                 'message' => 'Unauthorized access'
@@ -102,7 +102,7 @@ class LoanableController extends Controller
      */
     public function edit(Loanable $loanable)
     {
-        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isTreasurer'])) {
             return redirect()->back()->with([
                 'type' => 'error',
                 'message' => 'Unauthorized access'
@@ -123,7 +123,7 @@ class LoanableController extends Controller
      */
     public function update(Request $request, Loanable $loanable)
     {
-        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isTreasurer'])) {
             return redirect()->back()->with([
                 'type' => 'error',
                 'message' => 'Unauthorized access'
@@ -158,7 +158,7 @@ class LoanableController extends Controller
      */
     public function destroy(Loanable $loanable)
     {
-        if(Gate::none(['isChairman', 'isViceChairman', 'isSecretary'])) {
+        if(Gate::none(['isChairman', 'isViceChairman', 'isTreasurer'])) {
             return redirect()->back()->with([
                 'type' => 'error',
                 'message' => 'Unauthorized access'

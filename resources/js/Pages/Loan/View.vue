@@ -140,7 +140,8 @@
                             {{ `₱${payment.payment}.00` }}
                         </span>
                     </div>
-                    <div>
+                    <div
+                        v-if="this.$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary', 'Treasurer'].includes(r))">
                         <div class="text-sm text-theme-800 font-semibold">
                             Notes:
                         </div>

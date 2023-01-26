@@ -197,6 +197,16 @@ class MemberController extends Controller
             ]);
         }
 
+        $user = User::where('member_id', $member->id)->first();
+
+        if ($request->email != $user->email && $request->email != $member->email) {
+            if (User::where('email',$request->email)->exists() || Member::where('email',$request->email)->exists()) {
+                return redirect()->back()->withErrors([
+                    'email' => 'This email has been already taken'
+                ]);
+            }
+        }
+
         $member->name = $request->name;
         $member->address = $request->address;
         $member->prov_address = $request->prov_address;
@@ -212,8 +222,10 @@ class MemberController extends Controller
         $member->skills = $request->skills;
         $member->employment = $request->employment;
         $member->income = $request->income;
-
         $member->update();
+
+        $user->email = $request->email;
+        $user->update();
 
         return redirect()->route('members.show', $member->id)->with([
             'type' => 'success',

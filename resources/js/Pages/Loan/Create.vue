@@ -76,7 +76,9 @@
                         <div class="mt-2">
                             <span
                                 class="text-sm uppercase font-bold text-theme-800 dark:text-white/90 block">Receivable</span>
-                            <span class="dark:text-white/70">₱{{ loan?.receivable }}</span>
+                            <span class="dark:text-white/70">₱{{ loan?.receivable }} (₱{{
+                                Math.round(loan?.paymentm)
+                            }}/month)</span>
                         </div>
                     </div>
                 </div>
@@ -93,6 +95,7 @@
                             <tr class="uppercase dark:text-white/80">
                                 <th class="p-2">Date</th>
                                 <th class="p-2">Date paid</th>
+                                <th class="p-2">Payment</th>
                                 <th class="p-2">Balance</th>
                             </tr>
                         </thead>
@@ -103,27 +106,23 @@
                                 <td class="rounded-l-lg">
                                     <div class="flex justify-between">
                                         <span class="p-2"
-                                            :class="isLate(payment.month) && payment.payment == null ? 'text-red-500' : ''">{{
+                                            :class="isLate(payment.month) && payment.payment == null && loan?.balance ? 'text-red-500' : ''">{{
                                                 format_dateMDY(payment.month)
                                             }}</span>
-                                        <!-- <button v-if="$page.props.auth.position.includes('Treasurer')"
-                                            class="text-lg invisible group-hover:visible hover:text-green-600 dark:hover:text-green-500"
-                                            @click="togglePayment(payment)"><i class="bx bx-edit"></i></button> -->
                                     </div>
                                 </td>
                                 <td class="p-2">
-                                    <div class="flex justify-between">
-                                        <div>
-                                            {{ format_dateMDY(payment.date_paid) }}
-                                            <span v-if="payment.is_late"
-                                                class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
-                                            <span v-if="payment.payment && payment.payment < Math.round(loan.paymentm)"
-                                                class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
-                                        </div>
-                                        <span class="text-green-700 dark:text-green-500 pr-8">{{
-                                            payment.payment?.toLocaleString()
-                                        }}</span>
-                                    </div>
+                                    {{ format_dateMDY(payment.date_paid) }}
+                                    <span v-if="payment.is_late"
+                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
+                                    <span
+                                        v-if="payment.payment && payment.payment < Math.round(loan.paymentm) && payment.balance > 0"
+                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
+                                </td>
+                                <td class="p-2">
+                                    <span class="text-green-700 dark:text-green-500">{{
+                                        payment.payment?.toLocaleString()
+                                    }}</span>
                                 </td>
                                 <td class="rounded-r-lg p-2">
                                     {{
@@ -132,18 +131,25 @@
                                     }}
                                 </td>
                             </tr>
+                            <tr v-if="loan?.paid_all && loan?.balance" @click="newPaymentModal = true"
+                                class="hover:bg-black/10 dark:hover:bg-white/10 dark:text-white/90 cursor-pointer">
+                                <td colspan="4" class="rounded-lg p-2 text-theme-500 hover:underline" align="center">
+                                    Add new payment schedule
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-                    <div v-if="bal > 0" class="flex justify-end font-semibold uppercase dark:text-white/90">Remaining
+                    <div v-if="loan?.balance" class="flex justify-end font-semibold uppercase dark:text-white/90">
+                        Remaining
                         balance: ₱{{
-                            bal.toLocaleString()
+                            loan?.balance.toLocaleString()
                         }}</div>
                 </div>
             </div>
         </div>
 
         <!-- End of loan -->
-        <div class="py-4 max-w-screen-2xl mx-auto lg:px-8 flex justify-end" v-if="loan?.is_fully_paid">
+        <div class="py-4 max-w-screen-2xl mx-auto lg:px-8 flex justify-end" v-if="!loan?.balance">
             <!-- <Link :href="route('loans.destroy', loan.id)" as="button" method="delete"
                 class="text-red-500 text-xs uppercase font-semibold p-2 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white ease-out duration-300"
                 preserve-scroll>Settle loan</Link> -->
@@ -237,6 +243,48 @@
                 <div v-if="showPayment" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-md"></div>
             </Transition>
         </div>
+
+        <!-- New payment schedule modal -->
+        <div>
+            <Transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0 scale-75"
+                enter-to-class="opacity-100 scale-100" leave-active-class="duration-200 ease-out"
+                leave-from-class="opacity-100 scale-100" leave-to-class="transform opacity-0 scale-75">
+                <div v-if="newPaymentModal"
+                    class="overflow-auto inset-0 fixed z-50 h-screen w-screen flex justify-center items-center"
+                    @click.self="this.newPaymentModal = false">
+                    <div
+                        class="relative bg-white dark:bg-zinc-900 lg:w-96 w-11/12 h-auto overflow-y-auto max-h-[80%] p-6 rounded-lg">
+                        <div class="flex justify-between pb-3">
+                            <span class="font-semibold text-gray-800 dark:text-white/90">New payment schedule</span>
+                            <button class="inline-flex rounded-full hover:bg-black/20 dark:hover:bg-white/20"
+                                @click="this.newPaymentModal = false"><i
+                                    class="bx bx-x text-[25px] text-black/60 dark:text-white/60"></i></button>
+                        </div>
+                        <form @submit.prevent="newPaymentForm.post(route('payment.store'), {
+                            onSuccess: () => this.newPaymentModal = false
+                        })">
+                            <div>
+                                <BreezeLabel for="month" value="Date" />
+                                <BreezeInput id="month" type="date" class="mt-1 block w-full"
+                                    v-model="newPaymentForm.month" required />
+                            </div>
+
+                            <div>
+                                <BreezeButton class="mt-4" :class="{ 'opacity-25': paymentform.processing }"
+                                    :disabled="paymentform.processing">
+                                    Add
+                                </BreezeButton>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </Transition>
+            <Transition enter-active-class="duration-200 ease opacity-0" enter-from-class="opacity-0"
+                enter-to-class="opacity-100" leave-active-class="duration-200 ease opacity-90"
+                leave-from-class="opacity-90" leave-to-class="transform opacity-0" appear>
+                <div v-if="newPaymentModal" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-md"></div>
+            </Transition>
+        </div>
     </div>
 
     <!-- Loan History -->
@@ -299,20 +347,25 @@ export default {
             })
         }
 
-        return { form, paymentform, paymentSubmit }
+        const newPaymentForm = useForm({
+            loan_id: props.loan?.id,
+            month: '',
+        })
+
+        return { form, paymentform, paymentSubmit, newPaymentForm }
     },
     props: {
         member: Object,
         errors: Object,
         loanables: Object,
         loan: Object,
-        bal: Number,
         history: Object
     },
     data() {
         return {
             showPayment: false,
             showDeleteModal: false,
+            newPaymentModal: false,
         }
     },
     methods: {

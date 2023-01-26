@@ -62,9 +62,9 @@ class Loan extends Model
         'interestm',
         'principalm',
         'paymentm',
-        'is_fully_paid',
         'has_late_payment',
         'balance',
+        'paid_all',
     ];
 
     public function getReceivableAttribute()
@@ -93,19 +93,6 @@ class Loan extends Model
         return $this->principal / $this->amortization;
     }
 
-    public function getIsFullyPaidAttribute()
-    {
-        $total = 0;
-        $payments = Payment::where('loan_id','=',$this->id)->get();
-        foreach ($payments as $payment) {
-            if ($payment->payment == null) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public function getHasLatePaymentAttribute()
     {
         $count = 0;
@@ -126,5 +113,17 @@ class Loan extends Model
     public function getBalanceAttribute()
     {
         return $this->principal * (1 + ($this->rate/100)) - $this->hasMany(Payment::class)->sum('payment');
+    }
+
+    public function getPaidAllAttribute()
+    {
+        $payments = Payment::where('loan_id',$this->id)->get();
+        foreach ($payments as $payment) {
+            if ($payment->payment == null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -38,7 +38,22 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (Gate::denies('isTreasurer')) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
+        $new = Payment::create([
+            'loan_id' => $request->loan_id,
+            'month' => Carbon::parse($request->month),
+        ]);
+
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => 'Success'
+        ]);
     }
 
     /**

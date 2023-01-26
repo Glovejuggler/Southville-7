@@ -92,7 +92,9 @@
                 <div class="mt-3">
                     <div class="flex items-center space-x-4">
                         <span class="font-semibold">Beneficiaries</span>
-                        <Link :href="route('beneficiaries.edit', member)" class="hover:text-green-500">
+                        <Link
+                            v-if="this.$page.props.auth.position.some(r => ['Chairman', 'Vice Chairman', 'Secretary'].includes(r))"
+                            :href="route('beneficiaries.edit', member)" class="hover:text-green-500">
                         <i
                             class="bx bx-edit text-xl rounded-full h-8 w-8 hover:bg-black/10 p-2 inline-flex items-center justify-center"></i>
                         </Link>
@@ -194,6 +196,7 @@
             class="rounded-lg py-2 px-4 uppercase font-semibold text-xs text-red-600 border border-red-600 hover:text-white hover:bg-red-600 duration-200 ease-in-out">Delete
             member</button>
     </div>
+
     <!-- Image modal -->
     <ShowImage ref="showImageModal" />
 
@@ -281,7 +284,6 @@
         </Transition>
     </div>
 </template>
-
 
 <script>
 import BreezeButton from '@/Components/Button.vue';

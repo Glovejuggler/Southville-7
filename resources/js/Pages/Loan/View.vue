@@ -63,6 +63,7 @@
                             <tr class="uppercase dark:text-white/80">
                                 <th class="p-2">Date</th>
                                 <th class="p-2">Date paid</th>
+                                <th class="p-2">Payment</th>
                                 <th class="p-2">Balance</th>
                             </tr>
                         </thead>
@@ -73,24 +74,23 @@
                                 <td class="rounded-l-lg">
                                     <div class="flex justify-between">
                                         <span class="p-2"
-                                            :class="isLate(payment.month) && payment.payment == null ? 'text-red-500' : ''">{{
+                                            :class="isLate(payment.month) && payment.payment && loan?.balance == null ? 'text-red-500' : ''">{{
                                                 format_dateMDY(payment.month)
                                             }}</span>
                                     </div>
                                 </td>
                                 <td class="p-2">
-                                    <div class="flex justify-between">
-                                        <div>
-                                            {{ format_dateMDY(payment.date_paid) }}
-                                            <span v-if="payment.is_late"
-                                                class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
-                                            <span v-if="payment.payment && payment.payment < Math.round(loan.paymentm)"
-                                                class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
-                                        </div>
-                                        <span class="text-green-700 dark:text-green-500 pr-8">{{
-                                            payment.payment?.toLocaleString()
-                                        }}</span>
-                                    </div>
+                                    {{ format_dateMDY(payment.date_paid) }}
+                                    <span v-if="payment.is_late"
+                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
+                                    <span
+                                        v-if="payment.payment && payment.payment < Math.round(loan.paymentm) && payment.balance > 0"
+                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
+                                </td>
+                                <td class="p-2">
+                                    <span class="text-green-700 dark:text-green-500 pr-8">{{
+                                        payment.payment?.toLocaleString()
+                                    }}</span>
                                 </td>
                                 <td class="rounded-r-lg p-2">
                                     {{

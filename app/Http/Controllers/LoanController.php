@@ -41,9 +41,9 @@ class LoanController extends Controller
 
         return inertia('Loan/Create', [
             'loan' => $loan,
-            'bal' => $loan?->receivable - $loan?->total_payments(),
             'history' => Loan::onlyTrashed()
                                 ->where('member_id', $member->id)
+                                ->orderBy('created_at', 'desc')
                                 ->get(),
             'member' => $member,
             'loanables' => Loanable::where('requirement', '<=', $member->share_capital)->get(),

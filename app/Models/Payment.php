@@ -12,6 +12,8 @@ class Payment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['loan_id', 'month'];
+
     protected $appends = ['balance','principal','interest','is_late'];
 
     public function loan()

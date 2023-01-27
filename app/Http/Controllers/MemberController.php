@@ -199,11 +199,21 @@ class MemberController extends Controller
 
         $user = User::where('member_id', $member->id)->first();
 
-        if ($request->email != $user->email && $request->email != $member->email) {
-            if (User::where('email',$request->email)->exists() || Member::where('email',$request->email)->exists()) {
-                return redirect()->back()->withErrors([
-                    'email' => 'This email has been already taken'
-                ]);
+        if ($user) {
+            if ($request->email != $user->email && $request->email != $member->email) {
+                if (User::where('email',$request->email)->exists() || Member::where('email',$request->email)->exists()) {
+                    return redirect()->back()->withErrors([
+                        'email' => 'This email has been already taken'
+                    ]);
+                }
+            }
+        } else {
+            if ($request->email != $member->email) {
+                if (User::where('email',$request->email)->exists() || Member::where('email',$request->email)->exists()) {
+                    return redirect()->back()->withErrors([
+                        'email' => 'This email has been already taken'
+                    ]);
+                }
             }
         }
 
@@ -224,8 +234,10 @@ class MemberController extends Controller
         $member->income = $request->income;
         $member->update();
 
-        $user->email = $request->email;
-        $user->update();
+        if ($user) {
+            $user->email = $request->email;
+            $user->update();
+        }
 
         return redirect()->route('members.show', $member->id)->with([
             'type' => 'success',

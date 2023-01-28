@@ -45,8 +45,10 @@
                         </div>
                         <div class="mt-2">
                             <span
-                                class="text-sm uppercase font-bold text-theme-800 dark:text-white/90 block">Receivable</span>
-                            <span class="dark:text-white/70">₱{{ loan?.receivable }}</span>
+                                class="text-sm uppercase font-bold text-theme-800 dark:text-white/90 block">Payment</span>
+                            <span class="dark:text-white/70">₱{{ loan?.receivable }} (₱{{
+                                loan?.paymentm
+                            }}/month)</span>
                         </div>
                     </div>
                 </div>

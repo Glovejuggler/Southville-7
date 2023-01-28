@@ -42,13 +42,18 @@
             <div class="w-full" @click="page = 'Savings'">
                 <div class="bg-white rounded-lg p-6 cursor-pointer border border-transparent hover:border-theme-800">
                     <span class="font-bold block mb-5">Savings</span>
-                    <span class="font-bold text-5xl">₱ {{ self.savings }}</span>
+                    <span class="font-bold text-5xl">₱
+                        <number ref="number1" :from="0" :to="self.savings" :duration="1" easing="Power3.easeOut" />
+                    </span>
                 </div>
             </div>
             <div class="w-full lg:mt-0 mt-4" @click="page = 'Share'">
                 <div class="bg-white rounded-lg p-6 cursor-pointer border border-transparent hover:border-theme-800">
                     <span class="font-bold block mb-5">Share capital</span>
-                    <span class="font-bold text-5xl">₱ {{ self.share_capital }}</span>
+                    <span class="font-bold text-5xl">₱
+                        <number ref="number2" :from="0" :to="self.share_capital" :duration="1"
+                            easing="Power3.easeOut" />
+                    </span>
                 </div>
             </div>
             <div @click="page = 'Loanables'" v-if="!loan && loanables.length"
@@ -58,7 +63,7 @@
             </div>
             <div @click="page = 'Loan'" v-if="loan"
                 class="bg-white rounded-lg p-3 lg:mt-0 mt-4 cursor-pointer border border-transparent hover:border-theme-800 col-span-2 flex justify-between items-center">
-                <span>Loans</span>
+                <span>Loan</span>
                 <i class="bx bx-chevron-right text-2xl"></i>
             </div>
             <div @click="page = 'Loan History'" v-if="history.length"
@@ -156,8 +161,8 @@
                         <span>{{ loan.loan_name }}</span>
                     </div>
                     <div class="flex flex-col mt-4">
-                        <span class="font-bold text-sm text-theme-800 uppercase">To pay</span>
-                        <span>₱{{ loan.receivable }}</span>
+                        <span class="font-bold text-sm text-theme-800 uppercase">Payment</span>
+                        <span>₱{{ loan.receivable }} (₱{{ loan.paymentm }}/month)</span>
                     </div>
                 </div>
 
@@ -169,6 +174,7 @@
                             <tr class="uppercase dark:text-white/80">
                                 <th class="p-2">Date</th>
                                 <th class="p-2">Date paid</th>
+                                <th class="p-2">Payment</th>
                                 <th class="p-2">Balance</th>
                             </tr>
                         </thead>
@@ -183,18 +189,16 @@
                                     </div>
                                 </td>
                                 <td class="p-2">
-                                    <div class="flex justify-between">
-                                        <div>
-                                            {{ formatPaymentDate(payment.date_paid) }}
-                                            <span v-if="payment.is_late"
-                                                class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
-                                            <span v-if="payment.payment && payment.payment < Math.round(loan.paymentm)"
-                                                class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
-                                        </div>
-                                        <span class="text-green-700 dark:text-green-500 pr-8">{{
-                                            payment.payment?.toLocaleString()
-                                        }}</span>
-                                    </div>
+                                    {{ formatPaymentDate(payment.date_paid) }}
+                                    <span v-if="payment.is_late"
+                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
+                                    <span v-if="payment.payment && payment.payment < Math.round(loan.paymentm)"
+                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
+                                </td>
+                                <td>
+                                    <span class="text-green-700 dark:text-green-500 pr-8">{{
+                                        payment.payment?.toLocaleString()
+                                    }}</span>
                                 </td>
                                 <td class="rounded-r-lg p-2">
                                     {{
@@ -251,10 +255,11 @@
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Pagination from '@/Components/Pagination.vue';
 import moment from 'moment';
+import number from '@/Components/Number.vue';
 
 export default {
     components: {
-        Head, Link, Pagination
+        Head, Link, Pagination, number
     },
     props: {
         self: Object,

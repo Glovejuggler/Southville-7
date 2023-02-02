@@ -18,16 +18,19 @@
 
     <ShowMemberTabs :member="member" />
 
-    <div class="py-4" v-if="!loan">
+    <div class="py-4" v-if="!loanables.length">
+        <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden p-6">
+                <span class="italic">{{ member.name }} does not have enough share capital required for any
+                    loan.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-4" v-if="!loan && $page.props.auth.position.some(r => ['Treasurer'].includes(r))">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
             <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
                 <div class="p-6 bg-white dark:bg-zinc-900">
-                    <!-- Cannot loan -->
-                    <div v-if="!loanables.length">
-                        <span class="italic">{{ member.name }} does not have enough share capital required for any
-                            loan.</span>
-                    </div>
-
                     <!-- Loan form -->
                     <form v-if="loanables.length" @submit.prevent="form.post(route('loans.store'))">
                         <div>
@@ -131,7 +134,8 @@
                                     }}
                                 </td>
                             </tr>
-                            <tr v-if="loan?.paid_all && loan?.balance" @click="newPaymentModal = true"
+                            <tr v-if="loan?.paid_all && loan?.balance && $page.props.auth.position.some(r => ['Treasurer'].includes(r))"
+                                @click="newPaymentModal = true"
                                 class="hover:bg-black/10 dark:hover:bg-white/10 dark:text-white/90 cursor-pointer">
                                 <td colspan="4" class="rounded-lg p-2 text-theme-500 hover:underline" align="center">
                                     Add new payment schedule

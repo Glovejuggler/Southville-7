@@ -27,12 +27,13 @@
         </div>
     </div>
 
-    <div class="py-4" v-if="!loan && $page.props.auth.position.some(r => ['Treasurer'].includes(r))">
+    <div class="py-4"
+        v-if="!loan && $page.props.auth.position.some(r => ['Treasurer'].includes(r)) && loanables.length">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-8">
             <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-lg">
                 <div class="p-6 bg-white dark:bg-zinc-900">
                     <!-- Loan form -->
-                    <form v-if="loanables.length" @submit.prevent="form.post(route('loans.store'))">
+                    <form @submit.prevent="form.post(route('loans.store'))">
                         <div>
                             <BreezeLabel for="principal" value="Loan" />
                             <select v-model="form.loanable" id="principal"

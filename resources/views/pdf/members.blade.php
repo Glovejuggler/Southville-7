@@ -7,44 +7,45 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Members</title>
 
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <style>
+        .header {
+            position: relative;
+            padding-top: 2rem;
+        }
+
+        .header-content {
+            position: absolute;
+            transform: translateY(-50%);
+        }
+
+        .header-text {
+            left: 5rem;
+        }
+    </style>
 </head>
 
 <body>
-    <center>
-        <p>Southville 7 Credit Cooperative</p>
-        <p>Lot 15, Block 5, Site 2, Southville 7, Brgy. Dayap, Calauan, Laguna</p>
-    </center>
-
+    <div class="header">
+        <img class="header-content" src="https://southville7cc.online/images/logo.png" alt="">
+        <div class="header-content header-text">
+            <h2><strong>Southville 7 Credit Cooperative</strong></h2>
+            <p>Lot 15, Block 5, Site 2, Southville 7, Brgy. Dayap, Calauan, Laguna</p>
+        </div>
+    </div>
+    <hr style="margin-top: 4rem">
+    <p style="float: right">Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
     <br><br>
     @if ($status === 'active')
-    <center>
-        <p>Members with active loans</p>
-        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
-    </center>
+    <p>Members with active loans</p>
     @elseif ($status === 'inactive')
-    <center>
-        <p>Members with inactive loans</p>
-        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
-    </center>
+    <p>Members with inactive loans</p>
     @elseif ($status === 'overdue')
-    <center>
-        <p>Members with overdue payments</p>
-        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
-    </center>
+    <p>Members with overdue payments</p>
     @elseif ($status === 'dueToday')
-    <center>
-        <p>Members with payments due today</p>
-        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
-    </center>
+    <p>Members with payments due today</p>
     @else
-    <center>
-        <p>Members list</p>
-        <p>Date: {{ now()->isoformat('MMMM D, YYYY') }}</p>
-    </center>
+    <p>Members list</p>
     @endif
-
-    <br><br>
 
     @if ($status === 'active' || $status === 'overdue' || $status === 'dueToday')
     <table border="1" cellpadding="7" cellspacing="0" style="width:100%">
@@ -73,10 +74,32 @@
             @endforeach
         </tbody>
     </table>
+    <div>
+        <p>Total collectibles: <strong>{{ number_format($members->sum('balance')) }}</strong></p>
+    </div>
     @else
-    @foreach ($members as $member)
-    <p>{{ $loop->iteration.'. '.$member->name }}</p>
-    @endforeach
+    <table border="1" cellpadding="7" cellspacing="0" style="width:100%">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Share capital</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($members as $member)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>
+                    {{ $member->name }}
+                </td>
+                <td>
+                    {{ number_format($member->share_capital) }}
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
     @endif
 </body>
 

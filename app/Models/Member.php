@@ -30,7 +30,7 @@ class Member extends Model
     ];
 
     protected $appends = [
-        'has_history', 'savings', 'share_capital'
+        'has_history', 'savings', 'share_capital', 'balance'
     ];
 
     use HasFactory;
@@ -75,6 +75,11 @@ class Member extends Model
     public function getShareCapitalAttribute()
     {
         return $this->hasMany(ShareCapital::class)->sum('amount');
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->loan?->balance;
     }
 
     // Search filter

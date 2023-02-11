@@ -112,7 +112,8 @@ class Loan extends Model
 
     public function getBalanceAttribute()
     {
-        return $this->principal * (1 + ($this->rate/100)) - $this->hasMany(Payment::class)->sum('payment');
+        $balance = $this->principal * (1 + ($this->rate/100)) - $this->hasMany(Payment::class)->sum('payment');
+        return $balance > 0 ? $balance : 0;
     }
 
     public function getPaidAllAttribute()

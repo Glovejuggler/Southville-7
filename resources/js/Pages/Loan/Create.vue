@@ -34,23 +34,36 @@
                 <div class="p-6 bg-white dark:bg-zinc-900">
                     <!-- Loan form -->
                     <form @submit.prevent="form.post(route('loans.store'))">
-                        <div>
-                            <BreezeLabel for="principal" value="Loan" />
-                            <select v-model="form.loanable" id="principal"
-                                class="block rounded-lg dark:bg-zinc-900 dark:text-white/70 border-gray-300 dark:border-white/30
-                                                        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm mt-2 lg:mt-0 w-full lg:w-96">
-                                <option value="" disabled hidden selected>Select one</option>
-                                <option v-for="loanable in loanables" :value="loanable.id">{{ loanable.name }}
-                                </option>
-                            </select>
-                            <div v-if="errors.principal" class="text-red-600">{{ errors.principal }}</div>
-                        </div>
+                        <div class="lg:w-1/2 w-full lg:grid grid-cols-2 gap-2">
+                            <div>
+                                <BreezeLabel for="principal" value="Loan" />
+                                <select v-model="form.loanable" id="principal"
+                                    class="block rounded-lg dark:bg-zinc-900 dark:text-white/70 border-gray-300 dark:border-white/30
+                                                        focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm mt-2 lg:mt-0 w-full">
+                                    <option value="" disabled hidden selected>Select one</option>
+                                    <option v-for="loanable in loanables" :value="loanable.id">{{ loanable.name }}
+                                    </option>
+                                </select>
+                                <div v-if="errors.principal" class="text-red-600">{{ errors.principal }}</div>
+                            </div>
 
-                        <div class="mt-5">
-                            <BreezeLabel for="maturity" value="Starting date of payment" />
-                            <BreezeInput id="maturity" type="date" class="mt-1 block w-full lg:w-96"
-                                v-model="form.maturity" />
-                            <div v-if="errors.maturity" class="text-red-600">{{ errors.maturity }}</div>
+                            <div class="lg:mt-0 mt-5">
+                                <BreezeLabel for="maturity" value="Starting date of payment" />
+                                <BreezeInput id="maturity" type="date" class="block w-full" v-model="form.maturity" />
+                                <div v-if="errors.maturity" class="text-red-600">{{ errors.maturity }}</div>
+                            </div>
+
+                            <div class="lg:mt-0 mt-5">
+                                <BreezeLabel for="rate" value="Interest (%)" />
+                                <BreezeInput id="rate" type="number" class="block w-full" v-model="form.rate" />
+                                <div v-if="errors.rate" class="text-red-600">{{ errors.rate }}</div>
+                            </div>
+
+                            <div class="lg:mt-0 mt-5">
+                                <BreezeLabel for="term" value="Months to pay" />
+                                <BreezeInput id="term" type="number" class="block w-full" v-model="form.term" />
+                                <div v-if="errors.term" class="text-red-600">{{ errors.term }}</div>
+                            </div>
                         </div>
 
                         <BreezeButton class="mt-4" :class="{ 'opacity-25': form.processing }"
@@ -330,9 +343,9 @@ export default {
         const form = useForm({
             member_id: props.member.id,
             loanable: '',
-            rate: 3,
-            term: 3,
-            amortization: 3,
+            rate: props.options.rate !== 0 ? props.options.rate : 3,
+            term: props.options.term !== 0 ? props.options.term : 3,
+            amortization: props.options.amortization !== 0 ? props.options.amortization : 3,
             maturity: ''
         })
 
@@ -364,7 +377,8 @@ export default {
         errors: Object,
         loanables: Object,
         loan: Object,
-        history: Object
+        history: Object,
+        options: Object,
     },
     data() {
         return {

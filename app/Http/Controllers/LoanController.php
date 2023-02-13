@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\Payment;
 use App\Models\Loanable;
 use Illuminate\Http\Request;
+use App\Models\Configuration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -47,6 +48,11 @@ class LoanController extends Controller
                                 ->get(),
             'member' => $member,
             'loanables' => Loanable::where('requirement', '<=', $member->share_capital)->get(),
+            'options' => [
+                'rate' => (int)Configuration::where('key', 'rate')->first()?->value,
+                'term' => (int)Configuration::where('key', 'term')->first()?->value,
+                'amortization' => (int)Configuration::where('key', 'amortization')->first()?->value,
+            ],
         ]);
     }
 
@@ -73,6 +79,18 @@ class LoanController extends Controller
             'maturity' => 'required|date'
         ]);
 
+        $rate = Configuration::updateOrCreate(
+            ['key' => 'rate'], ['value' => $request->rate]
+        );
+
+        $term = Configuration::updateOrCreate(
+            ['key' => 'term'], ['value' => $request->term]
+        );
+
+        $amortization = Configuration::updateOrCreate(
+            ['key' => 'amortization'], ['value' => $request->term]
+        );
+
         $member = Member::find($request->member_id);
 
         $loanable = Loanable::find($request->loanable);
@@ -83,7 +101,7 @@ class LoanController extends Controller
             'principal' => $loanable->equivalent,
             'rate' => $request->rate,
             'term' => $request->term,
-            'amortization' => $request->amortization,
+            'amortization' => $request->term,
             'maturity' => $request->maturity,
         ]);
         

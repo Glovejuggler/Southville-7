@@ -205,6 +205,7 @@ export default {
         const fileform = useForm({
             file: [],
             post_id: props.post.id,
+            type: 'posts',
         })
 
         function submitFile() {
@@ -249,7 +250,6 @@ export default {
             filelist.splice(index, 1);
             this.fileform.file = filelist;
         }
-
     }
 }
 </script>

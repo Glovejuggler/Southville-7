@@ -63,7 +63,7 @@ class PostController extends Controller
         if ($request->file) {
             foreach ($request->file as $file) {
                 $newPhoto = Storage::putFileAs(
-                    'posts/'.$new->id.'/pictures/'.$request->member_id,
+                    'posts/'.$new->id.'/pictures',
                     $file,
                     Str::random(20).'.'.$file->getClientOriginalExtension()
                 );

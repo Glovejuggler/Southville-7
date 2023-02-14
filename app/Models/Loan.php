@@ -65,6 +65,7 @@ class Loan extends Model
         'has_late_payment',
         'balance',
         'paid_all',
+        'penalty'
     ];
 
     public function getReceivableAttribute()
@@ -126,5 +127,19 @@ class Loan extends Model
         }
 
         return true;
+    }
+
+    public function getPenaltyAttribute()
+    {
+        $count = 0;
+        // return (($this->has_late_payment * 0.01) + 1) * $this->balance;
+        $payments = Payment::where('loan_id',$this->id)->whereDate('month','<',now())->get();
+        foreach ($payments as $payment) {
+            if ($payment->date_paid == null || $payment->date_paid > $payment->month) {
+                $count += 1;
+            }
+        }
+
+        return ($count * 0.02) * $this->paymentm;
     }
 }

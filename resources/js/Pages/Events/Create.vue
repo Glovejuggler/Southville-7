@@ -41,6 +41,36 @@
                             <div v-if="errors.date" class="text-red-600">{{ errors.date }}</div>
                         </div>
 
+                        <div class="mt-5 w-full lg:w-1/2">
+                            <div>
+                                <p class="font-semibold text-sm">Photos</p>
+                                <button type="button" @click="uploadMedia"
+                                    class="inline-flex items-center justify-center rounded-full p-2 leading-none h-12 w-12 hover:bg-black/10 active:bg-green-500/10 active:text-green-500"><i
+                                        class="bx bx-image-add text-3xl"></i></button>
+                            </div>
+                            <label class="hidden">
+                                <input id="file" type="file" name="file" accept="image/*"
+                                    @input="form.file = $event.target.files" @change="update" class="block w-full text-sm text-slate-500 dark:text-white/70
+                                                                                                            file:mr-4 file:py-2 file:px-4
+                                                                                                            file:rounded-full file:border-0
+                                                                                                            file:text-sm file:font-semibold
+                                                                                                            file:bg-gray-50 file:text-gray-700 dark:file:text-white/70 dark:file:bg-zinc-600
+                                                                                                            hover:file:bg-gray-100
+                                                                                                            "
+                                    multiple />
+                            </label>
+
+                            <div class="pt-3 grid gap-2"
+                                :class="{ 'grid-cols-2': images.length > 1, 'grid-cols-4': images.length > 3 }">
+                                <div class="relative" v-for="(item, index) in images" :key="index">
+                                    <button type="button" @click="removeImage(index)"
+                                        class="inline-flex bg-black/75 m-1 absolute top-0 left-0 text-white hover:bg-black rounded-full text-xl"><i
+                                            class="bx bx-x"></i></button>
+                                    <img :src="item.url" alt="" class="rounded-lg object-cover h-48 w-full">
+                                </div>
+                            </div>
+                        </div>
+
                         <div>
                             <BreezeButton class="mt-4" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing">Add</BreezeButton>
@@ -71,12 +101,43 @@ export default {
             title: '',
             content: '',
             date: '',
+            file: [],
         })
 
         return { form }
     },
     props: {
         errors: Object
+    },
+    methods: {
+        update() {
+            this.images.splice(0, this.images.length);
+            Array.from(this.form.file).forEach((image) => {
+                let reader = new FileReader();
+                reader.readAsDataURL(image);
+
+                reader.onload = (e) => {
+                    this.images.push({
+                        url: e.target.result
+
+                    });
+                }
+            });
+        },
+        uploadMedia() {
+            document.getElementById('file').click()
+        },
+        removeImage(index) {
+            const filelist = [...this.form.file];
+            this.images.splice(index, 1);
+            filelist.splice(index, 1);
+            this.form.file = filelist;
+        }
+    },
+    data() {
+        return {
+            images: [],
+        }
     }
 }
 </script>

@@ -38,18 +38,33 @@ class PhotoController extends Controller
     public function store(Request $request)
     {
         foreach ($request->file as $file) {
-            $newPhoto = Storage::putFileAs(
-                'posts/'.$request->post_id.'/pictures/'.$request->member_id,
-                $file,
-                Str::random(20).'.'.$file->getClientOriginalExtension()
-            );
+            if ($request->type == 'posts') {
+                $newPhoto = Storage::putFileAs(
+                    'posts/'.$request->post_id.'/pictures',
+                    $file,
+                    Str::random(20).'.'.$file->getClientOriginalExtension()
+                );
 
-            $photo = new Photo;
+                $photo = new Photo;
 
-            $photo->post_id = $request->post_id;
-            $photo->path = $newPhoto;
+                $photo->post_id = $request->post_id;
+                $photo->path = $newPhoto;
 
-            $photo->save();
+                $photo->save();
+            } else {
+                $newPhoto = Storage::putFileAs(
+                    'events_pics/'.$request->event_id.'/pictures',
+                    $file,
+                    Str::random(20).'.'.$file->getClientOriginalExtension()
+                );
+
+                $photo = new Photo;
+
+                $photo->event_id = $request->event_id;
+                $photo->path = $newPhoto;
+
+                $photo->save();
+            }
         }
 
         return redirect()->back();

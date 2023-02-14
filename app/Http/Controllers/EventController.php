@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Event;
+use App\Models\Photo;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -77,6 +80,23 @@ class EventController extends Controller
             'status' => 'Upcoming',
         ]);
 
+        if ($request->file) {
+            foreach ($request->file as $file) {
+                $newPhoto = Storage::putFileAs(
+                    'events_pics/'.$new->id.'/pictures',
+                    $file,
+                    Str::random(20).'.'.$file->getClientOriginalExtension()
+                );
+
+                $photo = new Photo;
+
+                $photo->event_id = $new->id;
+                $photo->path = $newPhoto;
+
+                $photo->save();
+            }
+        }
+
         return redirect()->route('events.index')->with([
             'type' => 'success', 
             'message' => 'Event added successfully'
@@ -111,7 +131,8 @@ class EventController extends Controller
 
         return inertia('Events/Edit', [
             'event' => $event,
-            'hasPost' => $event->post
+            'hasPost' => $event->post,
+            'pics' => Photo::where('event_id',$event->id)->get(),
         ]);
     }
 

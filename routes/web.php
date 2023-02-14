@@ -142,6 +142,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('events', EventController::class);
 
     Route::resource('payment', PaymentController::class);
+    Route::get('payment/receipt/{id}', [PaymentController::class, 'receipt'])->name('payment.receipt');
 
     Route::resource('files', FileController::class);
     Route::get('/download/{id}', [FileController::class, 'download'])->name('file.download');

@@ -191,19 +191,17 @@
                                 <td class="p-2">
                                     {{ formatPaymentDate(payment.date_paid) }}
                                     <span v-if="payment.is_late"
-                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
-                                    <span v-if="payment.payment && payment.payment < Math.round(loan.paymentm)"
-                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
+                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mx-1">Late</span>
                                 </td>
                                 <td>
-                                    <span class="text-green-700 dark:text-green-500 pr-8">{{
-                                        payment.payment?.toLocaleString()
-                                    }}</span>
+                                    {{ payment.payment ? `₱ ${payment.payment?.toLocaleString()}` : '' }}
+                                    <span v-if="payment.payment && payment.payment < Math.round(loan.paymentm)"
+                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mx-1">Short</span>
                                 </td>
                                 <td class="rounded-r-lg p-2">
                                     {{
                                         payment.payment ?
-                                            payment.balance?.toLocaleString() : ''
+                                            `₱ ${payment.balance?.toLocaleString()}` : ''
                                     }}
                                 </td>
                             </tr>

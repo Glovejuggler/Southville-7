@@ -27,7 +27,7 @@ class StoreMemberRequest extends FormRequest
             'name' => 'required',
             'address' => 'required',
             'prov_address' => 'nullable',
-            'contact_number' => 'required|max:20',
+            'contact_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|numeric|digits:11',
             'email' => 'nullable|email|unique:members,email',
             'facebook' => 'nullable',
             'birthdate' => 'required|date',

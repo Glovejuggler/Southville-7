@@ -151,8 +151,8 @@
                                             <BreezeInput :id="`${index}.name`" type="text" class="mt-1 block w-full"
                                                 v-model="beneficiary.name" />
                                             <div v-if="errors[`beneficiaries.${index}.name`]" class="text-red-600">{{
-        errors[`beneficiaries.${index}.name`]
-}}</div>
+                                                errors[`beneficiaries.${index}.name`]
+                                            }}</div>
                                         </div>
                                         <div class="mt-2 lg:ml-1 lg:w-1/4">
                                             <BreezeLabel :for="`${index}.relation`" value="Relation" />
@@ -160,8 +160,8 @@
                                                 v-model="beneficiary.relation" />
                                             <div v-if="errors[`beneficiaries.${index}.relation`]" class="text-red-600">
                                                 {{
-        errors[`beneficiaries.${index}.relation`]
-}}</div>
+    errors[`beneficiaries.${index}.relation`]
+                                                }}</div>
                                         </div>
 
                                     </div>
@@ -172,8 +172,8 @@
                                                 v-model="beneficiary.birthday" />
                                             <div v-if="errors[`beneficiaries.${index}.birthday`]" class="text-red-600">
                                                 {{
-        errors[`beneficiaries.${index}.birthday`]
-}}</div>
+    errors[`beneficiaries.${index}.birthday`]
+                                                }}</div>
                                         </div>
 
 
@@ -182,8 +182,8 @@
                                             <BreezeInput :id="`${index}.phone`" type="text" class="mt-1 block w-full"
                                                 v-model="beneficiary.phone" />
                                             <div v-if="errors[`beneficiaries.${index}.phone`]" class="text-red-600">{{
-        errors[`beneficiaries.${index}.phone`]
-}}</div>
+                                                errors[`beneficiaries.${index}.phone`]
+                                            }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +208,6 @@ import BreezeButton from '@/Components/Button.vue';
 import BreezeLabel from '@/Components/Label.vue';
 import BreezeInput from '@/Components/Input.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
-
 
 export default {
     components: {

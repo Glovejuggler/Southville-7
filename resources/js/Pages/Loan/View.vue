@@ -47,7 +47,7 @@
                             <span
                                 class="text-sm uppercase font-bold text-theme-800 dark:text-white/90 block">Payment</span>
                             <span class="dark:text-white/70">₱{{ loan?.receivable }} (₱{{
-                                loan?.paymentm
+                                Math.round(loan?.paymentm)
                             }}/month)</span>
                         </div>
                     </div>
@@ -82,22 +82,22 @@
                                     </div>
                                 </td>
                                 <td class="p-2">
-                                    {{ format_dateMDY(payment.date_paid) }}
+                                    {{ format_dateMDY(payment.date_paid) }} <span class="text-xs opacity-70">{{
+                                        format_time(payment.date_paid)
+                                    }}</span>
                                     <span v-if="payment.is_late"
-                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
-                                    <span
-                                        v-if="payment.payment && payment.payment < Math.round(loan.paymentm) && payment.balance > 0"
-                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
+                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mx-1">Late</span>
                                 </td>
                                 <td class="p-2">
-                                    <span class="text-green-700 dark:text-green-500 pr-8">{{
-                                        payment.payment?.toLocaleString()
-                                    }}</span>
+                                    {{ payment.payment ? `₱ ${payment.payment?.toLocaleString()}` : '' }}
+                                    <span
+                                        v-if="payment.payment && payment.payment < Math.round(loan.paymentm) && payment.balance > 0"
+                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mx-1">Short</span>
                                 </td>
                                 <td class="rounded-r-lg p-2">
                                     {{
                                         payment.payment ?
-                                            payment.balance?.toLocaleString() : ''
+                                            `₱ ${payment.balance?.toLocaleString()}` : ''
                                     }}
                                 </td>
                             </tr>
@@ -131,7 +131,10 @@
                             Date paid:
                         </div>
                         <span>
-                            {{ format_dateMDY(payment.date_paid) }}
+                            {{ format_dateMDY(payment.date_paid) }} <span
+                                class="text-xs opacity-70 inline-flex align-middle">{{
+                                    format_time(payment.date_paid)
+                                }}</span>
                         </span>
                     </div>
                     <div class="flex items-center space-x-2">
@@ -199,6 +202,11 @@ export default {
         format_dateMDY(value) {
             if (value) {
                 return moment(String(value)).format('MMMM D, YYYY')
+            }
+        },
+        format_time(value) {
+            if (value) {
+                return moment(String(value)).format('h:mm A')
             }
         },
         isLate(value) {

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Loan;
+use App\Models\Role;
+use NumberFormatter;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Gate;
 
 class PaymentController extends Controller
@@ -127,5 +130,27 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+
+    /**
+     * Download receipt
+     */
+    public function receipt($id)
+    {
+        $payment = Payment::find($id);
+
+        $numberToWords = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+        $numberToWords->setTextAttribute(NumberFormatter::DEFAULT_RULESET, "%spellout-numbering-verbose");
+        $numberToCurrency = new NumberFormatter("en", NumberFormatter::CURRENCY);
+        // dd($payment);
+        $pdf = Pdf::loadView('pdf.receipt.member.payment', [
+            'payment' => $payment,
+            'numberToWords' => $numberToWords,
+            'numberToCurrency' => $numberToCurrency,
+            'treasurer' => Role::where('position', 'Treasurer')->first()
+        ]);
+
+        return $pdf->download('Receipt.pdf');
+        // return $pdf->stream();
     }
 }

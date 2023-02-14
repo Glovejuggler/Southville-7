@@ -114,6 +114,8 @@
                                 <th class="p-2">Date paid</th>
                                 <th class="p-2">Payment</th>
                                 <th class="p-2">Balance</th>
+                                <th v-if="this.$page.props.auth.position.some(r => ['Treasurer'].includes(r))"
+                                    class="p-2">Receipt</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,23 +131,33 @@
                                     </div>
                                 </td>
                                 <td class="p-2">
-                                    {{ format_dateMDY(payment.date_paid) }}
+                                    {{ format_dateMDY(payment.date_paid) }} <span
+                                        class="opacity-70 text-xs inline-flex align-middle">{{
+                                            format_time(payment.date_paid)
+                                        }}</span>
                                     <span v-if="payment.is_late"
-                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mr-1">Late</span>
-                                    <span
-                                        v-if="payment.payment && payment.payment < Math.round(loan.paymentm) && payment.balance > 0"
-                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mr-1">Short</span>
+                                        class="text-red-800 bg-red-200 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 px-2 rounded-lg mx-1">Late</span>
                                 </td>
                                 <td class="p-2">
-                                    <span class="text-green-700 dark:text-green-500">{{
-                                        payment.payment?.toLocaleString()
-                                    }}</span>
+                                    {{ payment.payment ? `₱ ${payment.payment?.toLocaleString()}` : '' }}
+                                    <span
+                                        v-if="payment.payment && payment.payment < Math.round(loan.paymentm) && payment.balance > 0"
+                                        class="text-red-800 bg-red-200 px-2 dark:bg-transparent dark:border dark:border-red-500 dark:text-red-500 rounded-lg mx-1">Short</span>
                                 </td>
-                                <td class="rounded-r-lg p-2">
+                                <td class="p-2"
+                                    :class="{ 'rounded-r-lg': !this.$page.props.auth.position.some(r => ['Treasurer'].includes(r)) }">
                                     {{
                                         payment.payment ?
-                                            payment.balance?.toLocaleString() : ''
+                                            `₱ ${payment.balance?.toLocaleString()}` : ''
                                     }}
+                                </td>
+                                <td class="rounded-r-lg p-2"
+                                    v-if="this.$page.props.auth.position.some(r => ['Treasurer'].includes(r))">
+                                    <a v-show="payment.payment" target="_blank" type="button" @click.stop=""
+                                        :href="route('payment.receipt', payment.id)"
+                                        class="text-xs p-1 rounded-lg bg-[#ed7464] text-white">
+                                        Download
+                                    </a>
                                 </td>
                             </tr>
                             <tr v-if="loan?.paid_all && loan?.balance && $page.props.auth.position.some(r => ['Treasurer'].includes(r))"
@@ -211,7 +223,7 @@
             <Transition enter-active-class="duration-200 ease-out" enter-from-class="transform opacity-0 scale-75"
                 enter-to-class="opacity-100 scale-100" leave-active-class="duration-200 ease-out"
                 leave-from-class="opacity-100 scale-100" leave-to-class="transform opacity-0 scale-75">
-                <div v-if="showPayment"
+                <div v-show="showPayment"
                     class="overflow-auto inset-0 fixed z-50 h-screen w-screen flex justify-center items-center"
                     @click.self="this.showPayment = false">
                     <div
@@ -233,8 +245,8 @@
                             </div>
 
                             <div class="mt-5">
-                                <BreezeLabel for="date_paid" value="Date paid" />
-                                <BreezeInput id="date_paid" type="date" class="mt-1 block w-full lg:w-96"
+                                <BreezeLabel for="date_paid" value="Date and time paid" />
+                                <BreezeInput id="date_paid" type="datetime-local" class="mt-1 block w-full lg:w-96"
                                     v-model="paymentform.date_paid" />
                             </div>
 
@@ -398,6 +410,11 @@ export default {
                 return moment(String(value)).format('MMMM D, YYYY')
             }
         },
+        format_time(value) {
+            if (value) {
+                return moment(String(value)).format('h:mm A')
+            }
+        },
         isLate(value) {
             if (value) {
                 return moment().diff(moment(String(value)), 'days') >= 1
@@ -411,11 +428,14 @@ export default {
                 this.paymentform.payment = value.payment;
                 this.paymentform.notes = value.notes;
                 if (value.date_paid) {
-                    this.paymentform.date_paid = moment(String(value.date_paid)).format('YYYY\-MM\-DD');
+                    this.paymentform.date_paid = moment(String(value.date_paid)).format('YYYY\-MM\-DDTHH:MM');
                 } else {
                     this.paymentform.date_paid = null;
                 }
             }
+        },
+        isTreasurer() {
+            return this.$page.props.auth.position.some(r => ['Treasurer'].includes(r))
         }
     }
 }

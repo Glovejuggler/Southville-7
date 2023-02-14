@@ -18,7 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->smallInteger('loan_id');
             $table->date('month');
             $table->integer('payment')->nullable();
-            $table->date('date_paid')->nullable();
+            $table->datetime('date_paid')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

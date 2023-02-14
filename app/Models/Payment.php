@@ -14,7 +14,16 @@ class Payment extends Model
 
     protected $fillable = ['loan_id', 'month'];
 
-    protected $appends = ['balance','principal','interest','is_late'];
+    protected $appends = ['balance','principal','interest','is_late','ref'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'date_paid' => 'datetime',
+    ];
 
     public function loan()
     {
@@ -46,7 +55,7 @@ class Payment extends Model
         $bal = $this->loan->receivable;
         $dp = Carbon::parse($this->date_paid);
 
-        $payments = Payment::where('loan_id','=',$this->loan_id)->whereDate('date_paid','<=',$dp)->get();
+        $payments = Payment::where('loan_id','=',$this->loan_id)->where('id','<=',$this->id)->get();
         foreach ($payments as $payment) {
             $bal -= $payment->payment;
         }
@@ -57,7 +66,12 @@ class Payment extends Model
     public function getIsLateAttribute()
     {
         if ($this->payment) {
-            return $this->date_paid > $this->month;
+            return Carbon::parse($this->date_paid) > Carbon::parse($this->month);
         }
+    }
+
+    public function getRefAttribute()
+    {
+        return $this->id.$this->loan_id.$this->loan->member_id;
     }
 }

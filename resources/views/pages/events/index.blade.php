@@ -20,6 +20,8 @@
             @empty
             <span class="p-4 italic">No upcoming events</span>
             @endforelse
+
+            {{ $events->links('pagination::simple-tailwind') }}
         </div>
     </div>
 </div>

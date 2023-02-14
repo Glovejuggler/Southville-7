@@ -45,8 +45,8 @@ class PagesController extends Controller
         return view('pages.events.index', [
             'events' => Event::where('status', 'Upcoming')
                                 ->where('date','>=',now())
-                                ->paginate(5),
-            'posts' => Post::latest()->paginate(5),
+                                ->latest()
+                                ->paginate(10),
         ]);
     }
 

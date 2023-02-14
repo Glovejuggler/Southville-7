@@ -62,7 +62,8 @@
 
 <div id="viewPhoto" class="fixed inset-0 z-50 h-screen justify-center items-center hidden">
     <div class="relative">
-        <img id="modalImage" class="relative z-50 max-h-[80vh] lg:max-w-4xl max-w-[90vw] ease-in-out" src="" alt="">
+        <img id="modalImage" class="relative z-50 max-h-[80vh] lg:max-w-4xl max-w-[90vw] ease-in-out bg-white" src=""
+            alt="">
     </div>
 
     <div id="modalBg" onclick="closeModal()" class="inset-0 fixed z-40 bg-black/75 backdrop-blur-md ease-in-out">

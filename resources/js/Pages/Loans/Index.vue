@@ -54,7 +54,7 @@
                             <tr v-for="loan in visibleLoans.data"
                                 class="cursor-pointer hover:bg-black/10 odd:bg-theme-800/5 align-top"
                                 @click="goTo(loan)">
-                                <td class="p-2 rounded-l-lg">{{ loan.member.name }}</td>
+                                <td class="p-2 rounded-l-lg">{{ loan.member?.name }}</td>
                                 <td class="p-2">{{ format_dateMDY(loan.created_at) }}</td>
                                 <td class="p-2">{{ loan.term }}</td>
                                 <td class="p-2">₱{{ Math.round(loan.principal).toLocaleString() }}</td>

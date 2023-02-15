@@ -168,7 +168,7 @@ export default {
           icon: 'bx-columns',
           parent: 'Loans',
           role: [
-            'Secretary'
+            'Treasurer'
           ],
         },
         {

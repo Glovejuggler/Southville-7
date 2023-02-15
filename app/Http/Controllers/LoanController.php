@@ -216,6 +216,13 @@ class LoanController extends Controller
      */
     public function ledger(Request $request)
     {
+        if (Gate::none(['isTreasurer'])) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
         $loans = Loan::query()->with(['member','payments'])->withTrashed()->filter($request->only(['type','search']))->latest()->paginate(30)->withQueryString();
 
         if ($request->wantsJson()) {

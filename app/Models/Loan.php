@@ -174,4 +174,22 @@ class Loan extends Model
                     ->orWhere('payment',0);
         })->count();
     }
+
+    /**
+     * Scopes
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['type'] ?? null, function ($query, $type) {
+            if ($type === 'Paid') {
+                $query->onlyTrashed();
+            } elseif ($type === 'Active') {
+                $query->withTrashed(false);
+            }
+        })->when($filters['search'] ?? null, function ($query, $search) {
+            $query->whereHas('member', function ($query) use ($search) {
+                $query->where('name', 'like', '%'.$search.'%');
+            });
+        });
+    }
 }

@@ -162,6 +162,16 @@ export default {
           ]
         },
         {
+          link: route('ledger'),
+          name: 'Ledger',
+          tooltip: 'Ledger',
+          icon: 'bx-columns',
+          parent: 'Loans',
+          role: [
+            'Secretary'
+          ],
+        },
+        {
           link: route('user.settings'),
           name: 'Settings',
           tooltip: 'Settings',

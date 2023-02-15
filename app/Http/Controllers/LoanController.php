@@ -158,7 +158,7 @@ class LoanController extends Controller
      */
     public function show($id)
     {   
-        $loan = Loan::onlyTrashed()->with('payments')->find($id);
+        $loan = Loan::withTrashed()->with('payments')->find($id);
 
         if (Gate::none(['isChairman','isViceChairman','isTreasurer'])) {
             if(Auth::user()->member_id != $loan->member_id) {
@@ -209,5 +209,22 @@ class LoanController extends Controller
         $loan->delete();
 
         return redirect()->back();
+    }
+
+    /**
+     * Ledger
+     */
+    public function ledger(Request $request)
+    {
+        $loans = Loan::query()->with(['member','payments'])->withTrashed()->filter($request->only(['type','search']))->latest()->paginate(30)->withQueryString();
+
+        if ($request->wantsJson()) {
+            return $loans;
+        }
+
+        return inertia('Loans/Index', [
+            'loans' => $loans,
+            'filters' => $request->only(['type','search']),
+        ]);
     }
 }

@@ -131,6 +131,8 @@ Route::middleware(['auth'])->group(function () {
         return $pdf->download('loan.pdf');
     })->name('pdf.download');
 
+    Route::get('ledger', [LoanController::class, 'ledger'])->name('ledger');
+
     Route::get('/share/{member}', [ShareCapitalController::class, 'create'])->name('share.capital');
     Route::post('/share/store', [ShareCapitalController::class, 'store'])->name('share_capital.store');
 

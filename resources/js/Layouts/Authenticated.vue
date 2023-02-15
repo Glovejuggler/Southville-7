@@ -47,6 +47,12 @@
                         Roles
                         </Link>
                     </li>
+                    <li v-if="$page.props.auth.position.some(r => ['Treasurer'].includes(r))"
+                        class="hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white">
+                        <Link @click="isDropdownOpen = false" :href="route('ledger')" class="block py-4 px-2">
+                        Ledger
+                        </Link>
+                    </li>
                     <li
                         class="hover:bg-theme-800 hover:text-white ease-in-out duration-200 active:bg-theme-800 active:text-white">
                         <Link @click="isDropdownOpen = false" :href="route('user.settings')" class="block py-4 px-2">

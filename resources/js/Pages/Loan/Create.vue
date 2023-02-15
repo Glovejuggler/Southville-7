@@ -196,7 +196,8 @@
         </div>
 
         <!-- End of loan -->
-        <div class="py-4 max-w-screen-2xl mx-auto lg:px-8 flex justify-end" v-if="!loan?.balance">
+        <div class="py-4 max-w-screen-2xl mx-auto lg:px-8 flex justify-end"
+            v-if="!loan?.balance && this.$page.props.auth.position.some(r => ['Treasurer'].includes(r))">
             <button @click="showDeleteModal = true" type="button"
                 class="text-red-500 text-xs uppercase font-semibold p-2 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white ease-out duration-300">Settle
                 loan</button>

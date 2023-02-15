@@ -143,7 +143,6 @@ class MemberController extends Controller
                                 ->where('member_id', $member->id)
                                 ->count(),
             'loan' => $loan,
-            'bal' => $loan?->receivable - $loan?->total_payments(),
             'pics' => File::where('member_id', $member->id)->get(),
             'user' => User::where('member_id', $member->id)->get(),
             'beneficiaries' => Beneficiary::where('member_id', $member->id)->get(),

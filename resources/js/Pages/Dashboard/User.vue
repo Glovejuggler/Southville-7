@@ -162,7 +162,22 @@
                     </div>
                     <div class="flex flex-col mt-4">
                         <span class="font-bold text-sm text-theme-800 uppercase">Payment</span>
-                        <span>₱{{ loan.receivable }} (₱{{ loan.paymentm }}/month)</span>
+                        <span>₱{{ Math.round(loan.receivable).toLocaleString() }} (₱{{
+                            Math.round(loan.paymentm).toLocaleString()
+                        }}/month)</span>
+                    </div>
+                    <div class="flex flex-col mt-4" v-if="loan.penalty">
+                        <span class="font-bold text-sm text-theme-800 uppercase">Penalty</span>
+                        <span>₱{{ Math.round(loan.penalty).toLocaleString() }}</span>
+                    </div>
+                    <div class="flex flex-col mt-4"
+                        v-if="loan?.balance && loan?.unpaid > 1 && loan?.balance > loan?.advance">
+                        <span class="text-sm inline-flex items-center"><i
+                                class='bx bxs-info-circle mr-1 text-lg text-blue-800'></i>Can be
+                            paid
+                            in advance for ₱{{
+                                Math.round(loan?.advance).toLocaleString()
+                            }}</span>
                     </div>
                 </div>
 
@@ -203,13 +218,17 @@
                                         payment.payment ?
                                             `₱ ${payment.balance?.toLocaleString()}` : ''
                                     }}
+                                    <span v-if="payment.is_late" class="text-red-500">{{
+                                        payment.is_late ? `(+₱ ${Math.round(loan?.interestm).toLocaleString()})` : ''
+                                    }}</span>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div v-if="bal > 0" class="flex justify-end font-semibold uppercase dark:text-white/90">Remaining
+                    <div v-if="loan?.balance" class="flex justify-end font-semibold uppercase dark:text-white/90">
+                        Remaining
                         balance: ₱{{
-                            bal.toLocaleString()
+                            Math.round(loan?.balance).toLocaleString()
                         }}</div>
                 </div>
             </div>
@@ -266,7 +285,6 @@ export default {
         savings_transactions: Object,
         share_transactions: Object,
         loan: Object,
-        bal: Number,
         history: Object,
         loanables: Object
     },

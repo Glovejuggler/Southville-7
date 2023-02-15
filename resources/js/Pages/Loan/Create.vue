@@ -93,9 +93,22 @@
                         <div class="mt-2">
                             <span
                                 class="text-sm uppercase font-bold text-theme-800 dark:text-white/90 block">Receivable</span>
-                            <span class="dark:text-white/70">₱{{ loan?.receivable }} (₱{{
-                                Math.round(loan?.paymentm)
+                            <span class="dark:text-white/70">₱{{ Math.round(loan?.receivable).toLocaleString() }} (₱{{
+                                Math.round(loan?.paymentm).toLocaleString()
                             }}/month)</span>
+                        </div>
+                        <div class="mt-2" v-if="loan?.penalty">
+                            <span
+                                class="text-sm uppercase font-bold text-theme-800 dark:text-white/90 block">Penalty</span>
+                            <span class="dark:text-white/70">₱{{ Math.round(loan?.penalty).toLocaleString() }}</span>
+                        </div>
+                        <div class="mt-2" v-if="loan?.balance && loan?.unpaid > 1 && loan?.balance > loan?.advance">
+                            <span class="text-sm inline-flex items-center"><i
+                                    class='bx bxs-info-circle mr-1 text-lg text-blue-800'></i>Can be
+                                paid
+                                in advance for ₱{{
+                                    Math.round(loan?.advance).toLocaleString()
+                                }}</span>
                         </div>
                     </div>
                 </div>
@@ -150,6 +163,9 @@
                                         payment.payment ?
                                             `₱ ${payment.balance?.toLocaleString()}` : ''
                                     }}
+                                    <span v-if="payment.is_late" class="text-red-500">{{
+                                        payment.is_late ? `(+₱ ${Math.round(loan?.interestm).toLocaleString()})` : ''
+                                    }}</span>
                                 </td>
                                 <td class="rounded-r-lg p-2"
                                     v-if="this.$page.props.auth.position.some(r => ['Treasurer'].includes(r))">
@@ -163,7 +179,8 @@
                             <tr v-if="loan?.paid_all && loan?.balance && $page.props.auth.position.some(r => ['Treasurer'].includes(r))"
                                 @click="newPaymentModal = true"
                                 class="hover:bg-black/10 dark:hover:bg-white/10 dark:text-white/90 cursor-pointer">
-                                <td colspan="4" class="rounded-lg p-2 text-theme-500 hover:underline" align="center">
+                                <td :colspan="this.$page.props.auth.position.some(r => ['Treasurer'].includes(r)) ? 5 : 4"
+                                    class="rounded-lg p-2 text-theme-500 hover:underline" align="center">
                                     Add new payment schedule
                                 </td>
                             </tr>
@@ -172,7 +189,7 @@
                     <div v-if="loan?.balance" class="flex justify-end font-semibold uppercase dark:text-white/90">
                         Remaining
                         balance: ₱{{
-                            loan?.balance.toLocaleString()
+                            Math.round(loan?.balance).toLocaleString()
                         }}</div>
                 </div>
             </div>
@@ -180,9 +197,6 @@
 
         <!-- End of loan -->
         <div class="py-4 max-w-screen-2xl mx-auto lg:px-8 flex justify-end" v-if="!loan?.balance">
-            <!-- <Link :href="route('loans.destroy', loan.id)" as="button" method="delete"
-                class="text-red-500 text-xs uppercase font-semibold p-2 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white ease-out duration-300"
-                preserve-scroll>Settle loan</Link> -->
             <button @click="showDeleteModal = true" type="button"
                 class="text-red-500 text-xs uppercase font-semibold p-2 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white ease-out duration-300">Settle
                 loan</button>
@@ -433,9 +447,6 @@ export default {
                     this.paymentform.date_paid = null;
                 }
             }
-        },
-        isTreasurer() {
-            return this.$page.props.auth.position.some(r => ['Treasurer'].includes(r))
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Member;
 use App\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
@@ -43,16 +44,6 @@ class Loan extends Model
         return $this->hasMany(Payment::class)->orderBy('created_at', 'asc');
     }
 
-    public function total_payments()
-    {
-        $total = 0;
-        foreach ($this->payments as $payment) {
-            $total += $payment->payment;
-        }
-
-        return $total;
-    }
-
     /**
      * Appended attributes
      */
@@ -65,18 +56,21 @@ class Loan extends Model
         'has_late_payment',
         'balance',
         'paid_all',
-        'penalty'
+        'penalty',
+        'advance',
+        'unpaid'
     ];
 
     public function getReceivableAttribute()
     {
-        return $this->principal * (1 + ($this->rate/100));
+        // return $this->principal * (1 + ($this->rate/100 * $this->term));
+        return $this->principal + $this->interest;
         // $receivable = (($this->principal)*(($this->rate/100)/12)*(1+(($this->rate/100)/12))**$this->amortization)/((1+(($this->rate/100)/12))**$this->amortization-1);
     }
 
     public function getInterestAttribute()
     {
-        return $this->principal * ($this->rate/100);
+        return $this->principal * ($this->rate/100 * $this->term);
     }
 
     public function getInterestMAttribute()
@@ -113,8 +107,15 @@ class Loan extends Model
 
     public function getBalanceAttribute()
     {
-        $balance = $this->principal * (1 + ($this->rate/100)) - $this->hasMany(Payment::class)->sum('payment');
-        return $balance > 0 ? $balance : 0;
+        // $balance = $this->principal * (1 + ($this->rate/100 * $this->term)) - $this->hasMany(Payment::class)->sum('payment');
+        $balance = $this->receivable - $this->hasMany(Payment::class)->sum('payment') + $this->penalty;
+        $payments = Payment::where('loan_id',$this->id)->get();
+        foreach ($payments as $payment) {
+            if ($payment->paid_advance === true) {
+                return 0 + $this->penalty;
+            }
+        }
+        return $balance > 0 ? $balance: 0;
     }
 
     public function getPaidAllAttribute()
@@ -132,14 +133,42 @@ class Loan extends Model
     public function getPenaltyAttribute()
     {
         $count = 0;
-        // return (($this->has_late_payment * 0.01) + 1) * $this->balance;
-        $payments = Payment::where('loan_id',$this->id)->whereDate('month','<',now())->get();
+        $latest = null;
+        
+        $payments = Payment::where('loan_id',$this->id)->get();
         foreach ($payments as $payment) {
-            if ($payment->date_paid == null || $payment->date_paid > $payment->month) {
+            if ($payment->date_paid == null || $payment->payment == null || $payment->payment == 0) {
+                if (Carbon::parse($payment->month)->diffInDays($payment->date_paid, false) > 0) {
+                    $count += 1;
+                }
+            } elseif (Carbon::parse($payment->month)->diffInDays($payment->date_paid, false) > 0) {
                 $count += 1;
             }
+            $latest = Carbon::parse($payment->month);
         }
+        $latest = $latest?->diffInMonths(now(), false) > 0 ? $latest?->diffInMonths(now(), false) : 0;
 
-        return ($count * 0.02) * $this->paymentm;
+        return ($count + $latest) * $this->interestm;
+    }
+
+    public function getAdvanceAttribute()
+    {
+        $payments = Payment::where('loan_id',$this->id)->get();
+        $advance = 0;
+        foreach ($payments as $payment) {
+            $advance += $payment->advance + $payment->short;
+        }
+        if ($this->unpaid <= 1) {
+            return $this->balance;
+        }
+        return $advance ? $advance + $this->penalty : $this->paymentm;
+    }
+
+    public function getUnpaidAttribute()
+    {
+        return Payment::where('loan_id',$this->id)->where(function ($query) {
+            $query->where('payment',null)
+                    ->orWhere('payment',0);
+        })->count();
     }
 }

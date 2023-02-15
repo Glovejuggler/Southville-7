@@ -74,7 +74,7 @@
                         {{ member.loan?.has_late_payment }}
                     </span>
                     <span v-if="member.loan" class="text-xs inline-flex items-center ml-1">
-                        Balance: {{ member.loan.balance }}
+                        Balance: {{ Math.round(member.loan.balance).toLocaleString() }}
                     </span>
                 </div>
                 </Link>

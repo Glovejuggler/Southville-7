@@ -107,6 +107,13 @@ class PaymentController extends Controller
 
         // dd($request);
 
+        // if ($request->payment == 0) {
+        //     return redirect()->back()->with([
+        //         'type' => 'error',
+        //         'message' => 'No payment'
+        //     ]);
+        // }
+
         $payment = Payment::find($id);
 
         $payment->payment = $request->payment;

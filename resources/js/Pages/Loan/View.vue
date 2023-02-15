@@ -46,7 +46,7 @@
                         <div class="mt-2">
                             <span
                                 class="text-sm uppercase font-bold text-theme-800 dark:text-white/90 block">Payment</span>
-                            <span class="dark:text-white/70">₱{{ loan?.receivable }} (₱{{
+                            <span class="dark:text-white/70">₱{{ Math.round(loan?.receivable) }} (₱{{
                                 Math.round(loan?.paymentm)
                             }}/month)</span>
                         </div>
@@ -99,6 +99,9 @@
                                         payment.payment ?
                                             `₱ ${payment.balance?.toLocaleString()}` : ''
                                     }}
+                                    <span v-if="payment.is_late" class="text-red-500">{{
+                                        payment.is_late ? `(+₱ ${Math.round(loan?.interestm).toLocaleString()})` : ''
+                                    }}</span>
                                 </td>
                             </tr>
                         </tbody>

@@ -14,7 +14,7 @@ class Payment extends Model
 
     protected $fillable = ['loan_id', 'month'];
 
-    protected $appends = ['balance','principal','interest','is_late','ref'];
+    protected $appends = ['balance','principal','interest','is_late','short','ref','advance','paid_advance'];
 
     /**
      * The attributes that should be cast.
@@ -59,6 +59,10 @@ class Payment extends Model
         foreach ($payments as $payment) {
             $bal -= $payment->payment;
         }
+        
+        if ($this->paid_advance == true) {
+            return 0;
+        }
 
         return $bal > 0 ? $bal : 0;
     }
@@ -66,12 +70,39 @@ class Payment extends Model
     public function getIsLateAttribute()
     {
         if ($this->payment) {
-            return Carbon::parse($this->date_paid) > Carbon::parse($this->month);
+            return Carbon::parse($this->date_paid) > Carbon::parse($this->month.' 23:59:59');
+        }
+    }
+
+    public function getShortAttribute()
+    {
+        if ($this->payment) {
+            return $this->loan->payment_m > $this->payment ? $this->loan->payment_m - $this->payment : 0;
         }
     }
 
     public function getRefAttribute()
     {
         return $this->id.$this->loan_id.$this->loan->member_id;
+    }
+
+    public function getAdvanceAttribute()
+    {
+        if ($this->payment == null || $this->payment == 0 || $this->date_paid == null) {
+            if (Carbon::parse($this->month)->diffInMonths(now(), false) > 0) {
+                return $this->loan->payment_m - $this->loan->interest_m;
+            } else {
+                return $this->loan->payment_m;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    public function getPaidAdvanceAttribute()
+    {
+        if (Carbon::parse($this->month)->diffInMonths(Carbon::parse($this->date_paid), false) > 0) {
+            return $this->payment >= $this->loan->payment_m + $this->loan->penalty;
+        }
     }
 }

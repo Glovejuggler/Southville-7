@@ -153,15 +153,18 @@ class Loan extends Model
 
     public function getAdvanceAttribute()
     {
-        $payments = Payment::where('loan_id',$this->id)->get();
-        $advance = 0;
-        foreach ($payments as $payment) {
-            $advance += $payment->advance + $payment->short;
-        }
-        if ($this->unpaid <= 1) {
-            return $this->balance;
-        }
-        return $advance ? $advance + $this->penalty : $this->balance;
+        // $payments = Payment::where('loan_id',$this->id)->get();
+        // $advance = 0;
+        // foreach ($payments as $payment) {
+        //     $advance += $payment->advance + $payment->short;
+        // }
+        // if ($this->unpaid <= 1) {
+        //     return $this->balance;
+        // }
+        // return $advance ? $advance + $this->penalty : $this->balance;
+        return Payment::where('loan_id',$this->id)->where(function ($query) {
+            $query->where('payment',0)->orWhere('payment',null);
+        })->first()?->advance + $this->penalty;
     }
 
     public function getUnpaidAttribute()

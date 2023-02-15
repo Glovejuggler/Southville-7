@@ -89,7 +89,7 @@ class Payment extends Model
     public function getAdvanceAttribute()
     {
         if ($this->payment == null || $this->payment == 0 || $this->date_paid == null) {
-            if (Carbon::parse($this->month)->diffInMonths(now(), false) > 0) {
+            if (now()->diffInMonths(Carbon::parse($this->month), false) > 0) {
                 return $this->loan->payment_m - $this->loan->interest_m;
             } else {
                 return $this->loan->payment_m;
@@ -101,8 +101,6 @@ class Payment extends Model
 
     public function getPaidAdvanceAttribute()
     {
-        if (Carbon::parse($this->month)->diffInMonths(Carbon::parse($this->date_paid), false) > 0) {
-            return $this->payment >= $this->loan->payment_m + $this->loan->penalty;
-        }
+        return $this->payment >= Loan::find($this->loan_id)?->advance;
     }
 }

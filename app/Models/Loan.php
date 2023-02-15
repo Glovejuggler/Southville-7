@@ -161,7 +161,7 @@ class Loan extends Model
         if ($this->unpaid <= 1) {
             return $this->balance;
         }
-        return $advance ? $advance + $this->penalty : $this->paymentm;
+        return $advance ? $advance + $this->penalty : $this->balance;
     }
 
     public function getUnpaidAttribute()

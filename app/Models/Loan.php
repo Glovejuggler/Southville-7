@@ -132,23 +132,30 @@ class Loan extends Model
 
     public function getPenaltyAttribute()
     {
-        $count = 0;
-        $latest = null;
+        // $count = 0;
+        // $latest = null;
         
+        // $payments = Payment::where('loan_id',$this->id)->get();
+        // foreach ($payments as $payment) {
+        //     if ($payment->date_paid == null || $payment->payment == null || $payment->payment == 0) {
+        //         if (Carbon::parse($payment->month)->diffInDays($payment->date_paid, false) > 0) {
+        //             $count += Carbon::parse($payment->month)->diffInMonths($payment->date_paid, false);
+        //         }
+        //     } elseif (Carbon::parse($payment->month)->diffInDays($payment->date_paid, false) > 0) {
+        //         $count += Carbon::parse($payment->month)->diffInMonths($payment->date_paid, false);
+        //     }
+        //     $latest = Carbon::parse($payment->month);
+        // }
+        // $latest = $latest?->diffInMonths(now(), false) > 0 ? $latest?->diffInMonths(now(), false) : 0;
+
+        // return ($count + $latest) * $this->interestm;
+        $penalty = 0;
         $payments = Payment::where('loan_id',$this->id)->get();
         foreach ($payments as $payment) {
-            if ($payment->date_paid == null || $payment->payment == null || $payment->payment == 0) {
-                if (Carbon::parse($payment->month)->diffInDays($payment->date_paid, false) > 0) {
-                    $count += 1;
-                }
-            } elseif (Carbon::parse($payment->month)->diffInDays($payment->date_paid, false) > 0) {
-                $count += 1;
-            }
-            $latest = Carbon::parse($payment->month);
+            $penalty += $payment->penalty;
         }
-        $latest = $latest?->diffInMonths(now(), false) > 0 ? $latest?->diffInMonths(now(), false) : 0;
 
-        return ($count + $latest) * $this->interestm;
+        return $penalty;
     }
 
     public function getAdvanceAttribute()

@@ -164,7 +164,7 @@
                                             `₱ ${payment.balance?.toLocaleString()}` : ''
                                     }}
                                     <span v-if="payment.is_late" class="text-red-500">{{
-                                        payment.is_late ? `(+₱ ${Math.round(loan?.interestm).toLocaleString()})` : ''
+                                        payment.is_late ? `(+₱ ${Math.round(payment.penalty).toLocaleString()})` : ''
                                     }}</span>
                                 </td>
                                 <td class="rounded-r-lg p-2"

@@ -14,7 +14,7 @@ class Payment extends Model
 
     protected $fillable = ['loan_id', 'month'];
 
-    protected $appends = ['balance','principal','interest','is_late','short','ref','advance','paid_advance'];
+    protected $appends = ['balance','principal','interest','is_late','short','ref','advance','paid_advance','penalty'];
 
     /**
      * The attributes that should be cast.
@@ -111,5 +111,14 @@ class Payment extends Model
     public function getPaidAdvanceAttribute()
     {
         return $this->payment >= $this->advance;
+    }
+
+    public function getPenaltyAttribute()
+    {
+        if (Carbon::parse($this->date_paid) > Carbon::parse($this->month.' 23:59:59')) {
+            return $this->payment ?
+                (Carbon::parse($this->month)->diffInMonths(Carbon::parse($this->date_paid), false) + 1) * $this->loan->interest_m :
+                    (1 + Carbon::parse($this->month)->diffInMonths(now(), false)) * $this->loan->interest_m;
+        }
     }
 }
